@@ -1,7 +1,9 @@
 #!/bin/bash
 
 for f in $(ls -d config/*); do
-	if test -e ~/.$f; then
+	if test -L ~/.$f; then
+		rm -v ~/.$f
+	elif test -e ~/.$f; then
 		mv -Tv ~/.$f ~/.$f.old
 	fi
 	ln -sfv "$PWD/$f" ~/.$f
