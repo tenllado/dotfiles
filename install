@@ -1,11 +1,27 @@
 #!/bin/bash
 
-for f in $(ls -d config/*); do
-	if test -L ~/.$f; then
-		rm -v ~/.$f
-	elif test -e ~/.$f; then
-		mv -Tv ~/.$f ~/.$f.old
+backup_file() {
+	local file=$1
+	if test -L ~/.$file; then
+		rm -v ~/.$file
+	elif test -e ~/.$file; then
+		mv -Tv ~/.$file ~/.$file.old
 	fi
-	ln -sfv "$PWD/$f" ~/.$f
+}
+
+do_install() {
+	local file=$1
+	backup_file $file
+	ln -sfv "$PWD/$file" ~/.$file
+}
+
+# files to the home directory
+for f in $(ls -d * | grep -v "config\|README\|install") ; do
+	do_install $f
+done
+
+# files in the config folder (to the ~/.config)
+for f in $(ls -d config/*); do
+	do_install $f
 done
 

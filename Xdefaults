@@ -1,0 +1,228 @@
+! ---------------------------- Fonts -------------------------------
+!Xft.dpi:        168
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+Xft.autohint:   false
+Xft.lcdfilter:  lcddefault
+
+! ---------------------------- URXVT -------------------------------
+
+!URxvt.font: xft:monospace:size=12:antialias=true
+!URxvt.boldFont: xft:Monospace:size=12
+!URxvt.font: xft:Inconsolata:size=12:antialias=true
+URxvt.font: xft:DejaVu Sans mono:size=10:antialias=true
+URxvt.letterSpace: -1
+URxvt.lineSpace: 1
+URxvt.termName: rxvt-256color
+
+! remove scrollbar
+URxvt.scrollBar: false
+! do not scroll with output
+URxvt.scrollTtyOutput: false
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt.scrollWithBuffer: true
+! scroll back to the bottom on keypress
+URxvt.scrollTtyKeypress: true
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+URxvt.internalBorder: 0
+URxvt.externalBorder: 0
+
+! High intensity colors not so fine in white background with gnome-terminal linux palette
+!URxvt.intensityStyles: false
+
+! Send Tab (\011) when Shift-Tab (ISO_Left_Tab) is pressed (instead of default Esc),
+! this solves the weird escape to normal mode with vi mode in bash when pressing
+! tab for completion when you are inserting capital letters
+URxvt.keysym.ISO_Left_Tab: string:\011
+
+!!!! URxvt perl extensions
+URxvt.perl-ext-common: default,matcher,keyboard-select,newterm,dynamic-colors,font-size
+
+! for dynamic colors
+URxvt.dynamicColors: on
+URxvt.keysym.M-Tab: perl:dynamic-colors:cycle
+URxvt.keysym.Mod1-Control-1: perl:dynamic-colors:simple
+URxvt.keysym.Mod1-Control-2: perl:dynamic-colors:paper-color-bfg-wbg
+URxvt.keysym.Mod1-Control-3: perl:dynamic-colors:paper-color-bfg
+!URxvt.keysym.Mod1-Control-3: perl:dynamic-colors:paper-color
+
+!keyboard-seletc
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.keyboard-select.clipboard: true
+
+
+! key binding for newterm extension from https://github.com/effigies/urxvt-perl
+URxvt.keysym.Mod1-n: perl:newterm
+
+! key bindings for font-size extension
+URxvt.keysym.C-plus:    perl:font-size:increase
+URxvt.keysym.C-minus:   perl:font-size:decrease
+URxvt.keysym.C-Up:      perl:font-size:increase
+URxvt.keysym.C-Down:    perl:font-size:decrease
+URxvt.keysym.C-asterisk:  perl:font-size:incglobal
+URxvt.keysym.C-underscore: perl:font-size:decglobal
+URxvt.keysym.C-S-Up:    perl:font-size:incglobal
+URxvt.keysym.C-S-Down:  perl:font-size:decglobal
+URxvt.keysym.C-equal:   perl:font-size:reset
+URxvt.keysym.C-slash:   perl:font-size:show
+URxvt.font-size.step:   1
+
+URxvt.colorUL:		#4682B4
+!! matcher 
+URxvt.keysym.C-M-u:	perl:matcher:select
+URxvt.url-launcher: sensible-browser
+URxvt.keysym.C-M-s:    perl:matcher:last
+URxvt.keysym.C-M-l:    perl:matcher:list
+URxvt.matcher.button:     1
+URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+URxvt.matcher.pattern.2:  \\B(/\\S+?):(\\d+)(?=:|$)
+URxvt.matcher.launcher.2: gvim +$2 $1
+URxvt.url-select.underline: true
+
+! ---------------------------- Colors -------------------------------
+
+!! PaperColor Theme light
+!URxvt*cursorColor: #4D4D4C
+!URxvt*pointerColor: #4D4D4C
+!URxvt.foreground: #4D4D4C
+!URxvt.background: #EEEEEE
+
+!! Modified PaperColor Theme
+!URxvt.cursorColor: #000000
+!URxvt.pointerColor: #000000
+!URxvt.foreground: #000000
+!URxvt.background: #ffffff
+!URxvt.borderColor: #ffffff
+!
+!! Paper Color Palette
+!! black
+!URxvt.color0: #D0D0D0
+!URxvt.color8: #737373
+!! red
+!URxvt.color1: #D7005F
+!URxvt.color9: #D7005F
+!! green
+!URxvt.color2: #718C00
+!URxvt.color10: #718C00
+!! yellow / orange
+!URxvt.color3: #D75F00
+!URxvt.color11: #D75F00
+!!blue
+!URxvt.color4: #4271AE
+!URxvt.color12: #4271AE
+!! magenta
+!URxvt.color5: #8959A8
+!URxvt.color13: #8959A8
+!! cyan
+!URxvt.color6: #3E999F
+!URxvt.color14: #3E999F
+!! white
+!URxvt.color7: #4D4D4C
+!URxvt.color15: #F5F5F5
+
+! Selenized white color palette for urxvt.
+!URxvt*background:  #ffffff
+!!URxvt*foreground:  #474747
+!URxvt*foreground:  #000000
+!
+!! normal colors: "black", red, green, yellow, blue, magenta, cyan, "white"
+!URxvt*color0:      #ebebeb
+!URxvt*color1:      #d6000c
+!URxvt*color2:      #1d9700
+!URxvt*color3:      #c49700
+!URxvt*color4:      #0064e4
+!URxvt*color5:      #dd0f9d
+!URxvt*color6:      #00ad9c
+!URxvt*color7:      #878787
+!
+!! bright/bold versions of colors (in the same order)
+!URxvt*color8:      #cdcdcd
+!URxvt*color9:      #bf0000
+!URxvt*color10:     #008400
+!URxvt*color11:     #af8500
+!URxvt*color12:     #0054cf
+!URxvt*color13:     #c7008b
+!URxvt*color14:     #009a8a
+!URxvt*color15:     #282828
+
+!! Modified version of the gnome-terminal linux palette
+!URxvt*foreground: #000000
+!URxvt*background: #ffffff
+!! Linux palette from gnome-terminal
+!! black
+!URxvt*color0  : #000000
+!URxvt*color8  : #555555
+!! red
+!URxvt*color1  : #aa0000
+!URxvt*color9  : #ff5555
+!! green
+!!URxvt*color2  : #00aa00
+!!URxvt*color10 : #55ff55
+!URxvt*color2   : #008800
+!URxvt*color10  : #22bb22
+!! yellow
+!URxvt*color3  : #aa5500
+!!URxvt*color11 : #ffff55
+!URxvt*color11 : #EDBC1D
+!! blue
+!URxvt*color4  : #0000aa
+!URxvt*color12 : #5555ff
+!! magenta
+!URxvt*color5  : #aa00aa
+!URxvt*color13 : #ff55ff
+!! cyan
+!!URxvt*color6  : #00aaaa
+!!URxvt*color14 : #55ffff
+!URxvt*color6  : #027d7d
+!URxvt*color14 : #40bbbb
+!! white
+!URxvt*color7  : #aaaaaa
+!URxvt*color15 : #ffffff
+
+! Color Scheme: simple
+! My colorscheme: based on OSX Basic palette for white background with some
+! modifications borrowed from gnome-terminal and my own selection of colors
+URxvt*foreground: #000000
+URxvt*background: #ffffff
+URxvt.cursorColor: #000000
+URxvt.pointerColor: #000000
+!! black
+URxvt*color0  : #000000
+URxvt*color8  : #666666
+!! red
+URxvt*color1  : #990000
+URxvt*color9  : #e50000
+!! green
+!URxvt*color2   : #00a600
+!URxvt*color10  : #00d900
+! Alternative from linux colorscheme
+URxvt*color2   : #008800
+URxvt*color10  : #22bb22
+!! yellow
+!URxvt*color3  : #999900
+!URxvt*color11 : #E5E500
+! Alternative
+URxvt*color3  : #aa5500
+URxvt*color11 : #EDBC1D
+!! blue
+URxvt*color4  : #0000b2
+URxvt*color12 : #0000ff
+!Alternative from linux colorsheme
+!URxvt*color4  : #0000aa
+!URxvt*color12 : #5555ff
+!! magenta
+URxvt*color5  : #b200b2
+URxvt*color13 : #e500e5
+!! cyan
+URxvt*color6  : #00a6b2
+!URxvt*color14 : #00e5e5
+URxvt*color14 : #00c6d2
+!! white
+URxvt*color7  : #bfbfbf
+URxvt*color15 : #ffffff
+!URxvt*color15 : #cfcfcf
+
