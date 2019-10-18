@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# executes nautilus to work on the scratchpad, it quits any nautilus instance
+# that is already running and marks it to be hidden from taskbar to hide it from
+# skippy-xd exposure
+
+nautilus -q
+nautilus --name=spnautilus &
+sleep 0.5
+pid=$!
+for wid in $(xdotool search --pid $pid)
+do
+	xprop -id $wid -f _NET_WM_STATE 32a -set _NET_WM_STATE _NET_WM_STATE_SKIP_TASKBAR
+done
+

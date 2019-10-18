@@ -1,0 +1,17 @@
+#!/bin/bash 
+
+# Script to run some services for i3wm that where not working as expected when 
+# they where executed directly from the i3 config file. 
+
+# Clipboard managmente (keeps data copied when application is closed). 
+# Alternatives: parcellite, clipit, gpaste, xfce4-clipman, diodon, 
+#   copyq, glipper
+#
+# When parcellite was executed directly from the i3 config file, I could not use
+# its command line tool. Executing parcellite -c from a terminal was launching a
+# new instance of parcelite instead of printing the last content in the
+# clipboard. 
+if command -v parcellite > /dev/null 2>&1; then
+	parcellite &
+fi
+

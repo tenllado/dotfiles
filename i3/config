@@ -1,0 +1,456 @@
+# i3 config file
+
+set $mod Mod4
+floating_modifier $mod
+
+################################################################################
+# Aesthetics: font, colors and bar
+################################################################################
+font pango:DejaVu Sans Mono 11
+
+# Colors for window decorations and bar
+set $barbg 	#e8e8e7
+#set $wfoc 	#707070
+set $wfoc 	#4A90D9
+set $tfoc	#E6E5CA
+set $winac 	#ababab
+set $tinac  #E6E5CA
+set $wunfoc #e8e8e7
+set $tunfoc #657b83
+#set $indic  #4A90D9
+set $indic  #4AB10A
+set $urg	#f44336
+set $turg	#E6E5CA
+
+# window decorations
+# border: border of the title bar
+# background: is used for title bar and actual window borders
+# text: for text in the title bar
+# indicator: color of the indicator bar (wher next window will appear)
+# Class                 border  	background  text  	 indicator  child_border
+client.focused		    $wfoc 		$wfoc 		$tfoc    $indic   	$wfoc
+client.focused_inactive $winac 		$winac 		$tinac   $indic   	$winac
+client.unfocused        $wunfoc 	$wunfoc		$tunfoc  $indic   	$wunfoc
+client.urgent   	    $urg 		$urg 		$turg  $indic   	$urg
+
+#client.placeholder      #64FFDA 	#64FFDA 	#121212  #d2d2d2   #64FFDA
+#client.background       #00FF00
+bar {
+	mode dock
+	position top
+	#font pango:DejaVu Sans Mono 11
+	font pango:FontAwesome 11
+	workspace_buttons yes
+	# status_command i3status
+	status_command i3blocks
+	#output eDp-1
+	# only put system tray icons on primary
+	tray_output primary
+	colors {
+			# bars on all monitors the same
+			background $barbg
+			#statusline #2e3436
+			statusline #4e5456
+			separator  #2e3436
+
+			# colors for bar buttons
+			#                    border  	background   	text
+			focused_workspace   $wfoc 		$wfoc 			$tfoc
+			active_workspace    $winac	 	$winac 			$tinac
+			inactive_workspace  $wunfoc	 	$wunfoc 		$tunfoc
+			urgent_workspace    $urg 		$urg 			$turg
+	}
+}
+
+################################################################################
+# Workspaces
+################################################################################
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+workspace_auto_back_and_forth no
+workspace $ws10 output eDP-1
+
+################################################################################
+#  Rules for windows apparence, placement/focus
+################################################################################
+
+# This seems better for touchpad on the laptop (it gets always in the weay)
+focus_follows_mouse no
+# Can this work better if we use a lot of drag and drop with mouse?
+#focus_follows_mouse yes
+
+mouse_warping output
+
+# for presentation tools like dspdfviewer
+# should be modified to assing to monitor instead of workspace
+#assign [title="DS PDF Viewer - Audience Window"] 3
+#assign [title="DS PDF Viewer - Secondary Window"] 4
+
+default_border pixel 2
+default_floating_border pixel 2
+# remove borders when only one window is open
+hide_edge_borders smart
+for_window [class=".*"] border pixel 2
+
+# Floating windows (use xprop, class is second part of WM_CLASS)
+for_window [class="^HTMaiL-View$"] floating enable
+for_window [class="Yad"] floating enable
+for_window [class="Orage"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
+#for_window [class="RipperX"] floating enable
+#for_window [class="Pavucontrol"] floating enable
+for_window [title="G Alternatives"] floating enable
+
+# Windows to specific workspaces
+assign [class="Firefox-esr"] $ws1
+assign [class="^Slack$"] $ws10
+
+# Focus on window activation
+#focus_on_window_activation smart
+focus_on_window_activation focus
+
+# To see marks we need the title bar, not sure if it is very useful
+show_marks yes
+
+################################################################################
+#  Dropdown/Scratchpad windows
+################################################################################
+
+# terminal drop down window
+set $spfm  ~/.config/i3/scripts/skip_taskbar urxvt -name spfm -e ranger
+for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
+	move scratchpad
+exec --no-startup-id $spfm
+bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt,\
+	move position center
+bindsym $mod+Shift+u exec --no-startup-id $spfm
+
+# octave terminal as calculator
+set $spmath ~/.config/i3/scripts/skip_taskbar urxvt -name spmath \
+	-fn "xft:DejaVu Sans Mono:pixelsize=24" -e octave --no-gui -q --traditional
+for_window [instance="spmath"] floating enable, resize set 600 px 30 ppt,\
+	move scratchpad
+exec --no-startup-id $spmath
+bindsym $mod+y  [instance="spmath"] scratchpad show, resize set 800 px 30 ppt,\
+	move position center
+bindsym $mod+Shift+y exec --no-startup-id $spmath
+
+# keepassxc does not work well with resizing
+#set $kpxc keepassxc -name kpxcmain
+exec keepassxc
+for_window [instance="keepassxc" window_type=normal] floating enable, move scratchpad
+bindsym $mod+i  [instance="keepassxc" window_type=normal] scratchpad show, move position center
+bindsym $mod+Shift+i exec keepassxc
+
+################################################################################
+# General key/mouse bindings (mostly default values)
+################################################################################
+
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
+# Open a terminal in the cwd of the focused window
+bindsym $mod+t exec urxvt -cd $(~/.config/i3/scripts/get_cwd)
+#bindsym $mod+t exec sakura --working-directory $(~/.config/i3/scripts/get_cwd)
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show; move position center
+bindsym $mod+Tab workspace back_and_forth
+
+#skippy-xd provides an exposeè view of windows on the desktop
+bindsym $mod+x exec --no-startup-id skippy-xd
+
+# A list of opened windows with rofi, to change between them
+bindsym $mod+masculine exec --no-startup-id rofi -show-icons -width 60 -show window
+# Gestures are processed with libinput-gestures
+exec --no-startup-id libinput-gestures -c $HOME/.config/i3/libinput-gestures.conf
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
+
+#execute nautilus
+bindsym $mod+n exec nautilus
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+#bindsym $mod+Left focus left
+#bindsym $mod+Down focus down
+#bindsym $mod+Up focus up
+#bindsym $mod+Right focus right
+# Change to workspaces
+bindsym $mod+Left workspace prev
+bindsym $mod+Right workspace next
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# rename current workspace
+bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Workspace rename: '
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# splits in horizontal/vertical orientation
+bindsym $mod+b split h
+bindsym $mod+v split v
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# focus the parent/child container
+bindsym $mod+a focus parent
+bindsym $mod+c focus child
+
+####  Reload and exit
+bindsym $mod+Shift+c exec --no-startup-id i3-msg "reload"
+bindsym $mod+Shift+r exec --no-startup-id i3-msg "restart"
+
+#for dual monitor
+bindsym $mod+Control+l move workspace to output right
+bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+k move workspace to output up
+bindsym $mod+Control+j move workspace to output down
+
+bindsym $mod+Shift+w sticky toggle
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m \
+# 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id \
+	"rofi -show i3-msg -modi i3-msg:~/.config/rofi/scripts/rofi_i3_msg.sh"
+
+## Special keys
+
+# Media player controls: no tengo playerctl
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# change volume or toggle mute
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && \
+	pkill -RTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && \
+	pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && \
+	pkill -RTMIN+10 i3blocks
+
+##increase sound volume
+#bindsym XF86AudioRaiseVolume exec --no-startup-id \
+#	pactl set-sink-volume 0 +5% && pkill -RTMIN+10 i3blocks
+##decrease sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id \
+#	pactl set-sink-volume 0 -5%  && pkill -RTMIN+10 i3blocks
+## mute sound
+#bindsym XF86AudioMute exec --no-startup-id \
+#	pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks
+
+################################################################################
+# Marks, jumps and swaps
+################################################################################
+
+# swap windows with mouse
+bindsym --whole-window $mod+Mod1+button1 mark --add quickswap
+bindsym --whole-window $mod+Shift+button1 swap container with mark quickswap; [con_mark="quickswap"] focus
+
+# Set a mark to the current window
+bindsym $mod+m exec i3-input -F 'mark --toggle %s' -l 1 -P 'Mark: '
+# Focus window with mark
+bindsym $mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '
+# Swap window with marked window
+bindsym $mod+Shift+apostrophe exec i3-input -F \
+	'swap with mark %s' -l 1 -P 'Swap with: '
+bindsym Mod1+Mod4+h mark --add quickswap; focus left; \
+	swap container with mark quickswap; focus left; unmark quickswap
+bindsym Mod1+Mod4+l mark --add quickswap; focus right; \
+	swap container with mark quickswap; focus right; unmark quickswap
+
+################################################################################
+# Modes
+################################################################################
+mode "resize" {
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
+
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+################################################################################
+### Touchpad conf: touchpad id obtained from xinput list
+################################################################################
+
+# The available properties obtained from:
+#        xinput list-props "DLL082A:01 06CB:76AF Touchpad"
+set $touchpad "DLL082A:01 06CB:76AF Touchpad"
+# Enable tapping
+#exec --no-startup-id xinput set-prop 11 274 1
+exec --no-startup-id xinput set-prop $touchpad "libinput Tapping Enabled" 1
+# Enable naturall scrolling
+#exec --no-startup-id xinput set-prop 11 282 1
+exec --no-startup-id xinput set-prop $touchpad \
+	"libinput Natural Scrolling Enabled" 1
+# Set clickfinger
+# https://wayland.freedesktop.org/libinput/doc/latest/clickpad_softbuttons.html
+#exec --no-startup-id xinput set-prop 11 292 0 1
+exec --no-startup-id xinput set-prop $touchpad \
+	"libinput Click Methods Available" 0 1
+# pointer move faster
+exec --no-startup-id xinput set-prop 11 "libinput Accel Speed" 1
+
+################################################################################
+# Services/Applications launched on startup
+################################################################################
+
+# Setting the background image
+exec_always --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.png
+
+# xfce4-power-manager for:
+#    suspend on lid close
+#    dim the screen brightness to preserve battery
+exec --no-startup-id xfce4-power-manager &
+
+# nm-applet (used for vpn etc)
+# we can try to avoid it using the tools of dialog (arch, cannot find them in
+# debian). Look at http://leetschau.github.io/blog/2014/05/01/112805/
+exec --no-startup-id nm-applet &
+
+# bluetooth applet: blueman
+exec --no-startup-id blueman-applet &
+
+# pulseaudio systray applet
+exec --no-startup-id pasystray
+
+# usb automatic mount with udiskie
+exec --no-startup-id udiskie -2 --smart-tray &
+# alternative?: devmon
+
+# dunst for simple notification daemon
+# Alternatives: xfce4-notifyd (nicer looking), dzen2 (also includes a bar?)
+# Launching it from the i3 config file prevents dbus to choose other daemon
+# Another alternative is to link the .service file from
+# /usr/share/dbus-1/services in .local/share/dbus-1/services,
+# and then the service will be lauched on demand on the first notification.
+# However the latter would make the service to be selectec also in other
+# X sessions (XFCE, ...). I prefer to launch it from the config file.
+exec --no-startup-id dunst &
+
+################################################################################
+# Display Power Management Settings (DPMS)
+# manages also screen saver/screen lock
+set $dpms_sb   180
+set $dpms_ssb  300
+set $dpms_soff 360
+set $dpms_sig  3
+bindsym $mod+Shift+o exec --no-startup-id \
+	"xset s off; xset -dpms; pkill -RTMIN+$dpms_sig i3blocks"
+bindsym $mod+Control+o exec --no-startup-id \
+	"xset s $dpms_sb 0; xset +dpms; pkill -RTMIN+$dpms_sig i3blocks"
+exec_always --no-startup-id \
+    "xset s $dpms_sb 0; xset dpms $dpms_ssb 0 $dpms_soff"
+
+# Disable display screen saver and dpms when a window goes fullscreen
+# Needs the i3ipc-python library
+exec_always --no-startup-id \
+	~/.config/i3/scripts/disable-standby-fs.py $dpms_sb $dpms_sig
+
+# xss-lock to lock on screen saver event ($dmps_sb) and on suspend
+exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
+
+# To manually lock the screen
+bindsym $mod+o exec --no-startup-id loginctl lock-session
+################################################################################
+
+# for workspaces expo
+#exec_always --no-startup-id ~/.config/i3/scripts/i3expo/i3expod.py
+#bindsym $mod+Mod1+x exec --no-startup-id killall -s SIGUSR1 i3expod.py
+
+# Redshift: regulate the color temperature of the screen
+exec --no-startup-id redshift-gtk -l 40.360879:-3.598175
+# Alternative.
+#exec --no-startup-id redshift -t 5500:2500
+# Toggle on/off redshift effect (http://jonls.dk/redshift/)
+#bindsym $mod+Shift+g exec pkill -USR1 redshift
+
+# printer applet
+exec --no-startup-id system-config-printer-applet
+
+# Some services that do not run as expected if they
+# are launched directly from i3 config file
+exec --no-startup-id ~/.config/i3/scripts/services
+
+exec_always --no-startup-id xrdb -load ~/.Xdefaults
+##use xsettingsd for appareance settings (works good so that firefox, chromium,
+##etc. don't have too large or too small fonts or gui elements)
+#exec --no-startup-id xsettingsd &
+#bindsym $mod+Shift+x exec --no-startup-id pkill -HUP xsettingsd
+
+# Remove noise from headphones (reduces volume)
+exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
+
+# polkit
+exec --no-startup-id /usr/lib/policykit-1-gnome/plkit-gnome-authentication-agent-1
+
+# Compton. MUST BE LAST. I do not understand why.
+exec --no-startup-id compton
+
+################################################################################

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# executes a command and sets the skip_taskbar atom to the window opened by the
+# that command
+
+"$@" &
+sleep 0.5
+pid=$!
+wid=$(xdotool search --pid $pid)
+xprop -id $wid -f _NET_WM_STATE 32a -set _NET_WM_STATE _NET_WM_STATE_SKIP_TASKBAR
+

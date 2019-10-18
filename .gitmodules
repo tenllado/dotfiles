@@ -1,0 +1,3 @@
+[submodule "i3/scripts/i3expo"]
+	path = i3/scripts/i3expo
+	url = https://gitlab.com/d.reis/i3expo

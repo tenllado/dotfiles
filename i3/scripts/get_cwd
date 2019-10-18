@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# script that gets the cwd for the program running in the focused window
+# if for instance the window is a terminal it gets the cwd of the process
+# currently running inside the terminal
+#
+# The script was created to be used in i3 (a tiling window manager). You can
+# bind a key to open a terminal using the output of the script as working
+# directory:
+# bindsym $mod+t exec urxvt -cd $(~/.config/i3/scripts/get_cwd)
+
+# uses xprop, xpdyinfo, grep, head, sed and cut
+
+# Get the focused window class WM_CLASS from xprop
+#echo $wclass
+
+# alternative: $(xdotool getwindowfocus)
+ID=$(xdpyinfo | grep focus | cut -f4 -d " ")
+PID=$(xprop -id $ID | grep -m 1 PID | cut -d " " -f 3)
+# Select the child from first row of pstree
+CHILD_PID=$(pstree -p $PID | head -1 | sed 's/^.*(//' | sed 's/)//')
+
+#echo $(pstree -p $PID)
+#echo $CHILD_PID
+
+if [ -d "/proc/$CHILD_PID/cwd" ]; then
+	echo "/proc/$CHILD_PID/cwd"
+else
+	echo $HOME
+fi
+
+exit 0
