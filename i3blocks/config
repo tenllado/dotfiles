@@ -1,0 +1,156 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=~/.config/i3blocks/blocklets/$BLOCK_NAME
+separator_block_width=15
+
+[apt-updates]
+label=APT
+command=~/.config/i3blocks/blocklets/apt-upgrades -N -c "#0F8801";
+signal=1
+interval=once
+
+[fwupdates]
+label=FwUp
+command=~/.config/i3blocks/blocklets/fwupdates -N -c "#0F8801";
+signal=2
+interval=once
+
+# Volume indicator
+#
+# The first parameter sets the step (and units to display)
+# The second parameter overrides the mixer selection
+# See the script for details.
+[volume]
+#label=♪
+label=
+instance=Master
+interval=2
+signal=10
+
+[dpms]
+label=
+markup=pango
+interval=10
+signal=3
+
+# Disk usage
+#
+[disk]
+#label=HOME
+label=
+#instance=/mnt/data
+interval=30
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+
+[wifi]
+label=
+#use command with solarized colors
+instance=wlp58s0
+interval=10
+#separator=false
+
+# show current ip
+#[iface]
+##instance=wlan0
+#interval=10
+##separator=false
+
+#[bandwidth]
+##instance=eth0
+#interval=5
+
+# CPU usage
+#
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[cpu_usage]
+#label=CPU
+label=
+interval=10
+#min_width= 100.00%
+align=left
+#separator=false
+
+# Temperature
+#
+# Support multiple chips, though lm-sensors.
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[temperature]
+#label=TEMP
+interval=10
+
+[load_average]
+label=
+interval=2
+
+
+# Battery indicator
+# The battery instance defaults to 0.
+[battery]
+#label=⚡
+markup=pango
+interval=1
+#min_width=⚡DIS xx% (xx:xx)
+align=center
+
+# Date Time
+#
+[date]
+label=
+command=LANG=es_ES.utf-8 date '+%a %d %b %H:%M:%S'
+interval=1
+#label=
+
+#[calendar]
+#command=~/.config/i3blocks/blocklets/calendar -f "+%H:%M:%S" -W 220 -H 180 -S "+%H:%M:%S"
+#label=
+#interval=1
+
+#[pangotest]
+#markup=pango
+#command=echo "<span foreground=\"blue\">Blue text</span> is <i>cool</i>!"
+#interval=1
+
+# Key indicators
+#
+# Add the following bindings to i3 config file:
+#
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+#[keyindicator]
+#instance=CAPS
+#interval=once
+#signal=11
+#[keyindicator]
+#instance=NUM
+#interval=once
+#signal=11

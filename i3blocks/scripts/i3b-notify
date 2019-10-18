@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Script to signal the i3blocks blocklets for places like cron jobs. If i3blocks
+# is not running it silently exits. Can also be runned from command line.
+
+# Signals configured for the blocklets
+APT_UPGRADE_SIG=1
+
+if ! pgrep i3blocks > /dev/null ; then
+	exit 0
+fi
+
+# options to select the blocklets to signal
+while getopts a opt; do
+    case "$opt" in
+
+		# This is actually not needed, it is better to set a hook on apt and
+		# dpkg to signal i3blocks:
+		#    Create /etc/apt/apt.conf.d/80i3blocks with contents:
+		#    APT::Update::Post-Invoke { "pkill -RTMIN+1 i3blocks || true"; };
+		#    DPkg::Post-Invoke { "pkill -RTMIN+1 i3blocks || true"; };
+		# See doc of apt-upgrades for details
+		# https://github.com/vivien/i3blocks-contrib/tree/master/apt-upgrades
+        a) pkill -RTMIN+$APT_UPGRADE_SIG i3blocks ;;
+
+        h) printf \
+"Usage: i3b-notify -h -a
+Options:
+-a\tNotifies the apt-upgrade blocklet
+-h\tShow this help text\n" && exit 0;;
+    esac
+done
+
+exit 0

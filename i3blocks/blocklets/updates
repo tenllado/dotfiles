@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# count how many updates we have got
+ups=`apt list --upgradable | head -1 | awk '{print $1;}'`
+
+# print the results
+if [ "$ups" -eq "1" ]
+then
+	echo "There is 1 update"
+elif [ "$ups" -gt "1" ]; then
+	echo "There are $ups updates"
+elif [ -f /var/run/reboot-required ]; then
+	echo 'Reboot required'
+else
+	echo "Up to date"
+fi

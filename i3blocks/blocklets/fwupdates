@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# By default, show something when no upgrades are pending
+ALWAYS_PRINT=${ALWAYS_PRINT:-1}
+
+# FontAwesome refresh symbol, change if you do not want to install FontAwesome
+PENDING_SYMBOL=${PENDING_SYMBOL:-"\uf021 "}
+PENDING_COLOR=${PENDING_COLOR:-"#00FF00"}
+NONPENDING_COLOR=${NONPENDING_COLOR:-"#000000"}
+
+CHECK=0
+# a cron job should do a fwupdmgr refresh periodically
+while getopts c:k:Nh opt; do
+    case "$opt" in
+        k) CHECK=1
+		   SIG="$OPTARG";;
+        c) PENDING_COLOR="$OPTARG" ;;
+        N) ALWAYS_PRINT=0 ;;
+        h) printf \
+"Usage: fwupdates [-c signal] [-N] [-h]
+Options:
+-k\tCheck fw updates and signal i3blocks
+-c\tColor when upgrade is pending. Default:  #00FF00
+-N\tOnly display text if fw updates are pending
+-h\tShow this help text\n" && exit 0;;
+    esac
+done
+
+if [ $CHECK == 1 ]; then
+	fwupdmgr refresh
+	pkill -RTMIN+$SIG i3blocks
+else
+	pending_updates=$(fwupdmgr get-updates 2> /dev/null | grep "Update Version" | wc -l)
+	if [[ "$pending_updates" != "0" ]]; then
+		echo -e "$PENDING_SYMBOL$pending_updates"
+		echo -e "$PENDING_SYMBOL$pending_updates"
+		echo "$PENDING_COLOR"
+	elif [[ $ALWAYS_PRINT == 1 ]]; then
+		echo -e "$PENDING_SYMBOL$pending_updates"
+		echo -e "$PENDING_SYMBOL$pending_updates"
+		echo "$NONPENDING_COLOR"
+	fi
+fi
+
+
+
