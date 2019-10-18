@@ -1,3 +1,6 @@
 [submodule "i3/scripts/i3expo"]
 	path = config/i3/scripts/i3expo
 	url = https://gitlab.com/d.reis/i3expo
+[submodule "urxvt/ext/urxvt-font-size"]
+	path = urxvt/ext/urxvt-font-size
+	url = https://github.com/majutsushi/urxvt-font-size.git
