@@ -19,3 +19,6 @@
 [submodule "config/nvim/pack/basic/start/vimwiki"]
 	path = config/nvim/pack/basic/start/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
+[submodule "config/nvim/pack/basic/start/winresizer"]
+	path = config/nvim/pack/basic/start/winresizer
+	url = https://github.com/simeji/winresizer

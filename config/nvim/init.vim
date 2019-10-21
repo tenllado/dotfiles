@@ -137,6 +137,10 @@ augroup END
 
 " }}}
 
+" winresizer plugin stuff -------------------------------------------------- {{{
+let g:winresizer_gui_enable = 1
+" }}}
+
 " Satus line ------------------------------------------------- {{{
 set laststatus=2           " always show statusline
 set statusline=[%n]\       " buffer number
