@@ -1,27 +1,52 @@
 #!/bin/bash
 
-backup_file() {
-	local file=$1
-	if test -L "$HOME/.$file"; then
-		rm -v "$HOME/.$file"
-	elif test -e "$HOME/.$file"; then
-		mv -Tv "$HOME/.$file" "$HOME/.$file.old"
-	fi
+delete=0
+program_name=$0
+
+install_files() {
+	local file
+	while (( $# )); do
+		file="$1"
+
+		if test -e "$HOME/.$file" -a ! -L "$HOME/.$file"; then
+			if [ $delete -eq 0 ]; then
+				mv -Tv "$HOME/.$file" "$HOME/.$file.old"
+			else
+				rm -rfv "$HOME/.$file"
+			fi
+		fi
+
+		ln -sfTv "$PWD/$file" "$HOME/.$file"
+		shift
+	done
 }
 
-do_install() {
-	local file=$1
-	backup_file "$file"
-	ln -sfv "$PWD/$file" "$HOME/.$file"
+usage() {
+	echo "$program_name [-d] [-h]"
+	echo
+	printf "\t-d delete old files instead of creating backups\n"
+	printf "\t-h: shows this help message\n"
+	printf "\n"
 }
 
-# files to the home directory
-for f in $(ls -d * | grep -v "config\|README\|install") ; do
-	do_install "$f"
+while getopts "dh" o; do
+    case "${o}" in
+        h)
+			usage
+			exit 0
+			;;
+		d)
+			delete=1
+            ;;
+        *)
+            usage
+			exit 0
+            ;;
+    esac
 done
 
-# files in the config folder (to the ~/.config)
-for f in $(ls -d config/*); do
-	do_install "$f"
-done
+git submodule update --init
 
+config_files="$(ls -d * | grep -v "config\|README\|install") $(ls -d config/*)"
+
+install_files $config_files
