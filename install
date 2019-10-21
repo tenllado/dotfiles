@@ -50,3 +50,7 @@ git submodule update --init
 config_files="$(ls -d * | grep -v "config\|README\|install") $(ls -d config/*)"
 
 install_files $config_files
+
+# same vim & neovim config files
+ln -sfTv ~/.config/nvim/init.vim ~/.vimrc 
+ln -sfTv ~/.config/nvim/ ~/.vim
