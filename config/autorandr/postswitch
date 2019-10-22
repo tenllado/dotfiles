@@ -1,12 +1,13 @@
 #!/bin/bash
 
-detected=$(autorandr | grep detected | awk '{print $1}')
+current=$(autorandr | grep current | awk '{print $1}')
 
-if test -x ~/.config/autorandr/$detected/postswitch; then
-	~/.config/autorandr/$detected/postswitch
+if test -x ~/.config/autorandr/$current/postswitch; then
+	~/.config/autorandr/$current/postswitch
 fi
 
 i3-msg restart
+sleep 0.5
 if pgrep compton; then
 	pkill -USR1 compton
 fi
