@@ -177,16 +177,12 @@ nnoremap <leader>- ddp
 " jump next character in insert mode
 inoremap <c-f> <right>
 
-" convert current WORD to upper case
+" convert current WORD to upper/lower case
 inoremap <c-u> <esc>viwUea
-" convert current word to lower case
-if !has('nvim')
-	set <m-u>=u
-	set <m-l>=l
-endif
-nnoremap <m-u> viwUe
 inoremap <c-l> <esc>viwuea
-nnoremap <m-l> viwue
+"In normalmode use <c-i> and <c-k> 
+nnoremap <c-i> viwUe
+nnoremap <c-k> viwue
 
 " surround a word in double/single quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
