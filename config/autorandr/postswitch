@@ -6,11 +6,10 @@ if test -x ~/.config/autorandr/$current/postswitch; then
 	~/.config/autorandr/$current/postswitch
 fi
 
-i3-msg restart
-sleep 0.5
+i3-msg "exec --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.png"
+
 if pgrep compton; then
 	pkill -USR1 compton
 fi
-
 
 exit 0
