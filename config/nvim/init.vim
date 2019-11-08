@@ -36,7 +36,6 @@ hi SpellBad cterm=underline
 
 " highlight the 81 column
 set colorcolumn=81
-execute "set colorcolumn=" . join(range(81,81), ',')
 highlight ColorColumn ctermbg=Grey ctermfg=Black
 " }}}
 
@@ -56,6 +55,7 @@ set path+=**
 " Display all matching files when tab complete
 set wildmenu
 set autoindent
+set hlsearch
 set incsearch
 set number
 set relativenumber
@@ -170,6 +170,23 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+nnoremap <leader>R :setlocal relativenumber!<cr>
+nnoremap <leader>N :setlocal number!<cr>
+
+" very magic reg expression mode (see :help magic)
+nnoremap / /\v
+nnoremap ? ?\v
+
+" stop highlighting last search
+nnoremap <leader>h :nohlsearch<cr>
+
+" open quickfix window in the bottom, full width
+nnoremap <leader>co :botright copen<cr>
+
+" grep
+"nnoremap <leader>G :silent execute "grep -R " . shellescape(expand("<cWORD>"))  . " ."<cr>:copen<cr>
+"nnoremap <leader>g :silent execute "grep -R " . shellescape(expand("<cWORD>"))  . " %"<cr>:copen<cr>
+
 " move line down [-] or high [_]
 nnoremap _ ddkP
 nnoremap <leader>- ddp
@@ -180,17 +197,14 @@ inoremap <c-f> <right>
 " convert current WORD to upper/lower case
 inoremap <c-u> <esc>viwUea
 inoremap <c-l> <esc>viwuea
-"In normalmode use <c-i> and <c-k> 
-nnoremap <c-i> viwUe
-nnoremap <c-k> viwue
 
 " surround a word in double/single quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 
 " surround visual selection with double/single quotes
-vnoremap <leader>" <esc>`<i"<esc>`>a"<esc>
-vnoremap <leader>' <esc>`<i'<esc>`>a'<esc>
+vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
+vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
 
 " use H and L to move to begin-end line
 nnoremap H 0
@@ -210,8 +224,12 @@ inoremap jk <esc>
 " Automatic pairing
 inoremap ( ()<left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-inoremap " ""<left>
-inoremap ' ''<left>
+inoremap <expr> "  strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
+inoremap <expr> '  strpart(getline('.'), col('.')-1, 1) == "'" ? "\<Right>" : "''\<Left>"
+
+" open aternate buffer in a split
+nnoremap <leader>a :execute "split " . bufname("#")<cr>
+
 " }}}
 
 " Operator pending mappings ------------------------------- {{{
@@ -310,6 +328,14 @@ augroup END
 augroup filetype_tex
 	autocmd!
 	autocmd FileType tex setlocal ts=2 sw=2 expandtab spell fo+=aw
+	autocmd FileType tex nnoremap <buffer> <leader>k viw<esc>a}<esc>bi\emph{<esc>
+"}
+	autocmd FileType tex vnoremap <buffer> <leader>k <esc>`>a}<esc>`<i\emph{<esc>
+"}
+	autocmd FileType tex nnoremap <buffer> <leadr>t viw<esc>a}<esc>bi\texttt{<esc>
+"}
+	autocmd FileType tex vnoremap <buffer> <leadr>t <esc>`>a}<esc>`<i\texttt{<esc>
+"}
 augroup END
 " }}}
 
