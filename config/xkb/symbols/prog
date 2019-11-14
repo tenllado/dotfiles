@@ -1,0 +1,7 @@
+
+xkb_symbols "progmap" {
+    replace key <BKSL>  { [ plus,   asterisk, asciicircum,  dead_macron ] };
+    replace key <AC11>  { [ dead_acute, grave, dead_diaeresis, dead_diaeresis] };
+    replace key <AD11>  { type[Group1]="TWO_LEVEL", [ bracketleft, braceleft] };
+    replace key <AD12>  { type[Group1]="TWO_LEVEL", [ bracketright, braceright] };
+};
