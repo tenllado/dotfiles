@@ -444,6 +444,12 @@ exec_always --no-startup-id xrdb -load ~/.Xdefaults
 #exec --no-startup-id xsettingsd &
 #bindsym $mod+Shift+x exec --no-startup-id pkill -HUP xsettingsd
 
+
+# Daemon to watch for usb-logitech-keyboard connection, for layout config
+exec --no-startup-id usb-logitech-keyboard_inotify \
+	/var/lock/usb-logitech-keyboard-lock \
+	/home/christian/.local/bin/usb-logitech-keyboard_config
+
 # Remove noise from headphones (reduces volume)
 exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
 
