@@ -47,7 +47,8 @@ done
 
 git submodule update --init
 
-config_files="$(ls -d * | grep -v "config\|README\|install") $(ls -d config/*)"
+config_files="$(ls -d * | grep -v "config\|local\|README\|install")"
+config_files="$config_files $(ls -d config/*) $(ls -d local/bin/*)"
 
 install_files $config_files
 
