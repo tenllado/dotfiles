@@ -122,15 +122,19 @@ interval=1
 #min_width=⚡DIS xx% (xx:xx)
 align=center
 
-# Date Time
-#
+[logout]
+full_text=
+#
+
+# Date full_text#
 [date]
 label=
 command=LANG=es_ES.utf-8 date '+%a %d %b %H:%M:%S'
 interval=1
 #label=
 
-#[calendar]
+
+##[calendar]
 #command=~/.config/i3blocks/blocklets/calendar -f "+%H:%M:%S" -W 220 -H 180 -S "+%H:%M:%S"
 #label=
 #interval=1
