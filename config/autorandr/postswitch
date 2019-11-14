@@ -1,14 +1,23 @@
 #!/bin/bash
 
+LOG_FILE=~/.config/autorandr/log
+
 current=$(autorandr | grep current | awk '{print $1}')
+#detected=$(autorandr | grep detected | awk '{print $1}')
+
+#echo "detected: $detected" >> $LOG_FILE
+#echo "current: $current" >> $LOG_FILE
 
 if test -x ~/.config/autorandr/$current/postswitch; then
+#	file="~/.config/autorandr/$current/postswitch"
+#	echo "executing $file" >> $LOG_FILE
 	~/.config/autorandr/$current/postswitch
 fi
 
 i3-msg "exec --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.png"
 
 if pgrep compton; then
+#	echo "sending USR1 to compton" >> $LOG_FILE
 	pkill -USR1 compton
 fi
 
