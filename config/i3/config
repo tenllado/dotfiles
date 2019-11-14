@@ -450,6 +450,9 @@ exec --no-startup-id usb-logitech-keyboard_inotify \
 	/var/lock/usb-logitech-keyboard-lock \
 	/home/christian/.local/bin/usb-logitech-keyboard_config
 
+# keyboard layout config
+exec --no-startup-id xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
+
 # Remove noise from headphones (reduces volume)
 exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
 
