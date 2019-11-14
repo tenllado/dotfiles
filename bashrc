@@ -140,7 +140,7 @@ export EDITOR=vim
 export PAGER=less
 
 # set vi mode in bash
-set -o vi
+#set -o vi
 
 # set last scheme using dynamic-colors extension on urxvt
 case "$TERM" in
