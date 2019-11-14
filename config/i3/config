@@ -450,7 +450,7 @@ exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume'
 # polkit
 exec --no-startup-id /usr/lib/policykit-1-gnome/plkit-gnome-authentication-agent-1
 
-# Compton. MUST BE LAST. I do not understand why.
-exec --no-startup-id compton
+# Compton, gives me lots of stability problems
+#exec --no-startup-id compton
 
 ################################################################################
