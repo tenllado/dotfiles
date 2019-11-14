@@ -1,0 +1,10 @@
+#!/bin/bash
+
+LOCK="/var/lock/usb-logitech-keyboard-lock"
+
+exec 9> "$LOCK"
+if ! flock -n 9; then
+	exit 1
+fi
+
+echo "Modified - $(date)" > $LOCK

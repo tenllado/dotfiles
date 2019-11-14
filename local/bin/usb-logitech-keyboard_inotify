@@ -1,0 +1,27 @@
+#!/bin/bash
+
+usage() {
+	echo "$0 <lock-file-name> <script-to-execute>"
+}
+
+# Parameters <lock-file-name> <script-to-execute>
+if [ $# -lt 2 ]; then
+	usage
+	exit 1
+fi
+
+
+path=$(realpath "$1")
+script="$2"
+dirname=$(dirname $path)
+
+inotifywait -m -e close_write --format '%w%f' "$dirname" \
+	| while read file
+do
+	if [[ $(realpath "$file") == "$path" ]]; then
+		sh -c "$script"
+	fi
+done
+
+
+

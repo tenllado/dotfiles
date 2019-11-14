@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#sleep 2
+DISPLAY=":0.0"
+HOME="/home/christian"
+XAUTHORITY=$HOME/.Xauthority
+export DISPLAY XAUTHORITY HOME
+usbkbd_ids=$(xinput -list | grep "USB Multimedia Keyboard" | \
+	awk -F'=' '{print $2}' | cut -c 1-2)
+
+for id in ${usbkbd_ids}; do
+	xkbcomp -w 0 -i $id $HOME/.config/xkb/logitech_prog.xkb $DISPLAY > /dev/null 2>&1
+done
