@@ -1,0 +1,19 @@
+#!/bin/bash
+
+action=$(yad --width=256 --title "Shutdown Dialog" \
+	--button="Logout:3" --button="Power Off:2" \
+	--button "Reboot:1" --button="gtk-close:0")
+
+#--image=gnome-shutdown --button="gtk-ok:0"  --entry --entry-text "Shutdown" "Reboot" "Logout")
+
+ret=$?
+[[ $ret -eq 0 ]] && exit 0
+
+case $action in
+	1) cmd="/sbin/reboot";;
+	2) cmd="/sbin/poweroff";;
+	3) cmd="i3-msg \"exit\"";;
+	*) exit 1;
+esac
+
+eval exec $cmd
