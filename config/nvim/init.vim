@@ -39,7 +39,7 @@ set colorcolumn=81
 highlight ColorColumn ctermbg=Grey ctermfg=Black
 " }}}
 
-" General settings --------------------------------------------------------- {{{
+" Basic settings ----------------------------------------------------------- {{{
 if has('mouse')
 	set mouse=a
 endif
@@ -52,6 +52,7 @@ endif
 
 " Search down into subfolders, with tab-completion for all file operations
 set path+=**
+set wildignore=*.o,*.obj,*.pdf,*.ps,*.eps,*.jpg,*.png
 " Display all matching files when tab complete
 set wildmenu
 set autoindent
@@ -155,67 +156,140 @@ set statusline+=l=%4l/%-4L " Current line/Total, 4 dig. each (total left aligned
 set statusline+=[%p%%]
 " }}}
 
-" General n/v/i mappings ------------------------------------------- {{{
+" Some simple functions ---------------------------------------------------- {{{
 
-" use the man plugin to open man pages on a split window
-runtime ftplugin/man.vim
-nnoremap K :<C-U>exe "Man" v:count "<C-R><C-W>"<CR>
+func! DeleteTrailingWS()
+     exe "normal mz"
+     %s/\s\+$//ge
+     exe "normal `z"
+endfunc
+
+function! FoldColumnToggle()
+	if &foldcolumn
+		setlocal foldcolumn=0
+	else
+		setlocal foldcolumn=4
+	endif
+endfunction
+
+" TODO: find a better way to see if the quickfix window is open
+"       HINT: https://www.reddit.com/r/vim/comments/5ulthc/how_would_i_detect_whether_quickfix_window_is_open/
+let g:quickfix_is_open = 0
+function! QuickfixToggle()
+	if g:quickfix_is_open
+		cclose
+		let g:quickfix_is_open = 0
+		execute g:quickfix_return_to_window . "wincmd w"
+	else
+		let g:quickfix_return_to_window = winnr()
+		botright copen
+		let g:quickfix_is_open = 1
+	endif
+endfunction
+
+function! GrepOnOperator(type, dir)
+	let saved_unnamed_register = @@
+	if a:type ==# 'v'
+		normal! `<v`>y
+	elseif a:type ==# 'char'
+		normal! `[v`]y
+	else
+		return
+	endif
+
+	if a:dir
+		silent execute "grep! -R " . shellescape(@@) . " ."
+	else
+		silent execute "grep! " . shellescape(@@) . " %"
+	endif
+	" FIXME: make it work better with the QuickfixToggle function
+	" and force the open
+	call QuickfixToggle()
+
+	let @@ = saved_unnamed_register
+endfunction
+
+function! GrepOnFileOperator(type)
+	call GrepOnOperator(a:type, 0)
+endfunction
+
+function! GrepOnDirOperator(type)
+	call GrepOnOperator(a:type, 1)
+endfunction
+
+" }}}
+
+" <leader> mappings ------------------------------------------- {{{
+" for the functions above
+nnoremap <leader>ts :call DeleteTrailingWS()<CR>
+nnoremap <leader>f :call FoldColumnToggle()<cr>
+nnoremap <leader>q :call QuickfixToggle()<cr>
+nnoremap <leader>g :set operatorfunc=GrepOnFileOperator<cr>g@
+nnoremap <leader>G :set operatorfunc=GrepOnDirOperator<cr>g@
+vnoremap <leader>g :<c-u>call GrepOnFileOperator(visualmode())<cr>
+vnoremap <leader>G :<c-u>call GrepOnDirOperator(visualmode())<cr>
+
+
 
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>et :tabnew $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>cd :lcd %:p:h<cr>
+nnoremap <leader>h :nohlsearch<cr>
+nnoremap <leader>R :setlocal relativenumber!<cr>
+nnoremap <leader>N :setlocal number!<cr>
+
+" surround word
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+" surround visual selection
+vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
+vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
+
+" use <leader>H/L to mover to top bottom of window
+" just because H and L are remaped to other things below
+nnoremap <leader>H H
+nnoremap <leader>L L
+vnoremap <leader>H H
+vnoremap <leader>L L
+
+" }}}
+
+" General n/v/i mappings ------------------------------------------- {{{
+
+" use the man plugin to open man pages on a split window
+runtime ftplugin/man.vim
+nnoremap K :<C-U>exe "Man" v:count "<C-R><C-W>"<CR>
+" open alternate buffer in a split
+nnoremap <leader>a :execute "split " . bufname("#")<cr>
+" open file under cursor in a split, using gf command
+nnoremap gsf :execute "split\nnormal! gf"<cr>
+
+
+" window movement
 nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-nnoremap <leader>R :setlocal relativenumber!<cr>
-nnoremap <leader>N :setlocal number!<cr>
-
 " very magic reg expression mode (see :help magic)
 nnoremap / /\v
 nnoremap ? ?\v
-
-" stop highlighting last search
-nnoremap <leader>h :nohlsearch<cr>
-
-" open quickfix window in the bottom, full width
-nnoremap <leader>co :botright copen<cr>
 
 " grep
 "nnoremap <leader>G :silent execute "grep -R " . shellescape(expand("<cWORD>"))  . " ."<cr>:copen<cr>
 "nnoremap <leader>g :silent execute "grep -R " . shellescape(expand("<cWORD>"))  . " %"<cr>:copen<cr>
 
-" move line down [-] or high [_]
-nnoremap _ ddkP
-nnoremap <leader>- ddp
-
-" jump next character in insert mode
 inoremap <c-f> <right>
-
 " convert current WORD to upper/lower case
 inoremap <c-u> <esc>viwUea
 inoremap <c-l> <esc>viwuea
-
-" surround a word in double/single quotes
-nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
-
-" surround visual selection with double/single quotes
-vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
-vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
 
 " use H and L to move to begin-end line
 nnoremap H 0
 vnoremap H 0
 nnoremap L $
 vnoremap L $
-" use <leader>H/L to mover to top bottom of window
-nnoremap <leader>H H
-nnoremap <leader>L L
-vnoremap <leader>H H
-vnoremap <leader>L L
 
 " Note: try to change it by configuring CapsLock as Esc
 " use jk to leave insert mode, back to normal mode
@@ -226,9 +300,6 @@ inoremap ( ()<left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
 inoremap <expr> "  strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
 inoremap <expr> '  strpart(getline('.'), col('.')-1, 1) == "'" ? "\<Right>" : "''\<Left>"
-
-" open aternate buffer in a split
-nnoremap <leader>a :execute "split " . bufname("#")<cr>
 
 " }}}
 
@@ -280,13 +351,6 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
-" Clear trailing white spaces
-func! DeleteTrailingWS()
-     exe "normal mz"
-     %s/\s\+$//ge
-     exe "normal `z"
-endfunc
-noremap <leader>ts :call DeleteTrailingWS()<CR>
 " }}}
 
 " c/c++ file setttings ------------------------------------------- {{{
@@ -328,6 +392,7 @@ augroup END
 augroup filetype_tex
 	autocmd!
 	autocmd FileType tex setlocal ts=2 sw=2 expandtab spell fo+=aw
+	autocmd FileType tex setlocal wildignore+=*.aux,*.log,*.nav,*.out,*.snm,*.toc,*.vrb
 	autocmd FileType tex nnoremap <buffer> <leader>k viw<esc>a}<esc>bi\emph{<esc>
 "}
 	autocmd FileType tex vnoremap <buffer> <leader>k <esc>`>a}<esc>`<i\emph{<esc>
@@ -368,7 +433,7 @@ augroup filetype_mutt
 	autocmd!
 	autocmd BufRead /tmp/mutt-* set tw=72
 augroup END
-" }}
+" }}}
 
 " mail file settings ------------------------------------- {{{
 augroup filetype_mail
@@ -376,4 +441,4 @@ augroup filetype_mail
 	autocmd FileType mail setlocal tw=72 fo+=aw comments+=nb:>
 augroup END
 " }}}
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
