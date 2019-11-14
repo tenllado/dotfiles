@@ -102,6 +102,8 @@ class Default(ColorScheme):
                     bg = cyan
             elif context.link:
                 fg = cyan
+            else:
+                fg = black
             attr |= bold
             fg += BRIGHT
 
