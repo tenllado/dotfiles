@@ -172,18 +172,19 @@ function! FoldColumnToggle()
 	endif
 endfunction
 
-" TODO: find a better way to see if the quickfix window is open
-"       HINT: https://www.reddit.com/r/vim/comments/5ulthc/how_would_i_detect_whether_quickfix_window_is_open/
-let g:quickfix_is_open = 0
+function! QuickfixIsOpen()
+	let quickfix_win_list = filter(getwininfo(), 'v:val.quickfix && !v:val.loclist')
+	return len(quickfix_win_list) > 0
+endfunction
+
 function! QuickfixToggle()
-	if g:quickfix_is_open
+	if  QuickfixIsOpen()
 		cclose
 		let g:quickfix_is_open = 0
 		execute g:quickfix_return_to_window . "wincmd w"
 	else
 		let g:quickfix_return_to_window = winnr()
 		botright copen
-		let g:quickfix_is_open = 1
 	endif
 endfunction
 
@@ -202,9 +203,12 @@ function! GrepOnOperator(type, dir)
 	else
 		silent execute "grep! " . shellescape(@@) . " %"
 	endif
-	" FIXME: make it work better with the QuickfixToggle function
-	" and force the open
-	call QuickfixToggle()
+	if  !QuickfixIsOpen()
+		let g:quickfix_return_to_window = winnr()
+		botright copen
+	endif
+
+
 
 	let @@ = saved_unnamed_register
 endfunction
@@ -221,15 +225,13 @@ endfunction
 
 " <leader> mappings ------------------------------------------- {{{
 " for the functions above
-nnoremap <leader>ts :call DeleteTrailingWS()<CR>
-nnoremap <leader>f :call FoldColumnToggle()<cr>
-nnoremap <leader>q :call QuickfixToggle()<cr>
-nnoremap <leader>g :set operatorfunc=GrepOnFileOperator<cr>g@
-nnoremap <leader>G :set operatorfunc=GrepOnDirOperator<cr>g@
-vnoremap <leader>g :<c-u>call GrepOnFileOperator(visualmode())<cr>
-vnoremap <leader>G :<c-u>call GrepOnDirOperator(visualmode())<cr>
-
-
+nnoremap <silent> <leader>ts :call DeleteTrailingWS()<CR>
+nnoremap <silent> <leader>f :call FoldColumnToggle()<cr>
+nnoremap <silent> <leader>q :call QuickfixToggle()<cr>
+nnoremap <silent> <leader>g :set operatorfunc=GrepOnFileOperator<cr>g@
+nnoremap <silent> <leader>G :set operatorfunc=GrepOnDirOperator<cr>g@
+vnoremap <silent> <leader>g :<c-u>call GrepOnFileOperator(visualmode())<cr>
+vnoremap <silent> <leader>G :<c-u>call GrepOnDirOperator(visualmode())<cr>
 
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>et :tabnew $MYVIMRC<cr>
