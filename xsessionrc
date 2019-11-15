@@ -1,18 +1,5 @@
 #!/bin/bash
 
-if [ -f "$HOME/.bashrc" ]; then
-	source "$HOME/.bashrc"
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
 #export TERMCMD=sakura
 export TERMCMD=urxvt
 #export GDK_SCALE=0.75
@@ -20,3 +7,8 @@ export TERMCMD=urxvt
 #if [ "$DESKTOP_SESSION" = "i3" ]; then
 #	xrandr --dpi 168
 #fi
+
+if [ -f "$HOME/.profile" ]; then
+	source "$HOME/.profile"
+fi
+

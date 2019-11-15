@@ -1178,7 +1178,7 @@ xkb_compatibility "complete" {
     };
 };
 
-xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+shift(both_capslock)+prog(progmap)" {
+xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(esc_rwin)" {
 
     name[group1]="Spanish";
 
@@ -1331,10 +1331,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+shift(both_capslock)+prog(progmap)" 
         type= "FOUR_LEVEL",
         symbols[Group1]= [       masculine,     ordfeminine,       backslash,       backslash ]
     };
-    key <LFSH> {
-        type= "TWO_LEVEL",
-        symbols[Group1]= [         Shift_L,       Caps_Lock ]
-    };
+    key <LFSH> {         [         Shift_L ] };
     key <BKSL> {
         type= "FOUR_LEVEL",
         symbols[Group1]= [            plus,        asterisk,     asciicircum,     dead_macron ]
@@ -1379,10 +1376,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+shift(both_capslock)+prog(progmap)" 
         type= "FOUR_LEVEL",
         symbols[Group1]= [           minus,      underscore,   dead_belowdot,   dead_abovedot ]
     };
-    key <RTSH> {
-        type= "TWO_LEVEL",
-        symbols[Group1]= [         Shift_R,       Caps_Lock ]
-    };
+    key <RTSH> {         [         Shift_R ] };
     key <KPMU> {
         type= "CTRL+ALT",
         symbols[Group1]= [     KP_Multiply,     KP_Multiply,     KP_Multiply,     KP_Multiply,   XF86ClearGrab ]
@@ -1512,7 +1506,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+shift(both_capslock)+prog(progmap)" 
     key <HNGL> {         [          Hangul ] };
     key <HJCV> {         [    Hangul_Hanja ] };
     key <LWIN> {         [         Super_L ] };
-    key <RWIN> {         [         Super_R ] };
+    key <RWIN> {         [          Escape ] };
     key <COMP> {         [            Menu ] };
     key <STOP> {         [          Cancel ] };
     key <AGAI> {         [            Redo ] };
@@ -1616,7 +1610,6 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+shift(both_capslock)+prog(progmap)" 
     key <I255> {         [      XF86RFKill ] };
     modifier_map Control { <LCTL> };
     modifier_map Shift { <LFSH> };
-    modifier_map Lock { <LFSH> };
     modifier_map Shift { <RTSH> };
     modifier_map Mod1 { <LALT> };
     modifier_map Control { <CAPS> };
@@ -1624,7 +1617,6 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+shift(both_capslock)+prog(progmap)" 
     modifier_map Mod5 { <LVL3> };
     modifier_map Control { <RCTL> };
     modifier_map Mod4 { <LWIN> };
-    modifier_map Mod4 { <RWIN> };
     modifier_map Mod5 { <MDSW> };
     modifier_map Mod1 { <META> };
     modifier_map Mod4 { <SUPR> };

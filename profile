@@ -21,5 +21,8 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
-
+xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
