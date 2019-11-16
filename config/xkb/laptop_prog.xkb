@@ -1178,7 +1178,7 @@ xkb_compatibility "complete" {
     };
 };
 
-xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(esc_rctrl)" {
+xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(lalt_esc)+prog(rctrl_esc)" {
 
     name[group1]="Spanish";
 
@@ -1282,7 +1282,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(esc_rctrl)" {
         symbols[Group1]= [    bracketright,      braceright ]
     };
     key <RTRN> {         [          Return ] };
-    key <LCTL> {         [       Control_L ] };
+    key <LCTL> {         [           Alt_L,          Meta_L ] };
     key <AC01> {
         type= "FOUR_LEVEL_ALPHABETIC",
         symbols[Group1]= [               a,               A,              ae,              AE ]
@@ -1381,7 +1381,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(esc_rctrl)" {
         type= "CTRL+ALT",
         symbols[Group1]= [     KP_Multiply,     KP_Multiply,     KP_Multiply,     KP_Multiply,   XF86ClearGrab ]
     };
-    key <LALT> {         [           Alt_L,          Meta_L ] };
+    key <LALT> {         [          Escape,          Meta_L ] };
     key <SPCE> {         [           space ] };
     key <CAPS> {         [       Control_L,       Control_L ] };
     key <FK01> {
@@ -1608,10 +1608,9 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(esc_rctrl)" {
     key <I246> {         [        XF86WLAN ] };
     key <I254> {         [        XF86WWAN ] };
     key <I255> {         [      XF86RFKill ] };
-    modifier_map Control { <LCTL> };
+    modifier_map Mod1 { <LCTL> };
     modifier_map Shift { <LFSH> };
     modifier_map Shift { <RTSH> };
-    modifier_map Mod1 { <LALT> };
     modifier_map Control { <CAPS> };
     modifier_map Mod2 { <NMLK> };
     modifier_map Mod5 { <LVL3> };

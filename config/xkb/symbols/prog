@@ -7,11 +7,23 @@ xkb_symbols "progmap" {
 };
 
 partial modifier_keys
-xkb_symbols "esc_rctrl" {
+xkb_symbols "lctrl_lalt" {
+    replace key <LCTL> { [ Alt_L, Meta_L ] };
+    modifier_map Mod1    { <LCTL> };
+};
+
+partial modifier_keys
+xkb_symbols "lalt_esc" {
+    replace key <LALT> { [ Escape ] };
+};
+
+partial modifier_keys
+xkb_symbols "rctrl_esc" {
 	replace key <RCTL> { [Escape] };
 };
 
 partial modifier_keys
-xkb_symbols "esc_rwin" {
+xkb_symbols "rwin_esc" {
 	replace key <RWIN> { [Escape] };
 };
+
