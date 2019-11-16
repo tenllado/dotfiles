@@ -31,8 +31,8 @@ let g:PaperColor_Theme_Options = {
   \ }
 "colorscheme default
 colorscheme PaperColor
-hi clear SpellBad
-hi SpellBad cterm=underline
+highlight clear SpellBad
+highlight SpellBad cterm=underline
 
 " highlight the 81 column
 set colorcolumn=81
@@ -349,10 +349,13 @@ onoremap al" :<c-u>execute "normal! ?\"\r:nohlsearch\rva\""<cr>
 " Highlight trailing spaces
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+augroup trailspace
+	autocmd!
+	autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+	autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+	autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+	autocmd BufWinLeave * call clearmatches()
+augroup END
 " }}}
 
 " c/c++ file setttings ------------------------------------------- {{{
