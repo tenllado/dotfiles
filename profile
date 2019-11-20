@@ -8,6 +8,23 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# rust support
+if [ -d "$HOME/.cargo/bin" ] ; then
+	export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# setup keyboard
+xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -16,13 +33,3 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
-xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
