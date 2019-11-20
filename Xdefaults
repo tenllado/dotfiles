@@ -41,6 +41,12 @@ URxvt.keysym.ISO_Left_Tab: string:\011
 !!!! URxvt perl extensions
 URxvt.perl-ext-common: default,matcher,keyboard-select,newterm,dynamic-colors,font-size
 
+! copy/paste to clipboard
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+!URxvt.keysym.Control-Meta-c: builtin-string:
+!URxvt.keysym.Control-Meta-v: builtin-string:
+
 ! for dynamic colors
 URxvt.dynamicColors: on
 URxvt.keysym.M-Tab: perl:dynamic-colors:cycle
