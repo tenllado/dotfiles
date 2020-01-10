@@ -9,6 +9,20 @@
 HISTORY_FILE=~/.local/share/rofi/rofi_i3_history
 MAX_HISTORY_SIZE=20
 
+history_trunc() {
+	history_len=$(cat ${HISTORY_FILE} | wc -l)
+	while [ $history_len -gt ${MAX_HISTORY_SIZE} ]; do
+		sed -i 1d "${HISTORY_FILE}"
+		history_len=$(cat ${HISTORY_FILE} | wc -l)
+	done
+}
+
+history_add() {
+	command=$(echo "$@" | sed -e 's/\(\[\|\]\)/\\&/g')
+	sed -i "/$command/d" "${HISTORY_FILE}"
+	echo "$@" >> "${HISTORY_FILE}"
+}
+
 if [ ! -d $(dirname "${HISTORY_FILE}") ]; then
 	mkdir -p "$(dirname "${HISTORY_FILE}")"
 fi
@@ -17,12 +31,7 @@ if [ $# -eq 0 ]; then
 	# Output to rofi, history of commands
 	tac "${HISTORY_FILE}"
 else
-	# Add command to history and execute it
-	command=$(echo "$@" | sed -e 's/\(\[\|\]\)/\\&/g')
-	sed -i "/$command/d" "${HISTORY_FILE}"
-	echo "$@" >> "${HISTORY_FILE}"
-	while [[ $(wc -l "${HISTORY_FILE}") -gt ${MAX_HISTORY_SIZE} ]]; do
-		sed -i 1d "${HISTORY_FILE}"
-	done
-    i3-msg $@ > /dev/null
+	history_add $@
+	history_trunc
+    i3-msg "$@" > /dev/null
 fi
