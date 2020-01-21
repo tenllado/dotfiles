@@ -25,3 +25,6 @@
 [submodule "config/nvim/pack/vim-themes/start/vim-themes"]
 	path = config/nvim/pack/vim-themes/start/vim-themes
 	url = https://github.com/mswift42/vim-themes
+[submodule "config/nvim/pack/vim-colors-pencil/start/vim-colors-pencil"]
+	path = config/nvim/pack/vim-colors-pencil/start/vim-colors-pencil
+	url = https://github.com/reedes/vim-colors-pencil
