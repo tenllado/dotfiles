@@ -91,18 +91,11 @@ URxvt.url-select.underline: true
 
 ! ---------------------------- Colors -------------------------------
 
-!! PaperColor Theme light
+!! PaperColor Theme
 !URxvt*cursorColor: #4D4D4C
 !URxvt*pointerColor: #4D4D4C
 !URxvt.foreground: #4D4D4C
 !URxvt.background: #EEEEEE
-
-!! Modified PaperColor Theme
-!URxvt.cursorColor: #000000
-!URxvt.pointerColor: #000000
-!URxvt.foreground: #000000
-!URxvt.background: #ffffff
-!URxvt.borderColor: #ffffff
 !
 !! Paper Color Palette
 !! black
@@ -129,65 +122,6 @@ URxvt.url-select.underline: true
 !! white
 !URxvt.color7: #4D4D4C
 !URxvt.color15: #F5F5F5
-
-! Selenized white color palette for urxvt.
-!URxvt*background:  #ffffff
-!!URxvt*foreground:  #474747
-!URxvt*foreground:  #000000
-!
-!! normal colors: "black", red, green, yellow, blue, magenta, cyan, "white"
-!URxvt*color0:      #ebebeb
-!URxvt*color1:      #d6000c
-!URxvt*color2:      #1d9700
-!URxvt*color3:      #c49700
-!URxvt*color4:      #0064e4
-!URxvt*color5:      #dd0f9d
-!URxvt*color6:      #00ad9c
-!URxvt*color7:      #878787
-!
-!! bright/bold versions of colors (in the same order)
-!URxvt*color8:      #cdcdcd
-!URxvt*color9:      #bf0000
-!URxvt*color10:     #008400
-!URxvt*color11:     #af8500
-!URxvt*color12:     #0054cf
-!URxvt*color13:     #c7008b
-!URxvt*color14:     #009a8a
-!URxvt*color15:     #282828
-
-!! Modified version of the gnome-terminal linux palette
-!URxvt*foreground: #000000
-!URxvt*background: #ffffff
-!! Linux palette from gnome-terminal
-!! black
-!URxvt*color0  : #000000
-!URxvt*color8  : #555555
-!! red
-!URxvt*color1  : #aa0000
-!URxvt*color9  : #ff5555
-!! green
-!!URxvt*color2  : #00aa00
-!!URxvt*color10 : #55ff55
-!URxvt*color2   : #008800
-!URxvt*color10  : #22bb22
-!! yellow
-!URxvt*color3  : #aa5500
-!!URxvt*color11 : #ffff55
-!URxvt*color11 : #EDBC1D
-!! blue
-!URxvt*color4  : #0000aa
-!URxvt*color12 : #5555ff
-!! magenta
-!URxvt*color5  : #aa00aa
-!URxvt*color13 : #ff55ff
-!! cyan
-!!URxvt*color6  : #00aaaa
-!!URxvt*color14 : #55ffff
-!URxvt*color6  : #027d7d
-!URxvt*color14 : #40bbbb
-!! white
-!URxvt*color7  : #aaaaaa
-!URxvt*color15 : #ffffff
 
 ! Color Scheme: simple
 ! My colorscheme: based on OSX Basic palette for white background with some

@@ -4,32 +4,36 @@ let maplocalleader = "+"
 set nocompatible
 filetype indent plugin on
 syntax enable
-
-" Detect the bg color works on xterm-compatible terminals
-"set bg&
-"might try something like this for gnome-terminal? let g:termbg = system('
-if has('nvim')
-	set bg=light
-else
-	set t_Co=256 " gnome-terminal needs this
-endif
 " }}}
 
+
 " Colorscheme -------------------------------------------------------------- {{{
-let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default': {
-  \       'transparent_background': 1,
-  \       'allow_bold': 1
-  \     },
-  \   	'default.light': {
-  \        'override' : {
-  \		      'color07': ['#000000','']
-  \			}
-  \     }
-  \   }
-  \ }
-"colorscheme default
+set bg=light
+if has('gui_running')
+	let g:PaperColor_Theme_Options = {
+	  \   'theme': {
+	  \     'default': {
+	  \       'allow_bold': 0
+	  \     },
+	  \   }
+	  \ }
+else
+	let g:PaperColor_Theme_Options = {
+	  \   'theme': {
+	  \     'default': {
+	  \       'transparent_background': 1,
+	  \       'allow_bold': 0
+	  \     },
+	  \   }
+	  \ }
+endif
+
+""  \   	'default.light': {
+""  \        'override' : {
+""  \		      'color07': ['#000000','']
+""  \			}
+""  \     }
+
 colorscheme PaperColor
 highlight clear SpellBad
 highlight SpellBad cterm=underline
