@@ -28,3 +28,6 @@
 [submodule "config/nvim/pack/vim-colors-pencil/start/vim-colors-pencil"]
 	path = config/nvim/pack/vim-colors-pencil/start/vim-colors-pencil
 	url = https://github.com/reedes/vim-colors-pencil
+[submodule "config/nvim/pack/vim-github-colorscheme/start/vim-github-colorscheme"]
+	path = config/nvim/pack/vim-github-colorscheme/start/vim-github-colorscheme
+	url = https://github.com/endel/vim-github-colorscheme
