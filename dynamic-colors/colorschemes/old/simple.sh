@@ -28,4 +28,4 @@ color6="#00a6b2"
 color14="#00c6d2"
 #white
 color7="#bfbfbf"
-color15="#e5e5e5"
+color15="#ffffff"
