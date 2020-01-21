@@ -22,3 +22,6 @@
 [submodule "config/nvim/pack/winresizer/start/winresizer"]
 	path = config/nvim/pack/winresizer/start/winresizer
 	url = https://github.com/simeji/winresizer
+[submodule "config/nvim/pack/vim-themes/start/vim-themes"]
+	path = config/nvim/pack/vim-themes/start/vim-themes
+	url = https://github.com/mswift42/vim-themes
