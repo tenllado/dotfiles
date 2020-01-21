@@ -7,3 +7,6 @@
 [submodule "config/nvim/pack/papercolor-theme/start/papercolor-theme"]
 	path = config/nvim/pack/papercolor-theme/start/papercolor-theme
 	url = https://github.com/NLKNguyen/papercolor-theme.git
+[submodule "config/nvim/pack/vim-surround/start/vim-surround"]
+	path = config/nvim/pack/vim-surround/start/vim-surround
+	url = https://github.com/tpope/vim-surround.git
