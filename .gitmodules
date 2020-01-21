@@ -10,3 +10,6 @@
 [submodule "config/nvim/pack/vim-surround/start/vim-surround"]
 	path = config/nvim/pack/vim-surround/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule "config/nvim/pack/vim-fugitive/start/vim-fugitive"]
+	path = config/nvim/pack/vim-fugitive/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
