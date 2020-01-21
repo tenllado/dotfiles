@@ -4,3 +4,6 @@
 [submodule "urxvt/ext/urxvt-font-size"]
 	path = urxvt/ext/urxvt-font-size
 	url = https://github.com/majutsushi/urxvt-font-size.git
+[submodule "config/nvim/pack/papercolor-theme/start/papercolor-theme"]
+	path = config/nvim/pack/papercolor-theme/start/papercolor-theme
+	url = https://github.com/NLKNguyen/papercolor-theme.git
