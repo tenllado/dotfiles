@@ -13,3 +13,6 @@
 [submodule "config/nvim/pack/vim-fugitive/start/vim-fugitive"]
 	path = config/nvim/pack/vim-fugitive/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "config/nvim/pack/vim-octave/start/vim-octave"]
+	path = config/nvim/pack/vim-octave/start/vim-octave
+	url = https://github.com/jvirtanen/vim-octave
