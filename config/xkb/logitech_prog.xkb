@@ -1178,7 +1178,7 @@ xkb_compatibility "complete" {
     };
 };
 
-xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(lalt_esc)+prog(rwin_esc)" {
+xkb_symbols "pc+es+inet(evdev)+capslock(escape)+prog(rwin_esc)+prog(progmap)" {
 
     name[group1]="Spanish";
 
@@ -1274,15 +1274,15 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(
         symbols[Group1]= [               p,               P,           thorn,           THORN ]
     };
     key <AD11> {
-        type= "TWO_LEVEL",
-        symbols[Group1]= [     bracketleft,       braceleft ]
+        type= "FOUR_LEVEL",
+        symbols[Group1]= [           grave,     asciicircum,     bracketleft,     bracketleft ]
     };
     key <AD12> {
-        type= "TWO_LEVEL",
-        symbols[Group1]= [    bracketright,      braceright ]
+        type= "FOUR_LEVEL",
+        symbols[Group1]= [            plus,        asterisk,    bracketright,     dead_macron ]
     };
     key <RTRN> {         [          Return ] };
-    key <LCTL> {         [           Alt_L,          Meta_L ] };
+    key <LCTL> {         [       Control_L ] };
     key <AC01> {
         type= "FOUR_LEVEL_ALPHABETIC",
         symbols[Group1]= [               a,               A,              ae,              AE ]
@@ -1325,7 +1325,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(
     };
     key <AC11> {
         type= "FOUR_LEVEL",
-        symbols[Group1]= [      dead_acute,           grave,  dead_diaeresis,  dead_diaeresis ]
+        symbols[Group1]= [      dead_acute,  dead_diaeresis,       braceleft,       braceleft ]
     };
     key <TLDE> {
         type= "FOUR_LEVEL",
@@ -1333,8 +1333,8 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(
     };
     key <LFSH> {         [         Shift_L ] };
     key <BKSL> {
-        type= "FOUR_LEVEL",
-        symbols[Group1]= [            plus,        asterisk,     asciicircum,     dead_macron ]
+        type= "FOUR_LEVEL_SEMIALPHABETIC",
+        symbols[Group1]= [        ccedilla,        Ccedilla,      braceright,      dead_breve ]
     };
     key <AB01> {
         type= "FOUR_LEVEL_SEMIALPHABETIC",
@@ -1381,9 +1381,9 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(
         type= "CTRL+ALT",
         symbols[Group1]= [     KP_Multiply,     KP_Multiply,     KP_Multiply,     KP_Multiply,   XF86ClearGrab ]
     };
-    key <LALT> {         [          Escape,          Meta_L ] };
+    key <LALT> {         [           Alt_L,          Meta_L ] };
     key <SPCE> {         [           space ] };
-    key <CAPS> {         [       Control_L,       Control_L ] };
+    key <CAPS> {         [          Escape ] };
     key <FK01> {
         type= "CTRL+ALT",
         symbols[Group1]= [              F1,              F1,              F1,              F1, XF86Switch_VT_1 ]
@@ -1608,10 +1608,10 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)+prog(lctrl_lalt)+prog(
     key <I246> {         [        XF86WLAN ] };
     key <I254> {         [        XF86WWAN ] };
     key <I255> {         [      XF86RFKill ] };
-    modifier_map Mod1 { <LCTL> };
+    modifier_map Control { <LCTL> };
     modifier_map Shift { <LFSH> };
     modifier_map Shift { <RTSH> };
-    modifier_map Control { <CAPS> };
+    modifier_map Mod1 { <LALT> };
     modifier_map Mod2 { <NMLK> };
     modifier_map Mod5 { <LVL3> };
     modifier_map Control { <RCTL> };
