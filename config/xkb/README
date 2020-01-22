@@ -1,0 +1,20 @@
+To create the xkb files for the keyboards
+
+xkbcomp -xkb -I. keymap/laptop_prog
+xkbcomp -xkb -I. keymap/logitech_prog
+
+To load the keyboard maps
+
+- for logitech: (using the daemon it should be done automatically on plug in, see
+the scripts in local/bin)
+
+usbkbd_ids=$(xinput -list | grep "USB Multimedia Keyboard" | \
+	awk -F'=' '{print $2}' | cut -c 1-2)
+
+for id in ${usbkbd_ids}; do
+	xkbcomp -w 0 -i $id $HOME/.config/xkb/logitech_prog.xkb $DISPLAY > /dev/null 2>&1
+done
+
+- for laptop, set this in ~/.profile
+
+	xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
