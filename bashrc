@@ -75,10 +75,25 @@ set_window_title() {
 			echo -ne "\033]0;$(pwd)${__git_branch}\007";;
 	esac
 }
+
+set_window_title_command() {
+	[ -n "$COMP_LINE" ] && return  # do nothing if completing
+    [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return #and for $PROMPT_COMMAND
+
+	case "$TERM" in
+		xterm*|*rxvt*)
+			local this_command=$(history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//")
+			echo -ne "\033]0;${this_command}\007";;
+	esac
+}
+
 PROMPT_COMMAND=set_window_title
 #PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\$(__git_ps1 \" (%s)\")${RCol}]\n$ "
 PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\${__git_branch}${RCol}]\n$ "
 
+# This changes the terminal title with the command being executed, 
+#trap 'echo -e "\e]0;$BASH_COMMAND\007"' DEBUG
+#PS0='$(set_window_title_command)'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
