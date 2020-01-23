@@ -56,38 +56,29 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+
 source ~/.git-prompt.sh
 
-# Define prompt with a function, easiar to read for 
-# complex prompts
-PROMPT_COMMAND=__prompt_command 
+RCol='\[\e[0m\]'
+Red='\[\e[0;31m\]'
+BRed='\[\e[1;31m\]'
+Gre='\[\e[0;32m\]'
+BYel='\[\e[1;33m\]'
+BBlu='\[\e[1;34m\]'
+Pur='\[\e[0;35m\]'
+BPur='\[\e[1;35m\]'
 
-__prompt_command() {
-	local EXIT="$?"
-	PS1=""
-
-	local RCol='\[\e[0m\]'
-	local Red='\[\e[0;31m\]'
-	local BRed='\[\e[1;31m\]'
-	local Gre='\[\e[0;32m\]'
-	local BYel='\[\e[1;33m\]'
-	local BBlu='\[\e[1;34m\]'
-	local Pur='\[\e[0;35m\]'
-	local BPur='\[\e[1;35m\]'
-
-
-	local branch=$(__git_ps1 " (%s)")
-#	# Set the title for xterm or [u]rxvt
-#	case "$TERM" in
-#		xterm*|*rxvt*) echo -ne "\033]0;$(pwd)\007";;
-#	esac
-	PS1+="[${BBlu}\w${BRed}${branch}${RCol}]\n"
-	if [ $EXIT != 0 ]; then
-		PS1+="${Red}[$EXIT]${RCol}$ "
-	else
-		PS1+="$ "
-	fi
+set_window_title() {
+	__git_branch=$(__git_ps1 " (%s)")
+	case "$TERM" in
+		xterm*|*rxvt*)
+			echo -ne "\033]0;$(pwd)${__git_branch}\007";;
+	esac
 }
+PROMPT_COMMAND=set_window_title
+#PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\$(__git_ps1 \" (%s)\")${RCol}]\n$ "
+PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\${__git_branch}${RCol}]\n$ "
+
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -144,13 +135,13 @@ export PAGER=less
 
 # set last scheme using dynamic-colors extension on urxvt
 case "$TERM" in
-    rxvt-*) 
+    rxvt-*)
 		if [ -x "$HOME/.dynamic-colors/bin/dynamic-colors" ]; then
 			$HOME/.dynamic-colors/bin/dynamic-colors init
 		fi
 		export PATH=$PATH:$HOME/.dynamic-colors/bin/
 		#set TERMCMD
-		export TERMCMD=urxvt
+		export TERMCMD=urxvt;;
 esac
 
 # for termite terminal support for Shift+Ctrl+t open terminal here
