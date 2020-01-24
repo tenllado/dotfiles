@@ -6,7 +6,6 @@ filetype indent plugin on
 syntax enable
 " }}}
 
-
 " Colorscheme -------------------------------------------------------------- {{{
 set bg=light
 if has('gui_running')
@@ -49,9 +48,11 @@ if has('mouse')
 endif
 
 if has('gui_running')
-	" I don't want a toolbar
-	set guioptions -=T
-	"set guioptions -=m
+	set guioptions-=T
+	set guioptions-=m
+	set guioptions+=e
+	set t_Co=256
+	set guitablabel=%M\ %t
 endif
 
 " Search down into subfolders, with tab-completion for all file operations
@@ -60,6 +61,7 @@ set wildignore=*.o,*.obj,*.pdf,*.ps,*.eps,*.jpg,*.png
 " Display all matching files when tab complete
 set wildmenu
 set autoindent
+set smarttab
 set hlsearch
 set incsearch
 set number
@@ -67,7 +69,18 @@ set relativenumber
 set showcmd
 set encoding=utf-8
 set backspace=indent,eol,start
+set whichwrap+=<,>,h,l
 set wrap linebreak nolist
+set showmode
+" minimum context lines to keep when moving up down
+set so=5
+" a buffer becomes hidden when it is abandoned
+set hidden
+set ignorecase
+set smartcase
+set nobackup
+set nowritebackup
+set noswapfile
 
 " Indent options for c code
 " :0 -> 0 indent for case labels
@@ -76,7 +89,7 @@ set cinoptions=:0
 " For indentation:
 "    tabstop, shiftwidth and expandtab
 "    check also softtabstop
-set ts=4 sw=4 noexpandtab
+set tabstop=4 shiftwidth=4 noexpandtab
 
 " Paragraph formating: see :help fo-table
 "    not sure for:
