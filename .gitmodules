@@ -4,3 +4,21 @@
 [submodule "urxvt/ext/urxvt-font-size"]
 	path = urxvt/ext/urxvt-font-size
 	url = https://github.com/majutsushi/urxvt-font-size.git
+[submodule "config/nvim/pack/plugins/start/papercolor-theme"]
+	path = config/nvim/pack/plugins/start/papercolor-theme
+	url = https://github.com/NLKNguyen/papercolor-theme.git
+[submodule "config/nvim/pack/plugins/start/vim-surround"]
+	path = config/nvim/pack/plugins/start/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "config/nvim/pack/plugins/start/vim-fugitive"]
+	path = config/nvim/pack/plugins/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "config/nvim/pack/plugins/start/vim-octave"]
+	path = config/nvim/pack/plugins/start/vim-octave
+	url = https://github.com/jvirtanen/vim-octave
+[submodule "config/nvim/pack/plugins/start/vimwiki"]
+	path = config/nvim/pack/plugins/start/vimwiki
+	url = https://github.com/vimwiki/vimwiki
+[submodule "config/nvim/pack/plugins/start/winresizer"]
+	path = config/nvim/pack/plugins/start/winresizer
+	url = https://github.com/simeji/winresizer
