@@ -4,30 +4,3 @@
 [submodule "urxvt/ext/urxvt-font-size"]
 	path = urxvt/ext/urxvt-font-size
 	url = https://github.com/majutsushi/urxvt-font-size.git
-[submodule "config/nvim/pack/papercolor-theme/start/papercolor-theme"]
-	path = config/nvim/pack/papercolor-theme/start/papercolor-theme
-	url = https://github.com/NLKNguyen/papercolor-theme.git
-[submodule "config/nvim/pack/vim-surround/start/vim-surround"]
-	path = config/nvim/pack/vim-surround/start/vim-surround
-	url = https://github.com/tpope/vim-surround.git
-[submodule "config/nvim/pack/vim-fugitive/start/vim-fugitive"]
-	path = config/nvim/pack/vim-fugitive/start/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
-[submodule "config/nvim/pack/vim-octave/start/vim-octave"]
-	path = config/nvim/pack/vim-octave/start/vim-octave
-	url = https://github.com/jvirtanen/vim-octave
-[submodule "config/nvim/pack/vimwiki/start/vimwiki"]
-	path = config/nvim/pack/vimwiki/start/vimwiki
-	url = https://github.com/vimwiki/vimwiki
-[submodule "config/nvim/pack/winresizer/start/winresizer"]
-	path = config/nvim/pack/winresizer/start/winresizer
-	url = https://github.com/simeji/winresizer
-[submodule "config/nvim/pack/vim-themes/start/vim-themes"]
-	path = config/nvim/pack/vim-themes/start/vim-themes
-	url = https://github.com/mswift42/vim-themes
-[submodule "config/nvim/pack/vim-colors-pencil/start/vim-colors-pencil"]
-	path = config/nvim/pack/vim-colors-pencil/start/vim-colors-pencil
-	url = https://github.com/reedes/vim-colors-pencil
-[submodule "config/nvim/pack/vim-github-colorscheme/start/vim-github-colorscheme"]
-	path = config/nvim/pack/vim-github-colorscheme/start/vim-github-colorscheme
-	url = https://github.com/endel/vim-github-colorscheme
