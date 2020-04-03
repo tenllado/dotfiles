@@ -168,9 +168,9 @@ class sxivmark(Command):
         sel = subprocess.run(["sxiv", "-to", cwd.path], stdout=subprocess.PIPE)
         paths = sel.stdout.decode('utf-8').split()
         files = [os.path.basename(f) for f in paths]
-        for fobj in cwd.files:
-            if fobj.basename in files:
-                if toggle:
-                    cwd.toggle_mark(fobj)
-                else:
-                    cwd.mark_item(fobj, val)
+        fobjs = [f for f in cwd.files if f.basename in files]
+        for fobj in fobjs:
+            if toggle:
+                cwd.toggle_mark(fobj)
+            else:
+                cwd.mark_item(fobj, val)
