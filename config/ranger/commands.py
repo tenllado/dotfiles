@@ -12,6 +12,7 @@ from ranger.api.commands import *
 
 # You can import any python module as needed.
 import os
+import subprocess
 
 # Any class that is a subclass of "Command" will be integrated into ranger as a
 # command.  Try typing ":my_edit<ENTER>" in ranger!
@@ -148,3 +149,28 @@ class compress(Command):
         """ Complete with current folder name """
         extension = ['.zip', '.tar.gz', '.rar', '.7z']
         return ['compress ' + os.path.basename(self.fm.thisdir.path) + ext for ext in extension]
+
+class sxivmark(Command):
+    """ Use sxiv to mark, unmark or toggle mark image files. Requieres sxiv
+        to be installed. By default files are marked. """
+    def execute(self):
+        toggle = False
+        val = True
+        if self.arg(1) == "toggle":
+            toggle = True
+        elif self.arg(1) == "unmark":
+            val = False
+        elif self.arg(1) and self.arg(1) != "mark":
+            self.fm.notify('Wrong argument: ' + self.arg(1), bad=True)
+            return
+
+        cwd = self.fm.thisdir
+        sel = subprocess.run(["sxiv", "-to", cwd.path], stdout=subprocess.PIPE)
+        paths = sel.stdout.decode('utf-8').split()
+        files = [os.path.basename(f) for f in paths]
+        for fobj in cwd.files:
+            if fobj.basename in files:
+                if toggle:
+                    cwd.toggle_mark(fobj)
+                else:
+                    cwd.mark_item(fobj, val)
