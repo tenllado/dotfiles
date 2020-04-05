@@ -56,6 +56,10 @@ label=
 markup=pango
 interval=10
 signal=3
+separator=false
+
+[brightness]
+interval=1
 
 # Disk usage
 #
@@ -72,7 +76,6 @@ interval=30
 
 [wifi]
 label=
-#use command with solarized colors
 instance=wlp58s0
 interval=10
 #separator=false
