@@ -101,7 +101,7 @@ default_floating_border pixel 2
 # remove borders when only one window is open
 hide_edge_borders smart
 for_window [class=".*"] border pixel 2
-for_window [class=".*" tiling] border normal
+#for_window [class=".*" tiling] border normal
 
 # Floating windows (use xprop, class is second part of WM_CLASS)
 for_window [class="^HTMaiL-View$"] floating enable

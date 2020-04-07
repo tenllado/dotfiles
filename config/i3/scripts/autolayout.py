@@ -73,7 +73,7 @@
 from i3ipc import Connection
 
 def get_insert_mark(wsp):
-    return 'w{}_insert'.format(wsp.name)
+    return '_w{}_insert'.format(wsp.name)
 
 def format_and_mark(con):
     mark = get_insert_mark(con.workspace())
