@@ -101,6 +101,7 @@ default_floating_border pixel 2
 # remove borders when only one window is open
 hide_edge_borders smart
 for_window [class=".*"] border pixel 2
+for_window [class=".*" tiling] border normal
 
 # Floating windows (use xprop, class is second part of WM_CLASS)
 for_window [class="^HTMaiL-View$"] floating enable
@@ -416,6 +417,13 @@ exec_always --no-startup-id \
 # Needs the i3ipc-python library
 exec_always --no-startup-id \
 	~/.config/i3/scripts/disable-standby-fs.py $dpms_sb $dpms_sig
+
+# Kind of automate layout for two columns, new windows automatically open on the
+# second column. It does not restore modifications you perform on layout, if you
+# move windows to have three columns, it will still insert new ones on the
+# second
+# Needs the i3ipc python library
+exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # xss-lock to lock on screen saver event ($dmps_sb) and on suspend
 exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
