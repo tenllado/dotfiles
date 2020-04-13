@@ -25,3 +25,6 @@
 [submodule "config/nvim/pack/plugins/start/calendar-vim"]
 	path = config/nvim/pack/plugins/start/calendar-vim
 	url = https://github.com/mattn/calendar-vim.git
+[submodule "config/nvim/pack/plugins/start/vim-lucius"]
+	path = config/nvim/pack/plugins/start/vim-lucius
+	url = https://github.com/jonathanfilip/vim-lucius.git
