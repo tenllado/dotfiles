@@ -6,7 +6,7 @@ foreground="#000000"
 background="#ffffff"
 border="#ffffff"
 # black
-color0="#D0D0D0"
+color0="#ffffff"
 color8="#737373"
 # red
 color1="#D7005F"

@@ -1,8 +1,12 @@
 # Paper Color colorscheme "light"
 
-cursorColor="#000000"
-pointerColor="#000000"
-foreground="#000000"
+
+#this sets up sharper black foreground
+foreground="#4D4D4C"
+#same for cursor and pointer
+cursorColor="#4D4D4C"
+pointerColor="#4D4D4C"
+
 background="#EEEEEE"
 border="#EEEEEE"
 # black
