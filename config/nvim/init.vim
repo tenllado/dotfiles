@@ -8,6 +8,10 @@ syntax enable
 
 " Colorscheme -------------------------------------------------------------- {{{
 set bg=light
+if $COLORTERM == 'truecolor'
+	set termguicolors
+endif
+
 if has('gui_running')
 	let g:PaperColor_Theme_Options = {
 	  \   'theme': {
@@ -33,7 +37,8 @@ endif
 ""  \			}
 ""  \     }
 
-colorscheme PaperColor
+"colorscheme PaperColor
+colorscheme lucius
 highlight clear SpellBad
 highlight SpellBad cterm=underline
 
@@ -320,6 +325,10 @@ inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")
 inoremap <expr> "  strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
 inoremap <expr> '  strpart(getline('.'), col('.')-1, 1) == "'" ? "\<Right>" : "''\<Left>"
 
+"insert date
+nnoremap <F5> "=strftime("%F")<CR>P
+inoremap <F5> <C-R>=strftime("%F")<CR>
+
 " }}}
 
 " Operator pending mappings ------------------------------- {{{
@@ -413,8 +422,10 @@ augroup END
 " latex file settings ------------------------------------- {{{
 augroup filetype_tex
 	autocmd!
-	autocmd FileType tex setlocal ts=2 sw=2 expandtab spell fo+=aw
-	autocmd FileType tex setlocal wildignore+=*.aux,*.log,*.nav,*.out,*.snm,*.toc,*.vrb
+    autocmd BufNewFile,BufRead *.cls set filetype=tex
+"	autocmd FileType tex setlocal ts=2 sw=2 expandtab spell fo+=aw
+	autocmd FileType tex setlocal ts=2 sw=2 expandtab spell fo+=w
+	autocmd FileType tex setlocal wildignore+=*.aux,*.log,*.nav,*.out,*.snm,*.toc,*.vrb,*.bcf
 	autocmd FileType tex nnoremap <buffer> <leader>k viw<esc>a}<esc>bi\emph{<esc>
 "}
 	autocmd FileType tex vnoremap <buffer> <leader>k <esc>`>a}<esc>`<i\emph{<esc>
