@@ -22,3 +22,6 @@
 [submodule "config/nvim/pack/plugins/start/winresizer"]
 	path = config/nvim/pack/plugins/start/winresizer
 	url = https://github.com/simeji/winresizer
+[submodule "config/nvim/pack/plugins/start/calendar-vim"]
+	path = config/nvim/pack/plugins/start/calendar-vim
+	url = https://github.com/mattn/calendar-vim.git
