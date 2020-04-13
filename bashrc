@@ -71,7 +71,7 @@ BPur='\[\e[1;35m\]'
 set_window_title() {
 	__git_branch=$(__git_ps1 " (%s)")
 	case "$TERM" in
-		xterm*|*rxvt*)
+		xterm*|*rxvt*|st*)
 			echo -ne "\033]0;$(pwd)${__git_branch}\007";;
 	esac
 }
