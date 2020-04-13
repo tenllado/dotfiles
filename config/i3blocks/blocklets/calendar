@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 WIDTH=${WIDTH:-200}
 HEIGHT=${HEIGHT:-200}
