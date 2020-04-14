@@ -1178,7 +1178,7 @@ xkb_compatibility "complete" {
     };
 };
 
-xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(rctrl_esc)+prog(progmap)" {
+xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)" {
 
     name[group1]="Spanish";
 
@@ -1467,7 +1467,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(rctrl_esc)+prog(progmap)" {
     key <HKTG> {         [ Hiragana_Katakana ] };
     key <MUHE> {         [        Muhenkan ] };
     key <KPEN> {         [        KP_Enter ] };
-    key <RCTL> {         [          Escape ] };
+    key <RCTL> {         [       Control_R ] };
     key <KPDV> {
         type= "CTRL+ALT",
         symbols[Group1]= [       KP_Divide,       KP_Divide,       KP_Divide,       KP_Divide,      XF86Ungrab ]
@@ -1615,6 +1615,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(rctrl_esc)+prog(progmap)" {
     modifier_map Control { <CAPS> };
     modifier_map Mod2 { <NMLK> };
     modifier_map Mod5 { <LVL3> };
+    modifier_map Control { <RCTL> };
     modifier_map Mod4 { <LWIN> };
     modifier_map Mod4 { <RWIN> };
     modifier_map Mod5 { <MDSW> };

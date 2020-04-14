@@ -1178,7 +1178,7 @@ xkb_compatibility "complete" {
     };
 };
 
-xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(rwin_esc)+prog(progmap)" {
+xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(progmap)" {
 
     name[group1]="Spanish";
 
@@ -1506,7 +1506,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(rwin_esc)+prog(progmap)" {
     key <HNGL> {         [          Hangul ] };
     key <HJCV> {         [    Hangul_Hanja ] };
     key <LWIN> {         [         Super_L ] };
-    key <RWIN> {         [          Escape ] };
+    key <RWIN> {         [         Super_R ] };
     key <COMP> {         [            Menu ] };
     key <STOP> {         [          Cancel ] };
     key <AGAI> {         [            Redo ] };
@@ -1617,6 +1617,7 @@ xkb_symbols "pc+es+inet(evdev)+ctrl(nocaps)+prog(rwin_esc)+prog(progmap)" {
     modifier_map Mod5 { <LVL3> };
     modifier_map Control { <RCTL> };
     modifier_map Mod4 { <LWIN> };
+    modifier_map Mod4 { <RWIN> };
     modifier_map Mod5 { <MDSW> };
     modifier_map Mod1 { <META> };
     modifier_map Mod4 { <SUPR> };
