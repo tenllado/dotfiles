@@ -17,7 +17,7 @@ while getopts c:k:Nh opt; do
         c) PENDING_COLOR="$OPTARG" ;;
         N) ALWAYS_PRINT=0 ;;
         h) printf \
-"Usage: fwupdates [-c signal] [-N] [-h]
+"Usage: fwupdates [-c color] -k signal [-N] [-h]
 Options:
 -k\tCheck fw updates and signal i3blocks
 -c\tColor when upgrade is pending. Default:  #00FF00
