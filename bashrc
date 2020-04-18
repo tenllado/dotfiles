@@ -81,7 +81,7 @@ set_window_title_command() {
     [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return #and for $PROMPT_COMMAND
 
 	case "$TERM" in
-		xterm*|*rxvt*)
+		xterm*|*rxvt*|st*)
 			local this_command=$(history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//")
 			echo -ne "\033]0;${this_command}\007";;
 	esac
@@ -155,8 +155,12 @@ case "$TERM" in
 			$HOME/.dynamic-colors/bin/dynamic-colors init
 		fi
 		export PATH=$PATH:$HOME/.dynamic-colors/bin/
-		#set TERMCMD
-		export TERMCMD=urxvt;;
+esac
+
+#enable DEL for st
+case "$TERM" in
+	st*)
+		tput smkx
 esac
 
 # for termite terminal support for Shift+Ctrl+t open terminal here
