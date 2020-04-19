@@ -89,7 +89,7 @@ set_window_title_command() {
 
 PROMPT_COMMAND=set_window_title
 #PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\$(__git_ps1 \" (%s)\")${RCol}]\n$ "
-PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\${__git_branch}${RCol}]\n$ "
+PS1="[${BBlu}\w${BRed}${branch}${RCol}${BRed}\${__git_branch}${RCol}]\n$ "
 
 # This changes the terminal title with the command being executed, 
 #trap 'echo -e "\e]0;$BASH_COMMAND\007"' DEBUG
@@ -148,9 +148,11 @@ export PAGER=less
 # set vi mode in bash
 #set -o vi
 
-# set last scheme using dynamic-colors extension on urxvt
+# set last color scheme using dynamic-colors
+#  - urxvt
+#  - st (must be patched to work)
 case "$TERM" in
-    rxvt-*)
+    rxvt-*|st*)
 		if [ -x "$HOME/.dynamic-colors/bin/dynamic-colors" ]; then
 			$HOME/.dynamic-colors/bin/dynamic-colors init
 		fi
