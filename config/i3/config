@@ -96,7 +96,7 @@ mouse_warping output
 #assign [title="DS PDF Viewer - Audience Window"] 3
 #assign [title="DS PDF Viewer - Secondary Window"] 4
 
-default_border pixel 2
+default_border pixel 1
 default_floating_border pixel 2
 # remove borders when only one window is open
 hide_edge_borders smart

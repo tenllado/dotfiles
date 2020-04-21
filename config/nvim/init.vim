@@ -39,8 +39,8 @@ endif
 
 "colorscheme PaperColor
 colorscheme lucius
-highlight clear SpellBad
-highlight SpellBad cterm=underline
+"highlight clear SpellBad
+"highlight SpellBad cterm=underline
 
 " highlight the 81 column
 set colorcolumn=81
@@ -78,7 +78,7 @@ set whichwrap+=<,>,h,l
 set wrap linebreak nolist
 set showmode
 " minimum context lines to keep when moving up down
-set so=5
+"set so=5
 " a buffer becomes hidden when it is abandoned
 set hidden
 set ignorecase
@@ -384,6 +384,13 @@ augroup trailspace
 augroup END
 " }}}
 
+" Default Folding configuration ------------------------------ {{{
+augroup foldingconf
+	autocmd!
+	autocmd Syntax perl normal zR
+augroup END
+" }}}
+
 " c/c++ file setttings ------------------------------------------- {{{
 
 func! Eatchar(pat)
@@ -395,17 +402,18 @@ endfunc
 " tip in https://vim.fandom.com/wiki/C/C%2B%2B_function_abbreviations
 augroup filetype_c
 	autocmd!
-	autocmd FileType c nnoremap <buffer> <localleader>c I//<esc>
-	autocmd FileType c vnoremap <buffer> <localleader>c <esc>`<O/*<esc>`>o*/<esc>
-	autocmd FileType c iabbrev <buffer> #d #define
-	autocmd FileType c iabbrev <buffer> #i #include
-	autocmd FileType c iabbrev <buffer> if if ()<left><C-R>=Eatchar('\s')<CR>
-	autocmd FileType c iabbrev <buffer> for for ()<left><C-R>=Eatchar('\s')<CR>
-	autocmd FileType c iabbrev <buffer> while while ()<left><C-R>=Eatchar('\s')<CR>
-	autocmd FileType c iabbrev <buffer> main int main(int argc, char *argv[])<cr>{<cr>}<esc>O<C-R>=Eatchar('\s')<CR>
-	autocmd FileType c iabbrev <buffer> { {<CR>}<esc>%a<C-R>=Eatchar('\s')<CR>
+	autocmd FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
+	autocmd FileType c,cpp vnoremap <buffer> <localleader>c <esc>`<O/*<esc>`>o*/<esc>
+	autocmd FileType c,cpp iabbrev <buffer> #d #define
+	autocmd FileType c,cpp iabbrev <buffer> #i #include
+	autocmd FileType c,cpp iabbrev <buffer> if if ()<left><C-R>=Eatchar('\s')<CR>
+	autocmd FileType c,cpp iabbrev <buffer> for for ()<left><C-R>=Eatchar('\s')<CR>
+	autocmd FileType c,cpp iabbrev <buffer> while while ()<left><C-R>=Eatchar('\s')<CR>
+	autocmd FileType c,cpp iabbrev <buffer> main int main(int argc, char *argv[])<cr>{<cr>}<esc>O<C-R>=Eatchar('\s')<CR>
+	autocmd FileType c,cpp iabbrev <buffer> { {<CR>}<esc>%a<C-R>=Eatchar('\s')<CR>
 "}
-	autocmd FileType c setlocal foldmethod=syntax
+	autocmd FileType c,cpp setlocal foldmethod=syntax
+	autocmd FileType c,cpp normal zR
 augroup END
 
 augroup newfile_c
@@ -443,6 +451,7 @@ augroup filetype_python
 	autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
 	autocmd FileType python :iabbrev <buffer> if if:<left>
 	autocmd FileType python setlocal foldmethod=indent
+	autocmd FileType python normal zR
 augroup END
 " }}}
 

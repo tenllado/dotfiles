@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #export TERMCMD=sakura
-export TERMCMD=urxvt
+#export TERMCMD=urxvt
+export TERMCMD=st
 export GTK_THEME=Adwaita
 #export GDK_SCALE=0.75
 #export GDK_DPI_SCALE=0.75
