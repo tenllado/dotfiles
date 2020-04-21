@@ -1,30 +1,51 @@
 #!/bin/bash
 
-delete=0
+delete=1
 program_name=$0
+DFPATH="$(dirname $(realpath $0))"
+
+clean_old() {
+	if [ ${delete} -eq 0 ] && [ ! -L "$1" ]; then
+		mv "$1" "$1.backup"
+	elif [ -f "$1" ] || [ -L "$1" ]; then
+		rm "$1"
+	fi
+}
 
 install_files() {
 	local file
 	while (( $# )); do
 		file="$1"
-
-		if test -e "$HOME/.$file" -a ! -L "$HOME/.$file"; then
-			if [ $delete -eq 0 ]; then
-				mv -Tv "$HOME/.$file" "$HOME/.$file.old"
-			else
-				rm -rfv "$HOME/.$file"
-			fi
+		shift
+		if [ "$file" == "./README" ] || [ "$file" == "./install" ]; then
+			echo "skipping ${file}"
+			continue
 		fi
 
-		ln -sfTv "$PWD/$file" "$HOME/.$file"
-		shift
+		fname=$(basename $file)
+		dname=$(dirname $file)
+
+		if [ "$dname" == "." ]; then
+			clean_old "${HOME}/.${fname}"
+			ln -s "${DFPATH}/$fname" "${HOME}/.${fname}"
+		else
+			dname="${dname#./}"
+			subdirs=($(echo "${dname}" | sed 's/\// /g'))
+			second="${subdirs[0]}/${subdirs[1]}"
+			if [ -L "${HOME}/.${second}" ]; then
+				rm "${HOME}/.${second}"
+			fi
+			clean_old "${HOME}/.${dname}/${fname}"
+			mkdir -p "${HOME}/.${dname}"
+			ln -s "${DFPATH}/${dname}/${fname}" "${HOME}/.${dname}/${fname}"
+		fi
 	done
 }
 
 usage() {
-	echo "$program_name [-d] [-h]"
+	echo "$program_name [-b] [-h]"
 	echo
-	printf "\t-d delete old files instead of creating backups\n"
+	printf "\t-b backup old files instead of deleting them\n"
 	printf "\t-h: shows this help message\n"
 	printf "\n"
 }
@@ -35,8 +56,8 @@ while getopts "dh" o; do
 			usage
 			exit 0
 			;;
-		d)
-			delete=1
+		b)
+			delete=0
             ;;
         *)
             usage
@@ -45,12 +66,10 @@ while getopts "dh" o; do
     esac
 done
 
+pushd "${DFPATH}" > /dev/null
 git submodule update --init
-
-config_files="$(ls -d * | grep -v "config\|local\|README\|install")"
-config_files="$config_files $(ls -d config/*) $(ls -d local/bin/*)"
-
-install_files $config_files
+install_files $(find . -path "./.git*" -prune -o -type f -print)
+popd > /dev/null
 
 # same vim & neovim config files
 ln -sfTv ~/.config/nvim/init.vim ~/.vimrc 
