@@ -128,7 +128,7 @@ show_marks yes
 ################################################################################
 
 # terminal drop down window
-set $spfm urxvt -name spfm -e ranger
+set $spfm st -n spfm -e ranger
 for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
 	move scratchpad
 exec --no-startup-id $spfm
@@ -137,7 +137,7 @@ bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt,\
 bindsym $mod+Shift+u exec --no-startup-id $spfm
 
 # octave terminal as calculator
-set $spmath urxvt -name spmath \
+set $spmath st -n spmath \
 	-fn "xft:DejaVu Sans Mono:pixelsize=24" -e octave --no-gui -q --traditional
 for_window [instance="spmath"] floating enable, resize set 600 px 30 ppt,\
 	move scratchpad
@@ -157,11 +157,10 @@ bindsym $mod+Shift+i exec keepassxc
 ################################################################################
 
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec st
 
 # Open a terminal in the cwd of the focused window
-bindsym $mod+t exec urxvt -cd $(~/.config/i3/scripts/get_cwd)
-#bindsym $mod+t exec sakura --working-directory $(~/.config/i3/scripts/get_cwd)
+bindsym $mod+t exec st -cd $(~/.config/i3/scripts/get_cwd)
 
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show; move position center
@@ -184,10 +183,11 @@ bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-ico
 bindsym $mod+n exec nautilus
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+set $warp exec --no-startup-id ~/.config/i3/scripts/warpmouse
+bindsym $mod+h focus left;$warp
+bindsym $mod+j focus down;$warp
+bindsym $mod+k focus up;$warp
+bindsym $mod+l focus right;$warp
 
 # alternatively, you can use the cursor keys:
 #bindsym $mod+Left focus left
