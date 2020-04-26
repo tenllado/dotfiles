@@ -51,11 +51,17 @@ instance=Master
 interval=2
 signal=10
 
+[mail]
+label=
+command=notmuch search 'tag:inbox and tag:unread' | wc -l;
+interval=once
+signal=3
+
 [dpms]
 label=
 markup=pango
 interval=10
-signal=3
+signal=4
 separator=false
 
 [brightness]

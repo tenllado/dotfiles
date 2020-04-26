@@ -405,7 +405,7 @@ exec --no-startup-id dunst &
 set $dpms_sb   180
 set $dpms_ssb  300
 set $dpms_soff 360
-set $dpms_sig  3
+set $dpms_sig  4
 bindsym $mod+Shift+o exec --no-startup-id \
 	"xset s off; xset -dpms; pkill -RTMIN+$dpms_sig i3blocks"
 bindsym $mod+Control+o exec --no-startup-id \
@@ -423,7 +423,7 @@ exec_always --no-startup-id \
 # move windows to have three columns, it will still insert new ones on the
 # second
 # Needs the i3ipc python library
-exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
+#exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # xss-lock to lock on screen saver event ($dmps_sb) and on suspend
 exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
@@ -467,6 +467,9 @@ exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume'
 
 # polkit
 exec --no-startup-id /usr/lib/policykit-1-gnome/plkit-gnome-authentication-agent-1
+
+# Monitor vdir calendar folders and sync on changes
+exec --no-startup-id $HOME/.config/vdirsyncer/vdirmonitor $HOME/.calendars/ucm
 
 # Compton, gives me lots of stability problems
 #exec --no-startup-id compton
