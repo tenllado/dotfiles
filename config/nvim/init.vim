@@ -329,6 +329,8 @@ inoremap <expr> '  strpart(getline('.'), col('.')-1, 1) == "'" ? "\<Right>" : "'
 nnoremap <F5> "=strftime("%F")<CR>P
 inoremap <F5> <C-R>=strftime("%F")<CR>
 
+nnoremap <S-q> {gq}<Bar>:echo "Rewrapped paragraph"<CR>
+
 " }}}
 
 " Operator pending mappings ------------------------------- {{{
@@ -480,7 +482,7 @@ augroup END
 " mail file settings ------------------------------------- {{{
 augroup filetype_mail
 	autocmd!
-	autocmd FileType mail setlocal tw=72 fo+=aw comments+=nb:>
+	autocmd FileType mail setlocal tw=72 fo+=w comments+=nb:>
 augroup END
 " }}}
 
