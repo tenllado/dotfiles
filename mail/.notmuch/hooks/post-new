@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# trash emails labeled by gmail with promotion and social
+notmuch tag +trash -inbox 'tag:new and (tag:promotions or tag:social)'
+
+# sent not in inbox
+#notmuch tag -inbox -unread 'tag:new and tag:sent and tag:inbox and not (to:ctenllado@gmail.com or to:tenllado@ucm.es)'
+
+# listst
+notmuch tag +suckless 'tag:new and (to:hackers@suckless.org or to:dev@suckless.org)'
+notmuch tag +debian 'tag:new to:debian.org'
+
+notmuch tag -new "tag:new"
+
+if test -n "$(pgrep dwmblocks)"; then
+	pkill -RTMIN+3 dwmblocks
+fi
+
+if test -n "$(pgrep i3blocks)"; then
+	pkill -RTMIN+3 i3blocks
+fi
