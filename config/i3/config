@@ -420,7 +420,7 @@ exec_always --no-startup-id \
 # move windows to have three columns, it will still insert new ones on the
 # second
 # Needs the i3ipc python library
-#exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
+exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # xss-lock to lock on screen saver event ($dmps_sb) and on suspend
 exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
