@@ -69,8 +69,8 @@ is never needed, as msmtp requires the raw token key.
 
 To perform the first step you can do:
 ```
-oauth2 --user=3Dxxx@gmail.com --client_id=3D1038[...].apps.googleusercontent.com \
-	--client_secret=3DVWFn8LIKAMC-MsjBMhJeOplZ --generate_oauth2_token
+oauth2 --user=3Dxxx@gmail.com --client_id=<the client-id> \
+	--client_secret=<the client-secret> --generate_oauth2_token
 ```
 
 The result is the refresh key. The oauth2token script assumes that you have
