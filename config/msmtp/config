@@ -1,0 +1,20 @@
+defaults
+host smtp.gmail.com
+port 587
+protocol smtp
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+account gmail
+auth on
+from ctenllado@gmail.com
+user ctenllado@gmail.com
+passwordeval secret-tool lookup smtp gmail
+
+account ucm
+auth oauthbearer
+from tenllado@ucm.es
+user tenllado@ucm.es
+passwordeval ~/.config/msmtp/oauth2token tenllado@ucm.es ucm
+
+account default : gmail
