@@ -21,27 +21,31 @@ authentication method and use the passwordeval key to run a script that is able
 to generate a valid token for that credential. You can use the outh2token script
 from this repository for the latter. A configuration template for using it is as
 follows:
+```
+defaults
+host smtp.gmail.com
+port 587
+protocol smtp
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
 
-		defaults
-		host smtp.gmail.com
-		port 587
-		protocol smtp
-		tls on
-		tls_trust_file /etc/ssl/certs/ca-certificates.crt
+account <account-name>
+auth oauthbearer
+from <gmail-address>
+user <gmail-address>
+passwordeval ~/.config/msmtp/oauth2token <gmail-address> <att-name>
+```
 
-		account <account-name>
-		auth oauthbearer
-		from <gmail-address>
-		user <gmail-address>
-		passwordeval ~/.config/msmtp/oauth2token <gmail-address> <att-name>
 
 The oauth2token script assumes that you store the client-id, client-secret and
 refresh keys (see below how to obtain them) in the system's keyring, using the
 <att-name> string as attribute name. Once you have them you can store them on
 the keyring with secret-tool:
-		secret-tool store --label=<the-label-you-like> <att-name> client-id
-		secret-tool store --label=<the-label-you-like> <att-name> client-secret
-		secret-tool store --label=<the-label-you-like> <att-name> refresh
+```
+secret-tool store --label=<the-label-you-like> <att-name> client-id
+secret-tool store --label=<the-label-you-like> <att-name> client-secret
+secret-tool store --label=<the-label-you-like> <att-name> refresh
+```
 
 The oauth2token is just a wrapper on the oauth2.py (
 https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py). It
@@ -64,14 +68,17 @@ The second step will be performed by oauth2token when needed, and the third one
 is never needed, as msmtp requires the raw token key.
 
 To perform the first step you can do:
-
-		oauth2 --user=3Dxxx@gmail.com --client_id=3D1038[...].apps.googleusercontent.com \
-			--client_secret=3DVWFn8LIKAMC-MsjBMhJeOplZ --generate_oauth2_token
+```
+oauth2 --user=3Dxxx@gmail.com --client_id=3D1038[...].apps.googleusercontent.com \
+	--client_secret=3DVWFn8LIKAMC-MsjBMhJeOplZ --generate_oauth2_token
+```
 
 The result is the refresh key. The oauth2token script assumes that you have
 stored it in the keyring, so go ahead and run:
 
-		secret-tool store --label=<the-label-you-like> <att-name> refresh
+```
+secret-tool store --label=<the-label-you-like> <att-name> refresh
+```
 
 and you give it the refresh key obtained from the oauth2 script.
 
