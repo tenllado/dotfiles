@@ -6,7 +6,7 @@ floating_modifier $mod
 ################################################################################
 # Aesthetics: font, colors and bar
 ################################################################################
-font pango:DejaVu Sans Mono 11
+font pango:DejaVu Sans Mono 10
 
 # Colors for window decorations and bar
 set $barbg 	#e8e8e7
@@ -39,7 +39,7 @@ bar {
 	mode dock
 	position top
 	#font pango:DejaVu Sans Mono 11
-	font pango:FontAwesome 11
+	font pango:FontAwesome 10
 	workspace_buttons yes
 	# status_command i3status
 	status_command i3blocks
@@ -113,7 +113,8 @@ for_window [class="Nm-connection-editor"] floating enable
 for_window [title="G Alternatives"] floating enable
 
 # Windows to specific workspaces
-assign [class="Firefox-esr"] $ws1
+assign [class="Astroid"] $ws8
+assign [class="Firefox-esr"] $ws9
 assign [class="^Slack$"] $ws10
 
 # Focus on window activation
@@ -138,7 +139,7 @@ bindsym $mod+Shift+u exec --no-startup-id $spfm
 
 # octave terminal as calculator
 set $spmath st -n spmath \
-	-fn "xft:DejaVu Sans Mono:pixelsize=24" -e octave --no-gui -q --traditional
+	-f "Monospace:pixelsize=24" -e octave --no-gui -q --traditional
 for_window [instance="spmath"] floating enable, resize set 600 px 30 ppt,\
 	move scratchpad
 exec --no-startup-id $spmath
@@ -176,11 +177,8 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
-
-#execute nautilus
-bindsym $mod+n exec nautilus
+bindsym $mod+Shift+c kill
+bindsym $mod+p exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
 
 # change focus
 set $warp exec --no-startup-id ~/.config/i3/scripts/warpmouse
@@ -203,6 +201,8 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+
+bindsym $mod+n focus parent;focus left;focus child
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -253,7 +253,7 @@ bindsym $mod+a focus parent
 bindsym $mod+c focus child
 
 ####  Reload and exit
-bindsym $mod+Shift+c exec --no-startup-id i3-msg "reload"
+bindsym $mod+Shift+d exec --no-startup-id i3-msg "reload"
 bindsym $mod+Shift+r exec --no-startup-id i3-msg "restart"
 
 #for dual monitor
@@ -314,12 +314,9 @@ bindsym $mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '
 bindsym $mod+Shift+apostrophe exec i3-input -F \
 	'swap with mark %s' -l 1 -P 'Swap with: '
 bindsym Mod1+Mod4+h mark --add quickswap; focus left; \
-	swap container with mark quickswap; unmark quickswap
+	swap container with mark quickswap; unmark quickswap; focus left
 bindsym Mod1+Mod4+l mark --add quickswap; focus right; \
-	swap container with mark quickswap; unmark quickswap
-bindsym Mod1+Mod4+2 mark --add quickswap; focus right; focus up; \
-	swap container with mark quickswap; unmark quickswap; focus right; \
-	move down; focus left
+	swap container with mark quickswap; unmark quickswap; focus right
 
 ################################################################################
 # Modes
@@ -461,6 +458,9 @@ exec_always --no-startup-id xrdb -load ~/.Xdefaults
 exec --no-startup-id usb-logitech-keyboard_inotify \
 	/var/lock/usb-logitech-keyboard-lock \
 	/home/christian/.local/bin/usb-logitech-keyboard_config
+
+# laptop keyboard
+exec --no-startup-id xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
 
 # Remove noise from headphones (reduces volume)
 exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
