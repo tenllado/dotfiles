@@ -79,7 +79,7 @@ def switch_col(con, focused):
         focused.command('swap container with mark _quickswap')
         dest.command('unmark _quickswap')
     elif options.move:
-        if len(dest.nodes) == 0:
+        if len(con.nodes[d].nodes) == 0:
             dest.command('split v')
         dest.command('mark --add _target')
         focused.command('move container to mark _target')
