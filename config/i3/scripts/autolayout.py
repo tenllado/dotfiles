@@ -86,16 +86,6 @@
 
 from i3ipc import Connection
 
-def move_con(con, d):
-    if d < 0:
-        direction = 'left'
-        d = -d
-    else:
-        direction = 'right'
-    while d > 0:
-        con.command('move {}'.format(direction))
-        d = d - 1
-
 def place_node(cnx, con, new_con):
     if con.layout == 'splith' and len(con.nodes) == 1 and \
             con.nodes[0].layout == 'splith':
@@ -111,10 +101,15 @@ def place_node(cnx, con, new_con):
     if not child:
         return
 
-    dest = 2 if child == 1 else 1
-    if con.nodes[dest].layout == 'splith':
-        con.nodes[dest].command('split v')
-    move_con(new_con, dest - child)
+    d = 2 if child == 1 else 1
+    if con.nodes[d].layout == 'splith':
+        con.nodes[d].command('split v')
+        dest = con.nodes[d]
+    else:
+        dest = con.nodes[d].find_by_id(con.nodes[d].focus[0])
+    dest.command('mark --add _target')
+    new_con.command('move container to mark _target')
+    dest.command('unmark _target')
 
 def new_move_callback(self, e):
     def get_workspace(cnx, e):
