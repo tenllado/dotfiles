@@ -157,7 +157,7 @@ bindsym $mod+Shift+i exec keepassxc
 ################################################################################
 
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec st
+bindsym $mod+Shift+Return exec st
 
 # Open a terminal in the cwd of the focused window
 bindsym $mod+t exec st -cd $(~/.config/i3/scripts/get_cwd)
@@ -204,6 +204,9 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 bindsym $mod+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py
+bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -m
+bindsym $mod+Control+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s
+bindsym $mod+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -a
 bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
 
 # alternatively, you can use the cursor keys:
@@ -248,7 +251,8 @@ bindsym $mod+v split v
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+#bindsym $mod+e layout toggle split
+bindsym $mod+e layout splitv
 
 # focus the parent/child container
 bindsym $mod+a focus parent
@@ -305,8 +309,8 @@ bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && \
 ################################################################################
 
 # swap windows with mouse
-bindsym --whole-window $mod+Mod1+button1 mark --add quickswap
-bindsym --whole-window $mod+Shift+button1 swap container with mark quickswap; [con_mark="quickswap"] focus
+bindsym --whole-window $mod+Mod1+button1 mark --add _quickswap
+bindsym --whole-window $mod+Shift+button1 swap container with mark _quickswap; [con_mark="_quickswap"] focus
 
 # Set a mark to the current window
 bindsym $mod+m exec i3-input -F 'mark --toggle %s' -l 1 -P 'Mark: '
