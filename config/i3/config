@@ -206,7 +206,7 @@ bindsym $mod+Shift+l move right
 bindsym $mod+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py
 bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -m
 bindsym $mod+Control+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s
-bindsym $mod+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -a
+bindsym $mod+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -l
 bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
 
 # alternatively, you can use the cursor keys:
