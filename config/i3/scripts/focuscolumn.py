@@ -11,8 +11,8 @@
 #      columns
 #   3. with -m (move), the script moves the window to the other column,
 #      regardless of the layout in both columns
-#   4. with -m|-s and -a (alternate), the focus is set at the end on the origin
-#      column insted of the destination column
+#   4. with -m|-s and -a (alternate), the focus remains on the origin column
+#      instead of the destination column
 #
 # GPL License header
 #
