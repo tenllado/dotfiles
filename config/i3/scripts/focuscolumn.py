@@ -13,6 +13,9 @@
 #      regardless of the layout in both columns
 #   4. with -m|-s and -a (alternate), the focus remains on the origin column
 #      instead of the destination column
+#   5. with -m|-s and -l (left), the focus is set on the left column, regardless
+#      of it being the destination or origin column. An interesting as a
+#      replacement of mod+Return in dwm master stack workflow
 #
 # GPL License header
 #
@@ -51,7 +54,10 @@ def parse_options():
             help="move the window to the other column")
     parser.add_option("-a", action="store_true", dest="alternate",
             default=False,
-            help="when swaping or moving focus the other column at the end")
+            help="when swaping or moving leave the focus in the origin column")
+    parser.add_option("-l", action="store_true", dest="left",
+            default=False,
+            help="when swaping or moving leave the focus on the left")
 
     options, args  = parser.parse_args()
 
@@ -85,8 +91,10 @@ def switch_col(con, focused):
         focused.command('move container to mark _target')
         dest.command('unmark _target')
 
-    if (not options.swap and not options.move) or options.alternate:
+    if (not options.swap and not options.move) or options.alternate \
+            or (options.left and d == 1):
         dest.command('focus')
+
 
 def main():
     parse_options()
