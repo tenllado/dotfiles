@@ -1,6 +1,7 @@
 # Lucius light color scheme
 
 background="#eeeeee"
+border="#eeeeee"
 foreground="#626262"
 cursor="#87afdf"
 

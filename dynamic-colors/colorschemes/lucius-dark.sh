@@ -1,6 +1,7 @@
 # Lucius dark color scheme
 
 background="#303030"
+border="#303030"
 foreground="#d7d7d7"
 cursorColor="#87afd7"
 
