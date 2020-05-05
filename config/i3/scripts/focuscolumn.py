@@ -4,7 +4,7 @@
 # columns layout at the workspace level. It enables three basic operations that
 # you can bind to different keys:
 #
-#   1. whit no options the script changes the focus to the other colum,
+#   1. with no options the script changes the focus to the other colum,
 #      regardless of the layout in the containers of each column
 #   2. with -s (swap), the script swaps the focused window with the focus
 #      inactive one in the other column, regardless of the layout in both
