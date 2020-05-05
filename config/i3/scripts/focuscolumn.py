@@ -61,6 +61,13 @@ def parse_options():
 
     options, args  = parser.parse_args()
 
+
+def focus_leaf(con):
+    if len(con.focus) == 0:
+        con.command('focus')
+    else:
+        focus_leaf(con.find_by_id(con.focus[0]))
+
 def switch_col(con, focused):
     global options, args
     if con.layout == 'splith' and len(con.nodes) == 1 and \
@@ -93,7 +100,7 @@ def switch_col(con, focused):
 
     if (not options.swap and not options.move) or options.alternate \
             or (options.left and d == 1):
-        dest.command('focus')
+        focus_leaf(dest)
 
 
 def main():
