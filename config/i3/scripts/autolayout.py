@@ -110,6 +110,7 @@ def place_node(cnx, con, new_con):
     dest.command('mark --add _target')
     new_con.command('move container to mark _target')
     dest.command('unmark _target')
+    new_con.command('focus')
 
 def new_move_callback(self, e):
     def get_workspace(cnx, e):
