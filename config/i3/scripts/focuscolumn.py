@@ -97,6 +97,7 @@ def switch_col(con, focused):
         dest.command('mark --add _target')
         focused.command('move container to mark _target')
         dest.command('unmark _target')
+        focused.command('focus')
 
     if (not options.swap and not options.move) or options.alternate \
             or (options.left and d == 1):
