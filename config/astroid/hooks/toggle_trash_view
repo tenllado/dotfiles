@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# toggles the trash flag on the message, unsetting the inbox if it was set as
+# required by gmail
+#
+# it can be used also to undo, if the message is trashed it removes the trash
+# flag and if it was in inbox (known beacuse the _inbox tag is set) then it
+# restores the inbox flag
+#
+# This should work for gmail It is cleaner if you do not synchronize the local
+# tag _inbox to the remote gmail account. With gmailieer you can add _inbox to
+# the ignore tags local set
+
+has_tag() {
+	notmuch search "id:$2 and tag:$1"
+}
+
+if [[ ! $(has_tag trash $1) ]]; then
+	tags="+trash"
+	if [[ $(has_tag inbox $1) ]]; then
+		tags="$tags +_inbox -inbox"
+	fi
+else
+	tags="-trash"
+	if [[ $(has_tag _inbox $1) ]]; then
+		tags="$tags -_inbox +inbox"
+	fi
+fi
+
+notmuch tag $tags "id:$1"

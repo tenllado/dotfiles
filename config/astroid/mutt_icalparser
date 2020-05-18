@@ -1,0 +1,74 @@
+#!/usr/bin/python3
+
+import sys
+import os
+from icalendar import Calendar, Event
+from textwrap import fill, indent
+
+FIELDS = ('summary','location','organiser',
+          'flags','uid','rrule')
+COLSEP = ': '
+
+COLUMNS = int(os.getenv('COLUMNS', 80))-10
+WIDTH = max(len(i) for i in FIELDS)
+INDENT = WIDTH + len(COLSEP)
+
+def dtstrs(event):
+    start, end = event.get('dtstart').dt, event.get('dtend')
+    if not end:
+        duration = event.get('duration').dt
+        end = start + duration
+    else:
+        end = end.dt
+
+    def strftime(dt, strf):
+        return dt.astimezone().strftime(strf)
+
+    ret = []
+    if start.tzinfo == end.tzinfo:
+        ret.append(strftime(start, '%F %R'))
+
+    else:
+        ret.append(strftime(start, '%F %R %Z'))
+
+    if start.date() == end.date():
+        ret.append(strftime(end, '%T %Z'))
+
+    else:
+        ret.append(strftime(end, '%F %R %Z'))
+
+    return ret
+
+def parse_ics_file(fp):
+    cal = Calendar.from_ical(fp.read())
+
+    for event in cal.walk():
+        if event.name != "VEVENT": continue
+        print('{} → {}'.format(*dtstrs(event)))
+        flags = []
+        for k in ('status', 'class', 'transp', 'priority'):
+            t = event.get(k)
+            if t: flags.append((k, t))
+        event['flags'] = ' '.join('{}:{}'.format(*f) for f in flags)
+        for label in FIELDS:
+            if label in event:
+                text = fill(str(event[label]), width=COLUMNS-INDENT,
+                            initial_indent='', subsequent_indent=' '*INDENT)
+                print(f'{label.capitalize():>{WIDTH}s}{COLSEP}{text}')
+
+        if 'description' in event:
+            output = ['']
+            lines = event['description'].split('\n')
+            for line in lines:
+                output.append(fill(line, width=COLUMNS, initial_indent=' ',
+                                   subsequent_indent=' '))
+            print('\n'.join(output))
+
+if __name__ == '__main__':
+
+    if len(sys.argv) > 1 and sys.argv[1] != '-':
+        for f in sys.argv[1:]:
+            with open(f) as fp:
+                parse_ics_file(fp)
+    else:
+        parse_ics_file(sys.stdin)

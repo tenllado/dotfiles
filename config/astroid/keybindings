@@ -1,0 +1,5 @@
+# searching in main window
+#main_window.search=/
+
+thread_index.run(hooks::toggle_trash_index %1, hooks::toggle_trash_index %1)=d
+thread_view.run(hooks::toggle_trash_view %2, hooks::toggle_trash_view %2)=d
