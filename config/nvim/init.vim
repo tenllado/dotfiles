@@ -329,7 +329,11 @@ inoremap <expr> '  strpart(getline('.'), col('.')-1, 1) == "'" ? "\<Right>" : "'
 nnoremap <F5> "=strftime("%F")<CR>P
 inoremap <F5> <C-R>=strftime("%F")<CR>
 
-nnoremap <S-q> {gq}<Bar>:echo "Rewrapped paragraph"<CR>
+nnoremap <S-q> gqip<Bar>:echo "Rewrapped paragraph"<CR>
+nnoremap <C-S-q> vipJgqq<Bar>:echo "Rewrapped paragraph"<CR>
+
+" Compute expression using the = register, must be at the beginning of the expression
+nnoremap <leader>x yt=A<C-R>=<C-R>"<CR>
 
 " }}}
 
