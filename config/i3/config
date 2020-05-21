@@ -38,6 +38,7 @@ client.urgent   	    $urg 		$urg 		$turg  $indic   	$urg
 bar {
 	mode dock
 	position top
+	modifier none
 	#font pango:DejaVu Sans Mono 11
 	font pango:FontAwesome 10
 	workspace_buttons yes
@@ -79,6 +80,8 @@ set $ws10 "10"
 
 workspace_auto_back_and_forth no
 workspace $ws10 output eDP-1
+# form version 4.18
+#focus_wrapping workspace
 
 ################################################################################
 #  Rules for windows apparence, placement/focus
@@ -110,6 +113,8 @@ for_window [class="Nm-connection-editor"] floating enable
 #for_window [class="RipperX"] floating enable
 #for_window [class="Pavucontrol"] floating enable
 for_window [title="G Alternatives"] floating enable
+# this should be supported in the future https://github.com/i3/i3/issues/3588
+#for_window [floating_user class="Firefox-esr" title="^Meet"] resize set 800 px 600 px
 
 # Windows to specific workspaces
 assign [class="Astroid"] $ws8
@@ -157,16 +162,11 @@ bindsym $mod+Shift+i exec keepassxc
 ################################################################################
 
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Shift+Return exec st
-
-# Open a terminal in the cwd of the focused window
-bindsym $mod+t exec st -cd $(~/.config/i3/scripts/get_cwd)
+bindsym $mod+Return exec st
 
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show; move position center
 bindsym $mod+Shift+Tab workspace back_and_forth
-bindsym $mod+Tab exec echo "swap_focus" | nc -N -U "$XDG_RUNTIME_DIR/i3/event-listener.sock"
-exec-always --no-startup-id event-listener.py
 
 # A list of opened windows with rofi, to change between them
 bindsym $mod+masculine exec --no-startup-id rofi -show-icons -width 60 -show window
@@ -206,7 +206,7 @@ bindsym $mod+Shift+l move right
 bindsym $mod+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py
 bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -m
 bindsym $mod+Control+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s
-bindsym $mod+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -l
+bindsym $mod+Shift+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -l
 bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
 
 # alternatively, you can use the cursor keys:
@@ -246,17 +246,22 @@ bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Workspace
 bindsym $mod+f fullscreen toggle
 
 # splits in horizontal/vertical orientation
-bindsym $mod+b split h
 bindsym $mod+v split v
+bindsym $mod+Shift+v split h
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
+bindsym $mod+Shift+w split v; layout tabbed
 #bindsym $mod+e layout toggle split
 bindsym $mod+e layout splitv
+bindsym $mod+Shift+e layout splith
 
 # focus the parent/child container
 bindsym $mod+a focus parent
 bindsym $mod+c focus child
+
+# show hide the bar
+bindsym $mod+b bar mode toggle
 
 ####  Reload and exit
 bindsym $mod+Shift+d exec --no-startup-id i3-msg "reload"
@@ -268,10 +273,10 @@ bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+j move workspace to output down
 
-bindsym $mod+Shift+w sticky toggle
+bindsym $mod+Shift+s sticky toggle
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m \
 # 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Shift+e exec --no-startup-id \
+bindsym $mod+Control+e exec --no-startup-id \
 	"rofi -show i3-msg -modi i3-msg:~/.config/rofi/scripts/rofi_i3_msg.sh"
 
 ## Special keys
@@ -324,19 +329,24 @@ bindsym Mod1+Mod4+h mark --add quickswap; focus left; \
 bindsym Mod1+Mod4+l mark --add quickswap; focus right; \
 	swap container with mark quickswap; unmark quickswap; focus right
 
+bindsym $mod+x "workspace _presel;append_layout ~/.config/i3/preselection.json;focus child;move window to workspace back_and_forth;workspace back_and_forth"
+
+bindsym $mod+z exec i3-input -F 'mark --toggle _sticky_%s' -l 1 -P 'Sticky Group: '
+bindsym $mod+Shift+z exec i3-input -F 'exec $HOME/.config/i3/scripts/i3-sticky-open %s' -l 1 -P 'Ph Sticky Group: '
+
 ################################################################################
 # Modes
 ################################################################################
 mode "resize" {
-        bindsym h resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
+        bindsym h resize shrink width 10 px or 2 ppt
+        bindsym j resize grow height 10 px or 2 ppt
+        bindsym k resize shrink height 10 px or 2 ppt
+        bindsym l resize grow width 10 px or 2 ppt
 
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
+        bindsym Left resize shrink width 10 px or 2 ppt
+        bindsym Down resize grow height 10 px or 2 ppt
+        bindsym Up resize shrink height 10 px or 2 ppt
+        bindsym Right resize grow width 10 px or 2 ppt
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -421,12 +431,6 @@ exec_always --no-startup-id \
 exec_always --no-startup-id \
 	~/.config/i3/scripts/disable-standby-fs.py $dpms_sb $dpms_sig
 
-# Kind of automate layout for two columns, new windows automatically open on the
-# second column. It does not restore modifications you perform on layout, if you
-# move windows to have three columns, it will still insert new ones on the
-# second
-# Needs the i3ipc python library
-exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # xss-lock to lock on screen saver event ($dmps_sb) and on suspend
 exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
@@ -434,6 +438,16 @@ exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
 # To manually lock the screen
 bindsym $mod+o exec --no-startup-id loginctl lock-session
 ################################################################################
+
+# Kind of automate layout for two columns, new windows automatically open on the
+# second column. It does not restore modifications you perform on layout, if you
+# move windows to have three columns, it will still insert new ones on the
+# second
+# Needs the i3ipc python library
+exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
+
+# i3-sticky, for sticky tiling groups (git@github.com:Airblader/i3-sticky.git)
+exec-always --no-startup-id "~/.config/i3/scripts/i3-sticky"
 
 # for workspaces expo
 #exec_always --no-startup-id ~/.config/i3/scripts/i3expo/i3expod.py
@@ -458,7 +472,6 @@ exec_always --no-startup-id xrdb -load ~/.Xdefaults
 ##etc. don't have too large or too small fonts or gui elements)
 #exec --no-startup-id xsettingsd &
 #bindsym $mod+Shift+x exec --no-startup-id pkill -HUP xsettingsd
-
 
 # Daemon to watch for usb-logitech-keyboard connection, for layout config
 exec --no-startup-id usb-logitech-keyboard_inotify \
