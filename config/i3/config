@@ -354,30 +354,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ################################################################################
-### Touchpad conf: touchpad id obtained from xinput list
-################################################################################
-
-# The available properties obtained from:
-#        xinput list-props "DLL082A:01 06CB:76AF Touchpad"
-set $touchpad "DLL082A:01 06CB:76AF Touchpad"
-# Enable tapping
-#exec --no-startup-id xinput set-prop 11 274 1
-exec --no-startup-id xinput set-prop $touchpad "libinput Tapping Enabled" 1
-# Enable naturall scrolling
-#exec --no-startup-id xinput set-prop 11 282 1
-exec --no-startup-id xinput set-prop $touchpad \
-	"libinput Natural Scrolling Enabled" 1
-# Set clickfinger
-# https://wayland.freedesktop.org/libinput/doc/latest/clickpad_softbuttons.html
-#exec --no-startup-id xinput set-prop 11 292 0 1
-exec --no-startup-id xinput set-prop $touchpad \
-	"libinput Click Methods Available" 0 1
-# pointer move faster
-exec --no-startup-id xinput set-prop 11 "libinput Accel Speed" 1
-
-################################################################################
 # Services/Applications launched on startup
 ################################################################################
+
+### Touchpad confing, not really a service, but configs the touchpad
+exec_always --no-startup-id ~/.config/i3/scripts/touchpad_config
 
 # Setting the background image
 exec_always --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.png

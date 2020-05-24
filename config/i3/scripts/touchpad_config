@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PROG="$(basename $0)"
+LIST=0
+
+show_help() {
+	printf "%s [-l]\n" $PROG
+}
+
+while getopts "l" opt
+do
+	case "$opt" in
+		l) LIST=1;;
+	    *) show_help; exit 1 ;;
+	esac
+done
+
+TP="$(xinput list | grep Touchpad | awk '{print $3,$4,$5}')"
+TP_ID="$(xinput list | grep Touchpad | sed 's/.*id=\([0-9]*\).*/\1/')"
+
+if [[ $LIST -eq 1 ]]; then
+	# The available properties obtained from:
+	xinput list-props "$TP_ID"
+else
+	xinput set-prop "$TP_ID" "libinput Tapping Enabled" 1
+	xinput set-prop "$TP_ID" "libinput Natural Scrolling Enabled" 1
+	xinput set-prop "$TP_ID" "libinput Click Method Enabled" 0 1
+	xinput set-prop "$TP_ID" "libinput Accel Speed" 1
+fi
+
