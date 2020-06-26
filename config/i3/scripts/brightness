@@ -1,0 +1,62 @@
+#!/bin/bash
+
+PROG="$0"
+OPT=""
+
+maxBrightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+curBrightness=$(cat /sys/class/backlight/intel_backlight/brightness)
+
+set_brightness() {
+	NP=$(( $1 * 100 / $maxBrightness ))
+	echo "setting brightness to: $1 ($NP%)"
+	echo $1 > /sys/class/backlight/intel_backlight/brightness
+}
+
+usage() {
+	printf "Usage: $PROG [-h] [-i percent|-d percent|-g]
+Options:
+-i percent: increase brightness in percent
+-d percent: decrease brightness in percent
+-s percent: set the brightness to percent
+-g        : get current brightness (in %%)
+-h        : show this help text\n"
+}
+
+
+while getopts "hgi:d:s:" opt; do
+    case "$opt" in
+        i|d|s)
+			[[ -z "$OPT" ]] || (usage && exit 1);
+			OPT=$opt
+			PERCENT="$OPTARG" ;;
+		g)
+			[[ -z "$OPT" ]] || (usage && exit 1);
+			OPT=$opt ;;
+        h) usage
+		   exit 0 ;;
+    esac
+done
+
+
+case "$OPT" in
+	i)  NB=$(( ${curBrightness} + ${PERCENT} * ${maxBrightness} / 100 ))
+		if [[ $NB -gt $maxBrightness ]]; then
+			NB=$maxBrightness
+		fi
+		set_brightness $NB
+		;;
+	d)  NB=$(( ${curBrightness} - ${PERCENT} * ${maxBrightness} / 100 ))
+		if [[ $NB -lt "0" ]]; then
+			NB="0"
+		fi
+		set_brightness $NB
+		;;
+	s)
+		NB=$(( ${PERCENT} * ${maxBrightness} / 100 ))
+		set_brightness $NB
+		;;
+	*)
+		percent=$(( ${curBrightness} * 100 / ${maxBrightness} ))
+		echo "${percent}%"
+		;;
+esac
