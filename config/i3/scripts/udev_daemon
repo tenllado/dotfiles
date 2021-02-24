@@ -1,0 +1,31 @@
+#!/bin/bash
+
+declare -A ACTIONS
+ACTIONS=(
+  ["usb-logitech-keyboard-lock"]="usb-logitech-config"
+  ["wacom-intuos-s-lock"]="wacom-config"
+        )
+
+usage() {
+	echo "$0"
+}
+
+# Parameters <lock-file-name> <script-to-execute>
+if [ "$#" -ne 0 ]; then
+	usage
+	exit 1
+fi
+
+
+inotifywait -m -e close_write --format '%f' "/var/lock/" \
+ | while read file
+do
+#	echo "change on file: $file"
+	if [[ -n "${ACTIONS[${file}]}" ]]; then
+#		echo "action is: ${ACTIONS[${file}]}"
+		sh -c "${HOME}/.config/i3/scripts/${ACTIONS[${file}]}"
+	fi
+done
+
+
+

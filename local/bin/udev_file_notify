@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This script should be triggered by an udev rule in /etc/udev/rules.d/
+# For instance 99-wacom-intuos.rules, with a content similar to:
+#
+#
+#SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="056a", ATTRS{idProduct}=="0374", ACTION=="bind", RUN+="/home/christian/.local/bin/udev_file_notify wacom-intuos-s-lock"
+
+if [ "$#" -ne 1 ]; then
+	exit 1
+fi
+
+LOCK="/var/lock/$1"
+
+exec 9> "$LOCK"
+if ! flock -n 9; then
+	exit 1
+fi
+
+echo "Modified - $(date)" > "$LOCK"
