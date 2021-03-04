@@ -4,6 +4,27 @@ set $mod Mod4
 floating_modifier $mod
 
 ################################################################################
+# Workspaces
+################################################################################
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+workspace_auto_back_and_forth no
+#workspace_auto_back_and_forth yes
+workspace $ws10 output eDP-1
+# form version 4.18
+#focus_wrapping workspace
+
+################################################################################
 # Aesthetics: font, colors and bar
 ################################################################################
 font pango:DejaVu Sans Mono 10
@@ -42,7 +63,6 @@ bar {
 	#font pango:DejaVu Sans Mono 11
 	font pango:FontAwesome 10
 	workspace_buttons yes
-	# status_command i3status
 	status_command i3blocks
 	#output eDp-1
 	# only put system tray icons on primary
@@ -63,32 +83,48 @@ bar {
 	}
 }
 
-################################################################################
-# Workspaces
-################################################################################
+## Start i3bar to display a workspace bar (plus the system information i3status
+## finds out, if available)
+#bar {
+#        i3bar_command i3bar
+#        status_command i3blocks
+#        position top
+#        tray_output primary
+#
+#        bindsym button3         exec --no-startup-id "rofi -combi-modi window,drun,run -show combi -modi combi"
+#
+#    colors {
+##        background #202A2E
+#        background #000000BB
+##        statusline #F9FAF9
+##        separator  #454947
+#
+##                            border  backgr. text
+##        focused_workspace  #F9FAF9 #16a085 #292F34
+##        active_workspace   #595B5B #353836 #FDF6E3
+##        inactive_workspace #595B5B #202A2E #EEE8D5
+##        binding_mode       #16a085 #2C2C2C #F9FAF9
+##        urgent_workspace   #16a085 #FDF6E3 #E5201D
+#	     binding_mode		#4C7899 #285577 #F2F5F7	
+#    }
+#}
+#
+## Theme colors
+## class                   border  backgr. text    indic.   child_border
+## client.focused          #556064 #556064 #80FFF9 #FDF6E3
+## client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
+## client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
+## client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+## client.placeholder      #000000 #0c0c0c #ffffff #000000 
+## client.background       #2B2C2B
 
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
-
-workspace_auto_back_and_forth no
-workspace $ws10 output eDP-1
-# form version 4.18
-#focus_wrapping workspace
 
 ################################################################################
 #  Rules for windows apparence, placement/focus
 ################################################################################
 
 # This seems better for touchpad on the laptop (it gets always in the weay)
-focus_follows_mouse no
+focus_follows_mouse yes
 # Can this work better if we use a lot of drag and drop with mouse?
 #focus_follows_mouse yes
 mouse_warping output
@@ -104,17 +140,30 @@ default_floating_border pixel 2
 hide_edge_borders smart
 for_window [class=".*"] border pixel 2
 #for_window [class=".*" tiling] border normal
+#for_window [class=".*"] border normal
 
-# Floating windows (use xprop, class is second part of WM_CLASS)
+# Settings for specific window classes
+# (use xprop, class is second part of WM_CLASS)
 for_window [class="^HTMaiL-View$"] floating enable
-for_window [class="Yad"] floating enable
-for_window [class="Orage"] floating enable
 for_window [class="Nm-connection-editor"] floating enable
+for_window [title="G Alternatives"] floating enable
+for_window [class="Gtkwave" title="^.*Search.*$"] floating enable
+#for_window [class="Firefox-esr"] layout tabbed
+for_window [class="Kicad"] layout tabbed
+
+
+#for_window [class="Yad"] floating enable
+#for_window [class="Orage"] floating enable
 #for_window [class="RipperX"] floating enable
 #for_window [class="Pavucontrol"] floating enable
-for_window [title="G Alternatives"] floating enable
 # this should be supported in the future https://github.com/i3/i3/issues/3588
 #for_window [floating_user class="Firefox-esr" title="^Meet"] resize set 800 px 600 px
+#for spice figures
+#for_window [class="GNU Octave"] floating enable, move position center
+#for_window [class="Gnuplot"] floating enable, \
+#     resize set 50 ppt 50 ppt, move position center
+#for_window [instance="ngspice" class="TopLevelShell"] floating enable, \
+#     resize set 50 ppt 50 ppt, move position center
 
 # Windows to specific workspaces
 assign [class="Astroid"] $ws8
@@ -171,22 +220,26 @@ bindsym $mod+Shift+Tab workspace back_and_forth
 # A list of opened windows with rofi, to change between them
 bindsym $mod+masculine exec --no-startup-id rofi -show-icons -width 60 -show window
 # Gestures are processed with libinput-gestures
-exec --no-startup-id libinput-gestures -c $HOME/.config/i3/libinput-gestures.conf
+#exec --no-startup-id libinput-gestures -c $HOME/.config/i3/libinput-gestures.conf
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
+bindsym --whole-window --border $mod+button3 floating toggle
 
-bindsym $mod+Shift+c kill
+#bindsym $mod+Shift+c kill
+bindsym $mod+q kill
 bindsym $mod+p exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
+#bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
+bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
 
 # change focus
 set $warp exec --no-startup-id ~/.config/i3/scripts/warpmouse
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+h focus left; $warp
+bindsym $mod+j focus down; $warp
+bindsym $mod+k focus up; $warp
+bindsym $mod+l focus right; $warp
 
 # alternatively, you can use the cursor keys:
 #bindsym $mod+Left focus left
@@ -196,6 +249,7 @@ bindsym $mod+l focus right
 # Change to workspaces
 bindsym $mod+Left workspace prev
 bindsym $mod+Right workspace next
+bindsym $mod+Tab workspace back_and_forth
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -207,7 +261,6 @@ bindsym $mod+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py
 bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -m
 bindsym $mod+Control+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s
 bindsym $mod+Shift+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -l
-bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -239,22 +292,36 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# move focused container to workspace and follow
+bindsym $mod+Control+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Control+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Control+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Control+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Control+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Control+6 move container to workspace $ws6; workspace $ws6
+bindsym $mod+Control+7 move container to workspace $ws7; workspace $ws7
+bindsym $mod+Control+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Control+9 move container to workspace $ws9; workspace $ws9
+bindsym $mod+Control+0 move container to workspace $ws10; workspace $ws10
+
 # rename current workspace
 bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Workspace rename: '
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
+#zoom a window
+bindsym $mod+z floating enable, resize set 100 ppt 98ppt, move position center
 
-# splits in horizontal/vertical orientation
-bindsym $mod+v split v
-bindsym $mod+Shift+v split h
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+Shift+w split v; layout tabbed
-#bindsym $mod+e layout toggle split
-bindsym $mod+e layout splitv
-bindsym $mod+Shift+e layout splith
+bindsym $mod+e layout toggle split
+# splits in horizontal/vertical orientation
+bindsym $mod+v split v
+bindsym $mod+Shift+v split h
+
+#bindsym $mod+e layout splitv
+#bindsym $mod+Shift+e layout splith
 
 # focus the parent/child container
 bindsym $mod+a focus parent
@@ -273,7 +340,6 @@ bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+j move workspace to output down
 
-bindsym $mod+Shift+s sticky toggle
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m \
 # 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Control+e exec --no-startup-id \
@@ -296,8 +362,11 @@ bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && \
 	pkill -RTMIN+10 i3blocks
 
 #brightness
-#bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; pkill -RTMIN+12 i3blocks"
-#bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; pkill -RTMIN+12 i3blocks"
+bindsym XF86MonBrightnessUp exec --no-startup-id \
+     ~/.config/i3/scripts/brightness -i 5 && pkill -RTMIN+11 i3blocks
+bindsym XF86MonBrightnessDown exec  --no-startup-id \
+     ~/.config/i3/scripts/brightness -d 5 && pkill -RTMIN+11 i3blocks
+
 
 ##increase sound volume
 #bindsym XF86AudioRaiseVolume exec --no-startup-id \
@@ -310,7 +379,7 @@ bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && \
 #	pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks
 
 ################################################################################
-# Marks, jumps and swaps
+# Marks, jumps, swaps and sticky
 ################################################################################
 
 # swap windows with mouse
@@ -330,9 +399,10 @@ bindsym Mod1+Mod4+l mark --add quickswap; focus right; \
 	swap container with mark quickswap; unmark quickswap; focus right
 
 bindsym $mod+x "workspace _presel;append_layout ~/.config/i3/preselection.json;focus child;move window to workspace back_and_forth;workspace back_and_forth"
-
-bindsym $mod+z exec i3-input -F 'mark --toggle _sticky_%s' -l 1 -P 'Sticky Group: '
-bindsym $mod+Shift+z exec i3-input -F 'exec $HOME/.config/i3/scripts/i3-sticky-open %s' -l 1 -P 'Ph Sticky Group: '
+bindsym $mod+Shift+s sticky toggle
+# Sticky groups for tiled sticky windows (using i3-sticy-open script)
+bindsym $mod+t exec i3-input -F 'exec $HOME/.config/i3/scripts/i3-sticky-open %s' -l 1 -P 'Ph Sticky Group: '
+bindsym $mod+Shift+t exec i3-input -F 'mark --toggle _sticky_%s' -l 1 -P 'Sticky Group: '
 
 ################################################################################
 # Modes
@@ -352,6 +422,30 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
+# to resize with mouse
+bindsym --whole-window --border $mod+button5 resize shrink height 10 px or 2 ppt
+bindsym --whole-window --border $mod+button4 resize grow height 10 px or 2 ppt
+bindsym --whole-window --border $mod+button7 resize shrink width 10 px or 2 ppt
+bindsym --whole-window --border $mod+button6 resize grow width 10 px or 2 ppt
+
+
+# Shutdown Menu
+bindsym $mod+Escape mode "$mode_system"
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (p) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3lock -n -e -f -t -i $HOME/.config/i3/screenlock.png, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym p exec --no-startup-id systemctl poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym KP_Enter mode "default"
+}
 
 ################################################################################
 # Services/Applications launched on startup
@@ -395,25 +489,18 @@ exec --no-startup-id dunst &
 
 ################################################################################
 # Display Power Management Settings (DPMS)
-# manages also screen saver/screen lock
-set $dpms_sb   180
-set $dpms_ssb  300
-set $dpms_soff 360
-set $dpms_sig  4
-bindsym $mod+Shift+o exec --no-startup-id \
-	"xset s off; xset -dpms; pkill -RTMIN+$dpms_sig i3blocks"
-bindsym $mod+Control+o exec --no-startup-id \
-	"xset s $dpms_sb 0; xset +dpms; pkill -RTMIN+$dpms_sig i3blocks"
-exec_always --no-startup-id \
-    "xset s $dpms_sb 0; xset dpms $dpms_ssb 0 $dpms_soff"
+set $ss_seg 300
+set $ss_sig 11
+exec --no-startup-id "xset s $ss_seg"
 
 # Disable display screen saver and dpms when a window goes fullscreen
 # Needs the i3ipc-python library
 exec_always --no-startup-id \
-	~/.config/i3/scripts/disable-standby-fs.py $dpms_sb $dpms_sig
+	~/.config/i3/scripts/disable-standby-fs.py $ss_seg $ss_sig
+bindsym $mod+Shift+o exec --no-startup-id \
+	"pkill -USR1 -f /usr/bin/python3\ $HOME/.config/i3/scripts/disable-standby-fs.py"
 
-
-# xss-lock to lock on screen saver event ($dmps_sb) and on suspend
+# xss-lock to lock on screen saver event and on suspend
 exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
 
 # To manually lock the screen
@@ -428,7 +515,7 @@ bindsym $mod+o exec --no-startup-id loginctl lock-session
 exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # i3-sticky, for sticky tiling groups (git@github.com:Airblader/i3-sticky.git)
-exec-always --no-startup-id "~/.config/i3/scripts/i3-sticky"
+exec_always --no-startup-id "~/.config/i3/scripts/i3-sticky"
 
 # for workspaces expo
 #exec_always --no-startup-id ~/.config/i3/scripts/i3expo/i3expod.py
@@ -454,10 +541,8 @@ exec_always --no-startup-id xrdb -load ~/.Xdefaults
 #exec --no-startup-id xsettingsd &
 #bindsym $mod+Shift+x exec --no-startup-id pkill -HUP xsettingsd
 
-# Daemon to watch for usb-logitech-keyboard connection, for layout config
-exec --no-startup-id usb-logitech-keyboard_inotify \
-	/var/lock/usb-logitech-keyboard-lock \
-	/home/christian/.local/bin/usb-logitech-keyboard_config
+## udev daemon to trigger automatic config of some usb devices
+exec --no-startup-id $HOME/.config/i3/scripts/udev_daemon
 
 # laptop keyboard
 exec --no-startup-id xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
@@ -468,8 +553,9 @@ exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume'
 # polkit
 exec --no-startup-id /usr/lib/policykit-1-gnome/plkit-gnome-authentication-agent-1
 
-# Monitor vdir calendar folders and sync on changes
-exec --no-startup-id $HOME/.config/vdirsyncer/vdirmonitor $HOME/.calendars/ucm
+# keyring
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY
 
 # Compton, gives me lots of stability problems
 #exec --no-startup-id compton
