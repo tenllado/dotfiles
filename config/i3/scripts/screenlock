@@ -23,6 +23,10 @@ post_lock() {
 
 pre_lock
 
+# XSS_SLEEP_LOCK_FD is the file descriptor of the delay lock obtained from the
+# login manager, if the reason for lockingist that the system is preparing to go
+# to sleep
+
 # We set a trap to kill the locker if we get killed, then start the locker and
 # wait for it to exit. The waiting is not that straightforward when the locker
 # forks, so we use this polling only if we have a sleep lock to deal with.
@@ -39,12 +43,17 @@ if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
     # now close our fd (only remaining copy) to indicate we're ready to sleep
     exec {XSS_SLEEP_LOCK_FD}<&-
 
+	# we now wait for screen to be unlocked
+	# this loop waits while the process i3lock exists (sending signal 0 sends no
+	# signal, but errors are checked)
     while kill_i3lock -0; do
         sleep 0.5
     done
 else
     trap 'kill %%' TERM INT
+	# -n for i3lock not forking, so we can wait for it
     i3lock -n $i3lock_options &
+	# wait for screen unlock
     wait
 fi
 

@@ -37,7 +37,6 @@ while getopts "hgi:d:s:" opt; do
     esac
 done
 
-
 case "$OPT" in
 	i)  NB=$(( ${curBrightness} + ${PERCENT} * ${maxBrightness} / 100 ))
 		if [[ $NB -gt $maxBrightness ]]; then
