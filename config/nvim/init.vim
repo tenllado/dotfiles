@@ -7,37 +7,19 @@ syntax enable
 " }}}
 
 " Colorscheme -------------------------------------------------------------- {{{
-set bg=light
-if $COLORTERM == 'truecolor'
-	set termguicolors
-endif
 
 if has('gui_running')
-	let g:PaperColor_Theme_Options = {
-	  \   'theme': {
-	  \     'default': {
-	  \       'allow_bold': 0
-	  \     },
-	  \   }
-	  \ }
+	set bg=light
+elseif empty($DISPLAY)
+" running on tty
+	set bg=dark
 else
-	let g:PaperColor_Theme_Options = {
-	  \   'theme': {
-	  \     'default': {
-	  \       'transparent_background': 1,
-	  \       'allow_bold': 0
-	  \     },
-	  \   }
-	  \ }
+	set bg=light
+	if $COLORTERM == 'truecolor'
+		set termguicolors
+	endif
 endif
 
-""  \   	'default.light': {
-""  \        'override' : {
-""  \		      'color07': ['#000000','']
-""  \			}
-""  \     }
-
-"colorscheme PaperColor
 colorscheme lucius
 "highlight clear SpellBad
 "highlight SpellBad cterm=underline
@@ -68,6 +50,7 @@ set wildmenu
 set autoindent
 set smarttab
 set hlsearch
+set cursorline
 set incsearch
 set number
 set relativenumber
@@ -173,6 +156,7 @@ set statusline+=\ -\       " Separator
 set statusline+=FileType:  " Label
 set statusline+=%y         " Filetype of the file
 set statusline+=%=         " Change to the right side
+set statusline+=[0x%B]\    " Byte value under cursor
 set statusline+=c=%2c,\    " Current column
 set statusline+=l=%4l/%-4L " Current line/Total, 4 dig. each (total left aligned)
 set statusline+=[%p%%]
@@ -297,8 +281,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " very magic reg expression mode (see :help magic)
-nnoremap / /\v
-nnoremap ? ?\v
+"nnoremap / /\v
+"nnoremap ? ?\v
 
 " grep
 "nnoremap <leader>G :silent execute "grep -R " . shellescape(expand("<cWORD>"))  . " ."<cr>:copen<cr>
