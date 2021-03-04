@@ -156,7 +156,7 @@ case "$TERM" in
 		if [ -x "$HOME/.dynamic-colors/bin/dynamic-colors" ]; then
 			$HOME/.dynamic-colors/bin/dynamic-colors init
 		fi
-		export PATH=$PATH:$HOME/.dynamic-colors/bin/
+		PATH=$PATH:$HOME/.dynamic-colors/bin/
 esac
 
 #enable DEL for st
@@ -171,17 +171,30 @@ esac
 #  __vte_prompt_command
 #fi
 
+update_path_openocd(){
+	for ver in $(find /opt/openocd -maxdepth 1 -mindepth 1)
+	do
+		PATH="$PATH:$ver/bin"
+	done
+}
+
+# Openocd versions
+if [ -d /opt/openocd ]; then
+	update_path_openocd
+fi
+
 ## Python stuff
 # include the bin path for pip installed scripts to PATH
 export PY_USER_BIN=$(python -c 'import site; print(site.USER_BASE + "/bin")')
-export PATH=$PY_USER_BIN:$PATH
-
-## For anaconda
-source /home/christian/anaconda3/etc/profile.d/conda.sh
+PATH=$PY_USER_BIN:$PATH
 
 ## Go support
 
 if command -v go > /dev/null 2>&1; then
 	export GOPATH=$(go env GOPATH)
-	export PATH=$PATH:$GOPATH
+	PATH=$PATH:$GOPATH/bin
 fi
+
+# for contiki-ng
+export CNG_PATH=/home/christian/docencia/RPI/contiki-ng
+alias contiker="docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb -ti contiker/contiki-ng"
