@@ -1,8 +1,8 @@
-output DP-1
+output DP1
 off
-output DP-2
+output DP2
 off
-output eDP-1
+output eDP1
 mode 1920x1080
 pos 0x0
 primary

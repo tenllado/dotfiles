@@ -1,4 +1,22 @@
 #!/bin/bash
 
-i3-msg '[workspace="^(1|2|3|4|5|6|7|8|9)$"] move workspace to output DP-1;'
+LOGFILE=~/.config/autorandr/autorandr_log
+echo "Runing profile postswitch hook for: $AUTORANDR_CURRENT_PROFILE" >> $LOGFILE
 
+feh --bg-fill ~/.config/i3/wallpaper.png
+
+if pgrep compton; then
+	pkill -USR1 compton
+fi
+
+# Apparently i3-msg tries to use a different socket from the one obtained from
+# i3 --get-socketpath, which is not valid. It might be that the I3SOCK env
+# variable for the process that runs the autorandr command is not valid anymore
+# Giving the correct socket to i3 works
+i3-msg -s $(i3 --get-socketpath) \
+	'[workspace="^(1|2|3|4|5|6|7|8|9)$"] move workspace to output DP1;' \
+	>> $LOGFILE  2>&1
+
+echo "Ending autorandr postswitch hook for: fisicas" >> $LOGFILE
+
+exit 0
