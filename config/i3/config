@@ -184,19 +184,19 @@ show_marks yes
 # terminal drop down window
 set $spfm st -n spfm -e ranger
 for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
-	move scratchpad
+    move position center, move scratchpad
 exec --no-startup-id $spfm
-bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt,\
-	move position center
+bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
+    move position center
 bindsym $mod+Shift+u exec --no-startup-id $spfm
 
 # octave terminal as calculator
 set $spmath st -n spmath \
 	-f "Monospace:pixelsize=24" -e octave --no-gui -q --traditional
-for_window [instance="spmath"] floating enable, resize set 600 px 30 ppt,\
+for_window [instance="spmath"] floating enable, resize set 40 ppt 30 ppt,\
 	move scratchpad
 exec --no-startup-id $spmath
-bindsym $mod+y  [instance="spmath"] scratchpad show, resize set 800 px 30 ppt,\
+bindsym $mod+y  [instance="spmath"] scratchpad show, resize set 40 ppt 30 ppt,\
 	move position center
 bindsym $mod+Shift+y exec --no-startup-id $spmath
 
@@ -206,6 +206,12 @@ for_window [instance="keepassxc" window_type=normal] floating enable, move scrat
 bindsym $mod+i  [instance="keepassxc" window_type=normal] scratchpad show, move position center
 bindsym $mod+Shift+i exec keepassxc
 
+# pavucontrol
+exec pavucontrol
+for_window [class="Pavucontrol"] floating enable, move scratchpad
+bindsym $mod+p [class="Pavucontrol"] scratchpad show, move position center
+bindsym $mod+Shift+p exec pavucontrol
+
 ################################################################################
 # General key/mouse bindings (mostly default values)
 ################################################################################
@@ -214,25 +220,29 @@ bindsym $mod+Shift+i exec keepassxc
 bindsym $mod+Return exec st
 
 bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show; move position center
+bindsym $mod+minus scratchpad show
+#; move position center
 bindsym $mod+Shift+Tab workspace back_and_forth
 
-# A list of opened windows with rofi, to change between them
-bindsym $mod+masculine exec --no-startup-id rofi -show-icons -width 60 -show window
 # Gestures are processed with libinput-gestures
 #exec --no-startup-id libinput-gestures -c $HOME/.config/i3/libinput-gestures.conf
 
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+# zooming window (float + maximize)
+bindsym $mod+Shift+f floating toggle, resize set 100 ppt 98ppt, move position center
+
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 bindsym --whole-window --border $mod+button3 floating toggle
 
 #bindsym $mod+Shift+c kill
 bindsym $mod+q kill
-bindsym $mod+p exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
-#bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
-bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
+bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
+# I am never using this
+#bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
 
 # change focus
 set $warp exec --no-startup-id ~/.config/i3/scripts/warpmouse
@@ -249,7 +259,9 @@ bindsym $mod+l focus right; $warp
 # Change to workspaces
 bindsym $mod+Left workspace prev
 bindsym $mod+Right workspace next
-bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+masculine workspace back_and_forth
+# A list of opened windows with rofi, to change between them
+bindsym $mod+Tab exec --no-startup-id rofi -show-icons -width 60 -show window
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -306,11 +318,6 @@ bindsym $mod+Control+0 move container to workspace $ws10; workspace $ws10
 
 # rename current workspace
 bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Workspace rename: '
-
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-#zoom a window
-bindsym $mod+z floating enable, resize set 100 ppt 98ppt, move position center
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -512,7 +519,7 @@ bindsym $mod+o exec --no-startup-id loginctl lock-session
 # move windows to have three columns, it will still insert new ones on the
 # second
 # Needs the i3ipc python library
-exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
+#exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # i3-sticky, for sticky tiling groups (git@github.com:Airblader/i3-sticky.git)
 exec_always --no-startup-id "~/.config/i3/scripts/i3-sticky"
@@ -545,7 +552,7 @@ exec_always --no-startup-id xrdb -load ~/.Xdefaults
 exec --no-startup-id $HOME/.config/i3/scripts/udev_daemon
 
 # laptop keyboard
-exec --no-startup-id xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
+#exec --no-startup-id xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
 
 # Remove noise from headphones (reduces volume)
 exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1

@@ -25,7 +25,7 @@
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
 command=~/.config/i3blocks/blocklets/$BLOCK_NAME
-separator_block_width=15
+separator_block_width=5
 
 [apt-updates]
 label=APT
@@ -57,15 +57,11 @@ command=notmuch search 'tag:inbox and tag:unread' | wc -l;
 interval=once
 signal=3
 
-[dpms]
+[brightness]
 label=
 markup=pango
 interval=10
-signal=4
-separator=false
-
-[brightness]
-interval=1
+signal=11
 
 # Disk usage
 #
@@ -152,18 +148,3 @@ interval=1
 #markup=pango
 #command=echo "<span foreground=\"blue\">Blue text</span> is <i>cool</i>!"
 #interval=1
-
-# Key indicators
-#
-# Add the following bindings to i3 config file:
-#
-# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
-# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-#[keyindicator]
-#instance=CAPS
-#interval=once
-#signal=11
-#[keyindicator]
-#instance=NUM
-#interval=once
-#signal=11

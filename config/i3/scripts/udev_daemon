@@ -2,7 +2,7 @@
 
 declare -A ACTIONS
 ACTIONS=(
-  ["usb-logitech-keyboard-lock"]="usb-logitech-config"
+#  ["usb-logitech-keyboard-lock"]="usb-logitech-config"
   ["wacom-intuos-s-lock"]="wacom-config"
         )
 

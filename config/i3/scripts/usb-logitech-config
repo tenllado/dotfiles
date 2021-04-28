@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#sleep 2
 DISPLAY=":0.0"
 HOME="/home/christian"
 XAUTHORITY=$HOME/.Xauthority
