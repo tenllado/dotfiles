@@ -2,6 +2,7 @@
 
 #export TERMCMD=sakura
 #export TERMCMD=urxvt
+export TERMINAL=st
 export TERMCMD=st
 export GTK_THEME=Adwaita
 #export GDK_SCALE=0.75
@@ -9,6 +10,9 @@ export GTK_THEME=Adwaita
 #if [ "$DESKTOP_SESSION" = "i3" ]; then
 #	xrandr --dpi 168
 #fi
+
+# setup keyboard
+xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
 
 if [ -f "$HOME/.profile" ]; then
 	source "$HOME/.profile"

@@ -22,9 +22,6 @@ if [ -d "$HOME/.cargo/bin" ] ; then
 	export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-# setup keyboard
-xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
