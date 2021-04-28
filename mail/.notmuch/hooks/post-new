@@ -3,12 +3,35 @@
 # trash emails labeled by gmail with promotion and social
 notmuch tag +trash -inbox 'tag:new and (tag:promotions or tag:social)'
 
+#
+notmuch tag +colegio 'tag:new and from:gsdeducacion.com'
+
 # sent not in inbox
-#notmuch tag -inbox -unread 'tag:new and tag:sent and tag:inbox and not (to:ctenllado@gmail.com or to:tenllado@ucm.es)'
+notmuch tag -inbox -unread 'tag:new and tag:sent and tag:inbox and not
+(to:ctenllado@gmail.com or to:tenllado@ucm.es)'
 
 # listst
 notmuch tag +suckless 'tag:new and (to:hackers@suckless.org or to:dev@suckless.org)'
 notmuch tag +debian 'tag:new to:debian.org'
+
+# trash messages in trashed threads
+for th in $(notmuch search --output=threads 'tag:inbox and tag:new'); do
+	tags=$(notmuch search --output=tags "$th")
+	if [[ $(echo $tags | grep _inbox) && $(echo $tags | grep trash) ]]; then
+		notmuch tag -inbox +trash +_inbox "tag:inbox and tag:new and $th"
+	fi
+done
+
+
+# autotag
+for th in $(notmuch search --output=threads 'tag:inbox and tag:new'); do
+	tags=$(notmuch search --output=tags "$th" | \
+		grep -v 'inbox\|trash\|new\|unread\|attachment\|sent\|important\|personal\|replied'\
+	    | tr '\n' ' ')
+	for tag in $tags ; do
+		notmuch tag +$tag -- $th and not tag:$tag
+	done
+done
 
 notmuch tag -new "tag:new"
 
