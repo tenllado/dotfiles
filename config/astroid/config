@@ -37,7 +37,7 @@
         },
         "ucm": {
             "name": "Christian Tenllado",
-            "email": "tenllado@ucm.com",
+            "email": "tenllado@ucm.es",
             "gpgkey": "",
             "always_gpg_sign": "false",
             "sendmail": "msmtp -i -a ucm -t",
