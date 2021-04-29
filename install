@@ -7,7 +7,7 @@ DFPATH="$(dirname $(realpath $0))"
 clean_old() {
 	if [ ${delete} -eq 0 ] && [ ! -L "$1" ]; then
 		mv "$1" "$1.backup"
-	elif [ -f "$1" ] || [ -L "$1" ]; then
+	elif [ -f "$1" ]; then
 		rm "$1"
 	fi
 }
@@ -35,9 +35,11 @@ install_files() {
 			if [ -L "${HOME}/.${second}" ]; then
 				rm "${HOME}/.${second}"
 			fi
-			clean_old "${HOME}/.${dname}/${fname}"
-			mkdir -p "${HOME}/.${dname}"
-			ln -s "${DFPATH}/${dname}/${fname}" "${HOME}/.${dname}/${fname}"
+			if [ ! -L "${HOME}/.${dname}/${fname}" ]; then
+				clean_old "${HOME}/.${dname}/${fname}"
+				mkdir -p "${HOME}/.${dname}"
+				ln -s "${DFPATH}/${dname}/${fname}" "${HOME}/.${dname}/${fname}"
+			fi
 		fi
 	done
 }
