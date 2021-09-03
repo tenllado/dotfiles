@@ -38,6 +38,7 @@ set $winac 	#ababab
 set $tinac  #E6E5CA
 set $wunfoc #e8e8e7
 set $tunfoc #657b83
+set $bunfoc #d8d8d7
 #set $indic  #4A90D9
 set $indic  #4AB10A
 set $urg	#f44336
@@ -51,7 +52,7 @@ set $turg	#E6E5CA
 # Class                 border  	background  text  	 indicator  child_border
 client.focused		    $wfoc 		$wfoc 		$tfoc    $indic   	$wfoc
 client.focused_inactive $winac 		$winac 		$tinac   $indic   	$winac
-client.unfocused        $wunfoc 	$wunfoc		$tunfoc  $indic   	$wunfoc
+client.unfocused        $winac 	    $bunfoc		$tunfoc  $indic   	$wunfoc
 client.urgent   	    $urg 		$urg 		$turg  $indic   	$urg
 
 #client.placeholder      #64FFDA 	#64FFDA 	#121212  #d2d2d2   #64FFDA
@@ -182,7 +183,8 @@ show_marks yes
 ################################################################################
 
 # terminal drop down window
-set $spfm st -n spfm -e ranger
+#set $spfm st -n spfm -e ranger
+set $spfm urxvt -name spfm -e ranger
 for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
     move position center, move scratchpad
 exec --no-startup-id $spfm
@@ -191,8 +193,10 @@ bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
 bindsym $mod+Shift+u exec --no-startup-id $spfm
 
 # octave terminal as calculator
-set $spmath st -n spmath \
-	-f "Monospace:pixelsize=24" -e octave --no-gui -q --traditional
+#set $spmath st -n spmath \
+#	-f "Monospace:pixelsize=24" -e octave --no-gui -q --traditional
+set $spmath urxvt -name spmath \
+	-fn "xft:monospace:size=20" -e octave --no-gui -q --traditional
 for_window [instance="spmath"] floating enable, resize set 40 ppt 30 ppt,\
 	move scratchpad
 exec --no-startup-id $spmath
@@ -217,7 +221,8 @@ bindsym $mod+Shift+p exec pavucontrol
 ################################################################################
 
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec st
+#bindsym $mod+Return exec st
+bindsym $mod+Return exec urxvt
 
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
