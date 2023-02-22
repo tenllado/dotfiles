@@ -125,8 +125,10 @@ def new_move_callback(i3, e):
 
 def close_callback(i3, e):
     workspace = i3.get_tree().find_focused().workspace()
-    if workspace.layout == 'splith' and len(workspace.nodes) == 1 \
-        and len(workspace.nodes[0].nodes) > 1:
+    print_tree(workspace)
+    if len(workspace.nodes) == 1 \
+        and len(workspace.nodes[0].nodes) > 1 \
+        and workspace.nodes[0].layout == 'splitv':
         new_master = workspace.nodes[0].nodes[0]
         new_master.command('move left')
 
