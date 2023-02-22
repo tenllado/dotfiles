@@ -125,7 +125,6 @@ def new_move_callback(i3, e):
 
 def close_callback(i3, e):
     workspace = i3.get_tree().find_focused().workspace()
-    print_tree(workspace)
     if len(workspace.nodes) == 1 \
         and len(workspace.nodes[0].nodes) > 1 \
         and workspace.nodes[0].layout == 'splitv':
