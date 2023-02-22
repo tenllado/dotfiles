@@ -86,10 +86,10 @@
 
 from i3ipc import Connection
 
-def place_node(cnx, con, new_con):
+def place_node(i3, con, new_con):
     if con.layout == 'splith' and len(con.nodes) == 1 and \
             con.nodes[0].layout == 'splith':
-        return place_node(cnx, con.nodes[0], new_con)
+        return place_node(i3, con.nodes[0], new_con)
     elif con.layout != 'splith' or len(con.nodes) < 3:
         return
 
@@ -112,19 +112,26 @@ def place_node(cnx, con, new_con):
     dest.command('unmark _target')
     new_con.command('focus')
 
-def new_move_callback(self, e):
-    def get_workspace(cnx, e):
-        return cnx.get_tree().find_by_id(e.container.id).workspace()
+def new_move_callback(i3, e):
+    def get_workspace(i3, e):
+        return i3.get_tree().find_by_id(e.container.id).workspace()
 
-    cnx = Connection()
-    wsp = get_workspace(cnx, e)
+    wsp = get_workspace(i3, e)
     if not wsp:
         # This removes problems on i3 start
         return
     new_con = wsp.find_by_id(e.container.id)
-    place_node(cnx, wsp, new_con)
+    place_node(i3, wsp, new_con)
+
+def close_callback(i3, e):
+    workspace = i3.get_tree().find_focused().workspace()
+    if workspace.layout == 'splith' and len(workspace.nodes) == 1 \
+        and len(workspace.nodes[0].nodes) > 1:
+        new_master = workspace.nodes[0].nodes[0]
+        new_master.command('move left')
 
 i3 = Connection()
 i3.on('window::new', new_move_callback)
 i3.on('window::move', new_move_callback)
+i3.on('window::close', close_callback)
 i3.main()
