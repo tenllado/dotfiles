@@ -123,8 +123,8 @@ def new_move_callback(i3, e):
     new_con = wsp.find_by_id(e.container.id)
     place_node(i3, wsp, new_con)
 
-def close_callback(i3, e):
-    workspace = i3.get_tree().find_focused().workspace()
+def fix_layout(workspace):
+    new_master = None
     if len(workspace.nodes) == 1 \
         and len(workspace.nodes[0].nodes) > 0 \
         and workspace.nodes[0].layout == 'splitv':
@@ -133,10 +133,19 @@ def close_callback(i3, e):
             new_master.command('layout splith')
         else:
             new_master.command('move left')
+    return new_master
+
+def close_callback(i3, e):
+    new_master = fix_layout(i3.get_tree().find_focused().workspace())
+    if new_master:
         new_master.command('focus')
+
+def workspace_callback(i3, e):
+    fix_layout(e.current)
 
 i3 = Connection()
 i3.on('window::new', new_move_callback)
 i3.on('window::move', new_move_callback)
 i3.on('window::close', close_callback)
+i3.on('workspace::focus', workspace_callback)
 i3.main()
