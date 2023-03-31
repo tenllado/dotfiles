@@ -73,8 +73,11 @@ git submodule update --init
 install_files $(find . -path "./.git*" -prune -o -type f -print)
 popd > /dev/null
 
-# for nvim/vim minpack plugin
-pushd ~/.config/nvim/pack > /dev/null
+# for vim minpack plugin
+if [ ! -d ~/.config/vim/pack ]; then
+	mkdir -p ~/.config/vim/pack
+fi
+pushd ~/.config/vim/pack > /dev/null
 if [ ! -d minpack ]; then
 	mkdir -p minpack/opt
 	cd minpack/opt
@@ -82,6 +85,5 @@ if [ ! -d minpack ]; then
 fi
 popd > /dev/null
 
-# same vim & neovim config files
-ln -sfTv ~/.config/nvim/init.vim ~/.vimrc 
-ln -sfTv ~/.config/nvim/ ~/.vim
+ln -sfTv ~/.config/vim/vimrc ~/.vimrc 
+ln -sfTv ~/.config/vim/ ~/.vim
