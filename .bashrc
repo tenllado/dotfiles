@@ -233,13 +233,3 @@ function dotfiles_autoupdate {
 	&& config push
 }
 
- # please give me my dotfiles...
-function dotfiles_init {
-    git --no-replace-objects clone --bare git@github.com:tenllado/dotfiles.git $HOME/.cfg
-    config config --local status.showUntrackedFiles no
-	config config --local user.email=ctenllado@gmail.com
-    config checkout -f
-    # we do not want the README.md file of the dotfiles repo
-    rm ~/README.md
-}
-
