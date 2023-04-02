@@ -225,11 +225,11 @@ alias contiker="docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=
 # for dotfiles management, following the strategy described in:
 #    - https://wiki.tinfoil-hat.net/books/workstation-backup-via-git/page/workstation-backup-via-git
 #    - https://www.atlassian.com/git/tutorials/dotfiles
-alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 function dotfiles_autoupdate {
-    config add -u && \
-	config commit -m "Update $(date +"%Y-%m-%d %H:%M") $(uname -s)/$(uname -m)"\
-	&& config push
+    cfg add -u && \
+	cfg commit -m "Update $(date +"%Y-%m-%d %H:%M") $(uname -s)/$(uname -m)"\
+	&& cfg push
 }
 
