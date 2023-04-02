@@ -3,6 +3,7 @@
 I am currently using the technique described in these two posts:
 - [workstation-backup-via-git](https://wiki.tinfoil-hat.net/books/workstation-backup-via-git/page/workstation-backup-via-git)
 - [dotfiles](https://www.atlassian.com/git/tutorials/dotfiles)
+
 with some modifications to avoid having this README.md pullute my home
 directory. The instructions here are for me to remember what to do to clone this
 setup.
