@@ -1,4 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
+# ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -59,15 +60,6 @@ fi
 
 source ~/.git-prompt.sh
 
-RCol='\[\e[0m\]'
-Red='\[\e[0;31m\]'
-BRed='\[\e[1;31m\]'
-Gre='\[\e[0;32m\]'
-BYel='\[\e[1;33m\]'
-BBlu='\[\e[1;34m\]'
-Pur='\[\e[0;35m\]'
-BPur='\[\e[1;35m\]'
-
 set_window_title() {
 	__git_branch=$(__git_ps1 " (%s)")
 	case "$TERM" in
@@ -87,9 +79,44 @@ set_window_title_command() {
 	esac
 }
 
-PROMPT_COMMAND=set_window_title
-#PS1="[${BBlu}\w${BRed}${branch}${RCol}${Red}\$(__git_ps1 \" (%s)\")${RCol}]\n$ "
-PS1="[${BBlu}\w${BRed}${branch}${RCol}${BRed}\${__git_branch}${RCol}]\n$ "
+PROMPT_COMMAND=__prompt_command
+
+__prompt_command() {
+	local EXIT="$?"
+	RCol='\[\e[0m\]'
+	Red='\[\e[0;31m\]'
+	BRed='\[\e[1;31m\]'
+	Gre='\[\e[0;32m\]'
+	BYel='\[\e[1;33m\]'
+	BBlu='\[\e[1;34m\]'
+	Pur='\[\e[0;35m\]'
+	BPur='\[\e[1;35m\]'
+
+	__git_branch=$(__git_ps1 " (%s)")
+	PS1="[${BBlu}\w${BRed}${branch}${RCol}${BRed}\${__git_branch}${RCol}]\n"
+
+	if [ $EXIT != 0 ]; then
+		PS1+="[${Red}$EXIT${RCol}]"
+	fi
+	PS1+="$ "
+}
+
+# osc7_cwd: communicate directory changes to foot
+osc7_cwd() {
+    local strlen=${#PWD}
+    local encoded=""
+    local pos c o
+    for (( pos=0; pos<strlen; pos++ )); do
+        c=${PWD:$pos:1}
+        case "$c" in
+            [-/:_.!\'\(\)~[:alnum:]] ) o="${c}" ;;
+            * ) printf -v o '%%%02X' "'${c}" ;;
+        esac
+        encoded+="${o}"
+    done
+    printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${encoded}"
+}
+PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }osc7_cwd
 
 # This changes the terminal title with the command being executed, 
 #trap 'echo -e "\e]0;$BASH_COMMAND\007"' DEBUG
@@ -145,6 +172,8 @@ export EDITOR=vim
 # Use less as default pager
 export PAGER=less
 
+PATH=$PATH:/usr/sbin
+
 # set vi mode in bash
 #set -o vi
 
@@ -183,13 +212,7 @@ if [ -d /opt/openocd ]; then
 	update_path_openocd
 fi
 
-## Python stuff
-# include the bin path for pip installed scripts to PATH
-export PY_USER_BIN=$(python -c 'import site; print(site.USER_BASE + "/bin")')
-PATH=$PY_USER_BIN:$PATH
-
 ## Go support
-
 if command -v go > /dev/null 2>&1; then
 	export GOPATH=$(go env GOPATH)
 	PATH=$PATH:$GOPATH/bin
@@ -198,3 +221,4 @@ fi
 # for contiki-ng
 export CNG_PATH=/home/christian/docencia/RPI/contiki-ng
 alias contiker="docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb -ti contiker/contiki-ng"
+
