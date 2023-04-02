@@ -1,9 +1,0 @@
-#!/bin/bash
-
-MAILPATH="${HOME}/.mail"
-
-for d in $(ls -d ${MAILPATH}/*/); do
-	pushd $d > /dev/null
-	gmi sync || exit $?
-	popd > /dev/null
-done
