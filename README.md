@@ -11,9 +11,14 @@ To install the dotfiles you have to execute the following lines:
     config config --local status.showUntrackedFiles no
     config checkout -f
     rm ~/README.md
+```
+
+And to complete the configuration of vim:
+
+```bash
     mkdir -p ~/.config/vim/pack/minpack/opt
     cd ~/.config/vim/pack/minpack/opt
     git clone git@github.com:k-takata/minpac.git
     cd -
+	vim +PackUpdateAndQuit
 ```
-
