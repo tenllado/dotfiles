@@ -29,5 +29,5 @@ To complete the setup, we have to add the minpac plugin for vim:
     cd ~/.config/vim/pack/minpack/opt
     git clone git@github.com:k-takata/minpac.git
     cd -
-	vim +PackUpdateAndQuit
+    vim +PackUpdateAndQuit
 ```
