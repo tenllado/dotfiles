@@ -12,7 +12,7 @@ export GTK_THEME=Adwaita
 #fi
 
 # setup keyboard
-xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
+#xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
 
 if [ -f "$HOME/.profile" ]; then
 	source "$HOME/.profile"
