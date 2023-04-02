@@ -25,6 +25,6 @@ else
 	xinput set-prop "$TP_ID" "libinput Tapping Enabled" 1
 	xinput set-prop "$TP_ID" "libinput Natural Scrolling Enabled" 1
 	xinput set-prop "$TP_ID" "libinput Click Method Enabled" 0 1
-	xinput set-prop "$TP_ID" "libinput Accel Speed" 1
+	xinput set-prop "$TP_ID" "libinput Accel Speed" 0.25
 fi
 

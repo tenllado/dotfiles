@@ -25,6 +25,7 @@
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
 command=~/.config/i3blocks/blocklets/$BLOCK_NAME
+#separator_block_width=5
 separator_block_width=5
 
 [apt-updates]
@@ -51,11 +52,11 @@ instance=Master
 interval=2
 signal=10
 
-[mail]
-label=
-command=notmuch search 'tag:inbox and tag:unread' | wc -l;
-interval=once
-signal=3
+#[mail]
+#label=
+#command=notmuch search 'tag:inbox and tag:unread' | wc -l;
+#interval=once
+#signal=3
 
 [brightness]
 label=
@@ -76,11 +77,11 @@ interval=30
 # If the instance is not specified, use the interface used for default route.
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
 
-[wifi]
-label=
-instance=wlp58s0
-interval=10
-#separator=false
+#[wifi]
+#label=
+#instance=wlp58s0
+#interval=10
+##separator=false
 
 # show current ip
 #[iface]
@@ -127,17 +128,16 @@ interval=1
 #min_width=⚡DIS xx% (xx:xx)
 align=center
 
-[logout]
-full_text=
-#
-
 # Date full_text#
 [date]
 label=
-command=LANG=es_ES.utf-8 date '+%a %d %b %H:%M:%S'
-interval=1
+command=LANG=es_ES.utf-8 date '+%a %d %b %H:%M'
+interval=60
 #label=
 
+#[logout]
+#full_text=
+##
 
 ##[calendar]
 #command=~/.config/i3blocks/blocklets/calendar -f "+%H:%M:%S" -W 220 -H 180 -S "+%H:%M:%S"

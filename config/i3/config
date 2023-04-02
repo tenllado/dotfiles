@@ -19,19 +19,15 @@ set $ws9 "9"
 set $ws10 "10"
 
 workspace_auto_back_and_forth no
-#workspace_auto_back_and_forth yes
 workspace $ws10 output eDP-1
-# form version 4.18
-#focus_wrapping workspace
 
 ################################################################################
 # Aesthetics: font, colors and bar
 ################################################################################
 font pango:DejaVu Sans Mono 10
+#font pango:DejaVu Sans Mono 6
 
 # Colors for window decorations and bar
-set $barbg 	#e8e8e7
-#set $wfoc 	#707070
 set $wfoc 	#4A90D9
 set $tfoc	#E6E5CA
 set $winac 	#ababab
@@ -55,28 +51,25 @@ client.focused_inactive $winac 		$winac 		$tinac   $indic   	$winac
 client.unfocused        $winac 	    $bunfoc		$tunfoc  $indic   	$wunfoc
 client.urgent   	    $urg 		$urg 		$turg  $indic   	$urg
 
-#client.placeholder      #64FFDA 	#64FFDA 	#121212  #d2d2d2   #64FFDA
-#client.background       #00FF00
 bar {
 	mode dock
 	position top
 	modifier none
 	#font pango:DejaVu Sans Mono 11
 	font pango:FontAwesome 10
+	#font pango:FontAwesome 6
 	workspace_buttons yes
 	status_command i3blocks
-	#output eDp-1
-	# only put system tray icons on primary
 	tray_output primary
+	#tray_output *
 	colors {
 			# bars on all monitors the same
-			background $barbg
-			#statusline #2e3436
+			background #e8e8e7
 			statusline #4e5456
 			separator  #2e3436
-
 			# colors for bar buttons
 			#                    border  	background   	text
+			#
 			focused_workspace   $wfoc 		$wfoc 			$tfoc
 			active_workspace    $winac	 	$winac 			$tinac
 			inactive_workspace  $wunfoc	 	$wunfoc 		$tunfoc
@@ -84,64 +77,26 @@ bar {
 	}
 }
 
-## Start i3bar to display a workspace bar (plus the system information i3status
-## finds out, if available)
-#bar {
-#        i3bar_command i3bar
-#        status_command i3blocks
-#        position top
-#        tray_output primary
-#
-#        bindsym button3         exec --no-startup-id "rofi -combi-modi window,drun,run -show combi -modi combi"
-#
-#    colors {
-##        background #202A2E
-#        background #000000BB
-##        statusline #F9FAF9
-##        separator  #454947
-#
-##                            border  backgr. text
-##        focused_workspace  #F9FAF9 #16a085 #292F34
-##        active_workspace   #595B5B #353836 #FDF6E3
-##        inactive_workspace #595B5B #202A2E #EEE8D5
-##        binding_mode       #16a085 #2C2C2C #F9FAF9
-##        urgent_workspace   #16a085 #FDF6E3 #E5201D
-#	     binding_mode		#4C7899 #285577 #F2F5F7	
-#    }
-#}
-#
-## Theme colors
-## class                   border  backgr. text    indic.   child_border
-## client.focused          #556064 #556064 #80FFF9 #FDF6E3
-## client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-## client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-## client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-## client.placeholder      #000000 #0c0c0c #ffffff #000000 
-## client.background       #2B2C2B
-
-
-################################################################################
-#  Rules for windows apparence, placement/focus
-################################################################################
-
-# This seems better for touchpad on the laptop (it gets always in the weay)
-focus_follows_mouse yes
-# Can this work better if we use a lot of drag and drop with mouse?
-#focus_follows_mouse yes
-mouse_warping output
-
-# for presentation tools like dspdfviewer
-# should be modified to assing to monitor instead of workspace
-#assign [title="DS PDF Viewer - Audience Window"] 3
-#assign [title="DS PDF Viewer - Secondary Window"] 4
-
-default_border pixel 1
+default_border pixel 2
 default_floating_border pixel 2
 # remove borders when only one window is open
 hide_edge_borders smart
 for_window [class=".*"] border pixel 2
 #for_window [class=".*" tiling] border normal
 #for_window [class=".*"] border normal
+
+# To see marks we need the title bar, not sure if it is very useful
+show_marks yes
+
+################################################################################
+#  Rules for windows apparence, placement/focus
+################################################################################
+
+# focus_follows_mosuse no seems better for touchpad on the laptop (it gets
+# always in the way)
+#focus_follows_mouse no
+focus_follows_mouse yes
+#mouse_warping output
 
 # Settings for specific window classes
 # (use xprop, class is second part of WM_CLASS)
@@ -151,66 +106,58 @@ for_window [title="G Alternatives"] floating enable
 for_window [class="Gtkwave" title="^.*Search.*$"] floating enable
 #for_window [class="Firefox-esr"] layout tabbed
 for_window [class="Kicad"] layout tabbed
-
-
-#for_window [class="Yad"] floating enable
-#for_window [class="Orage"] floating enable
-#for_window [class="RipperX"] floating enable
-#for_window [class="Pavucontrol"] floating enable
-# this should be supported in the future https://github.com/i3/i3/issues/3588
-#for_window [floating_user class="Firefox-esr" title="^Meet"] resize set 800 px 600 px
-#for spice figures
-#for_window [class="GNU Octave"] floating enable, move position center
-#for_window [class="Gnuplot"] floating enable, \
-#     resize set 50 ppt 50 ppt, move position center
-#for_window [instance="ngspice" class="TopLevelShell"] floating enable, \
-#     resize set 50 ppt 50 ppt, move position center
+for_window [class="i3-overview"] floating enable
+for_window [class="i3-overview"] sticky enable
+no_focus [class="i3-overview"]
+#for_window [class="zoom" title="^(?!Zoom Meeting)(?!Zoom - Free Account)"] floating enable
+for_window [title="^zoom$" class="[zoom]*"] floating enable
 
 # Windows to specific workspaces
-assign [class="Astroid"] $ws8
 assign [class="Firefox-esr"] $ws9
-assign [class="^Slack$"] $ws10
+assign [class="Google-chrome"] $ws9
 
-# Focus on window activation
 #focus_on_window_activation smart
-focus_on_window_activation focus
-
-# To see marks we need the title bar, not sure if it is very useful
-show_marks yes
 
 ################################################################################
-#  Dropdown/Scratchpad windows
+#  Scratchpad/Dropdown windows
 ################################################################################
 
-# terminal drop down window
+# RANGER
 #set $spfm st -n spfm -e ranger
-set $spfm urxvt -name spfm -e ranger
-for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
+#set $spfm urxvt -name spfm -e ranger
+set $spfm xfce4-terminal --role spfm -e ranger
+#for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
+for_window [window_role="spfm"] floating enable, resize set 80 ppt 70 ppt,\
     move position center, move scratchpad
 exec --no-startup-id $spfm
-bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
+#bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
+bindsym $mod+u [window_role="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
     move position center
 bindsym $mod+Shift+u exec --no-startup-id $spfm
 
-# octave terminal as calculator
+# OCTAVE
 #set $spmath st -n spmath \
 #	-f "Monospace:pixelsize=24" -e octave --no-gui -q --traditional
-set $spmath urxvt -name spmath \
-	-fn "xft:monospace:size=20" -e octave --no-gui -q --traditional
-for_window [instance="spmath"] floating enable, resize set 40 ppt 30 ppt,\
+#set $spmath urxvt -name spmath \
+#	-fn "xft:DejaVu Sans mono:pixelsize=24" -e octave --no-gui -q --traditional
+set $spmath xfce4-terminal --role spmath \
+	--font "DejaVu Sans mono 20" -x octave --no-gui -q --traditional
+#for_window [instance="spmath"] floating enable, resize set 40 ppt 30 ppt,\
+for_window [window_role="spmath"] floating enable, resize set 40 ppt 30 ppt,\
 	move scratchpad
 exec --no-startup-id $spmath
-bindsym $mod+y  [instance="spmath"] scratchpad show, resize set 40 ppt 30 ppt,\
+#bindsym $mod+y  [instance="spmath"] scratchpad show, resize set 40 ppt 30 ppt,\
+bindsym $mod+y  [window_role="spmath"] scratchpad show, resize set 40 ppt 30 ppt,\
 	move position center
 bindsym $mod+Shift+y exec --no-startup-id $spmath
 
-# keepassxc does not work well with resizing
+# KEEPASSXC (does not work well with resizing)
 exec keepassxc
 for_window [instance="keepassxc" window_type=normal] floating enable, move scratchpad
 bindsym $mod+i  [instance="keepassxc" window_type=normal] scratchpad show, move position center
 bindsym $mod+Shift+i exec keepassxc
 
-# pavucontrol
+# PAVUCONTROL
 exec pavucontrol
 for_window [class="Pavucontrol"] floating enable, move scratchpad
 bindsym $mod+p [class="Pavucontrol"] scratchpad show, move position center
@@ -220,70 +167,72 @@ bindsym $mod+Shift+p exec pavucontrol
 # General key/mouse bindings (mostly default values)
 ################################################################################
 
-#bindsym $mod+Return exec i3-sensible-terminal
+# the terminal
 #bindsym $mod+Return exec st
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec xfce4-terminal
 
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 #; move position center
-bindsym $mod+Shift+Tab workspace back_and_forth
-
-# Gestures are processed with libinput-gestures
-#exec --no-startup-id libinput-gestures -c $HOME/.config/i3/libinput-gestures.conf
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-# zooming window (float + maximize)
-bindsym $mod+Shift+f floating toggle, resize set 100 ppt 98ppt, move position center
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 bindsym --whole-window --border $mod+button3 floating toggle
 
-#bindsym $mod+Shift+c kill
 bindsym $mod+q kill
-bindsym $mod+d exec --no-startup-id "rofi -show run -modi run,drun,ssh -show-icons"
-# I am never using this
-#bindsym $mod+d exec --no-startup-id i3-easyfocus --color-unfocused-bg FFFFFF --color-focused-bg 000000
+bindsym $mod+d exec --no-startup-id "rofi -show drun -modi drun,run -show-icons"
 
-# change focus
-set $warp exec --no-startup-id ~/.config/i3/scripts/warpmouse
-bindsym $mod+h focus left; $warp
-bindsym $mod+j focus down; $warp
-bindsym $mod+k focus up; $warp
-bindsym $mod+l focus right; $warp
-
-# alternatively, you can use the cursor keys:
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus up
-#bindsym $mod+Right focus right
-# Change to workspaces
-bindsym $mod+Left workspace prev
-bindsym $mod+Right workspace next
-bindsym $mod+masculine workspace back_and_forth
-# A list of opened windows with rofi, to change between them
-bindsym $mod+Tab exec --no-startup-id rofi -show-icons -width 60 -show window
-
+#set $warp exec #--no-startup-id ~/.config/i3/scripts/warpmouse
+bindsym $mod+h focus left;
+bindsym $mod+j focus down;
+bindsym $mod+k focus up;
+bindsym $mod+l focus right;
+#
+bindsym $mod+Left focus left;
+bindsym $mod+Down focus down;
+bindsym $mod+Up focus up;
+bindsym $mod+Right focus right;
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+#
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Change to workspaces
+bindsym $mod+masculine workspace back_and_forth
+
+# A list of opened windows with rofi, to change between them
+bindsym $mod+Tab exec --no-startup-id rofi -show-icons -width 60 -show window
 
 bindsym $mod+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py
 bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -m
 bindsym $mod+Control+n exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s
 bindsym $mod+Shift+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.py -s -l
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+# splits in horizontal/vertical orientation
+bindsym $mod+v split v
+bindsym $mod+Shift+v split h
+
+# focus the parent/child container
+bindsym $mod+a focus parent
+bindsym $mod+c focus child
+
+# show hide the bar
+bindsym $mod+b bar mode toggle
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -324,24 +273,6 @@ bindsym $mod+Control+0 move container to workspace $ws10; workspace $ws10
 # rename current workspace
 bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Workspace rename: '
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-# splits in horizontal/vertical orientation
-bindsym $mod+v split v
-bindsym $mod+Shift+v split h
-
-#bindsym $mod+e layout splitv
-#bindsym $mod+Shift+e layout splith
-
-# focus the parent/child container
-bindsym $mod+a focus parent
-bindsym $mod+c focus child
-
-# show hide the bar
-bindsym $mod+b bar mode toggle
-
 ####  Reload and exit
 bindsym $mod+Shift+d exec --no-startup-id i3-msg "reload"
 bindsym $mod+Shift+r exec --no-startup-id i3-msg "restart"
@@ -353,7 +284,6 @@ bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+j move workspace to output down
 
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m \
-# 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Control+e exec --no-startup-id \
 	"rofi -show i3-msg -modi i3-msg:~/.config/rofi/scripts/rofi_i3_msg.sh"
 
@@ -378,17 +308,6 @@ bindsym XF86MonBrightnessUp exec --no-startup-id \
      ~/.config/i3/scripts/brightness -i 5 && pkill -RTMIN+11 i3blocks
 bindsym XF86MonBrightnessDown exec  --no-startup-id \
      ~/.config/i3/scripts/brightness -d 5 && pkill -RTMIN+11 i3blocks
-
-
-##increase sound volume
-#bindsym XF86AudioRaiseVolume exec --no-startup-id \
-#	pactl set-sink-volume 0 +5% && pkill -RTMIN+10 i3blocks
-##decrease sound volume
-#bindsym XF86AudioLowerVolume exec --no-startup-id \
-#	pactl set-sink-volume 0 -5%  && pkill -RTMIN+10 i3blocks
-## mute sound
-#bindsym XF86AudioMute exec --no-startup-id \
-#	pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks
 
 ################################################################################
 # Marks, jumps, swaps and sticky
@@ -435,15 +354,7 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# to resize with mouse
-bindsym --whole-window --border $mod+button5 resize shrink height 10 px or 2 ppt
-bindsym --whole-window --border $mod+button4 resize grow height 10 px or 2 ppt
-bindsym --whole-window --border $mod+button7 resize shrink width 10 px or 2 ppt
-bindsym --whole-window --border $mod+button6 resize grow width 10 px or 2 ppt
-
-
 # Shutdown Menu
-bindsym $mod+Escape mode "$mode_system"
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (p) shutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock -n -e -f -t -i $HOME/.config/i3/screenlock.png, mode "default"
@@ -458,6 +369,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
     bindsym KP_Enter mode "default"
 }
+bindsym $mod+Escape mode "$mode_system"
 
 ################################################################################
 # Services/Applications launched on startup
@@ -484,9 +396,11 @@ exec --no-startup-id blueman-applet &
 
 # pulseaudio systray applet
 exec --no-startup-id pasystray
+# Remove noise from headphones (reduces volume)
+exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
 
 # usb automatic mount with udiskie
-exec --no-startup-id udiskie -2 --smart-tray &
+exec --no-startup-id udiskie -ans &
 # alternative?: devmon
 
 # dunst for simple notification daemon
@@ -519,19 +433,11 @@ exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
 bindsym $mod+o exec --no-startup-id loginctl lock-session
 ################################################################################
 
-# Kind of automate layout for two columns, new windows automatically open on the
-# second column. It does not restore modifications you perform on layout, if you
-# move windows to have three columns, it will still insert new ones on the
-# second
-# Needs the i3ipc python library
-#exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
-
 # i3-sticky, for sticky tiling groups (git@github.com:Airblader/i3-sticky.git)
 exec_always --no-startup-id "~/.config/i3/scripts/i3-sticky"
 
-# for workspaces expo
-#exec_always --no-startup-id ~/.config/i3/scripts/i3expo/i3expod.py
-#bindsym $mod+Mod1+x exec --no-startup-id killall -s SIGUSR1 i3expod.py
+# my autolayout script
+exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # Redshift: regulate the color temperature of the screen
 exec --no-startup-id redshift-gtk -l 40.360879:-3.598175
@@ -548,28 +454,14 @@ exec --no-startup-id system-config-printer-applet
 exec --no-startup-id ~/.config/i3/scripts/services
 
 exec_always --no-startup-id xrdb -load ~/.Xdefaults
-##use xsettingsd for appareance settings (works good so that firefox, chromium,
-##etc. don't have too large or too small fonts or gui elements)
-#exec --no-startup-id xsettingsd &
-#bindsym $mod+Shift+x exec --no-startup-id pkill -HUP xsettingsd
 
 ## udev daemon to trigger automatic config of some usb devices
 exec --no-startup-id $HOME/.config/i3/scripts/udev_daemon
 
-# laptop keyboard
-#exec --no-startup-id xkbcomp -w 0 $HOME/.config/xkb/laptop_prog.xkb $DISPLAY
-
-# Remove noise from headphones (reduces volume)
-exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
-
 # polkit
-exec --no-startup-id /usr/lib/policykit-1-gnome/plkit-gnome-authentication-agent-1
-
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 # keyring
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
 exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY
-
-# Compton, gives me lots of stability problems
-#exec --no-startup-id compton
 
 ################################################################################
