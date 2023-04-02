@@ -14,7 +14,7 @@ fi
 # variable for the process that runs the autorandr command is not valid anymore
 # Giving the correct socket to i3 works
 i3-msg -s $(i3 --get-socketpath) \
-	'[workspace="^(1|2|3|4|5|6|7|8|9)$"] move workspace to output DP1;' \
+	'[workspace="^(1|2|3|4|5|6)$"] move workspace to output DP1;' \
 	>> $LOGFILE  2>&1
 
 echo "Ending autorandr postswitch hook for: fisicas" >> $LOGFILE
