@@ -2,7 +2,7 @@
 
 I am currently using the technique described in these two posts:
 - [workstation-backup-via-git](https://wiki.tinfoil-hat.net/books/workstation-backup-via-git/page/workstation-backup-via-git)
-- (dotfiles)[https://www.atlassian.com/git/tutorials/dotfiles]
+- [dotfiles](https://www.atlassian.com/git/tutorials/dotfiles)
 
 To install the dotfiles you have to execute the following lines:
 
