@@ -26,6 +26,7 @@ call minpac#add('dhruvasagar/vim-table-mode')
 
 command! PackUpdate call minpac#update()
 command! PackClean  call minpac#clean()
+command! PackUpdateAndQuit call minpac#update('', {'do': 'quitall'})
 " }}}
 
 " Colorscheme -------------------------------------------------------------- {{{
