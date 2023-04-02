@@ -1,11 +1,13 @@
 ! ---------------------------- Fonts -------------------------------
 !Xft.dpi:        168
+Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 Xft.autohint:   false
 Xft.lcdfilter:  lcddefault
+Xcursor.size: 16
 
 ! ---------------------------- URXVT -------------------------------
 
@@ -123,46 +125,28 @@ URxvt.url-select.underline: true
 !URxvt.color7: #4D4D4C
 !URxvt.color15: #F5F5F5
 
-! Color Scheme: simple
-! My colorscheme: based on OSX Basic palette for white background with some
-! modifications borrowed from gnome-terminal and my own selection of colors
-URxvt*foreground: #000000
-URxvt*background: #ffffff
-URxvt.cursorColor: #000000
-URxvt.pointerColor: #000000
-!! black
-URxvt*color0  : #000000
-URxvt*color8  : #666666
-!! red
-URxvt*color1  : #990000
-URxvt*color9  : #e50000
-!! green
-!URxvt*color2   : #00a600
-!URxvt*color10  : #00d900
-! Alternative from linux colorscheme
-URxvt*color2   : #008800
-URxvt*color10  : #22bb22
-!! yellow
-!URxvt*color3  : #999900
-!URxvt*color11 : #E5E500
-! Alternative
-URxvt*color3  : #aa5500
-URxvt*color11 : #EDBC1D
-!! blue
-URxvt*color4  : #0000b2
-URxvt*color12 : #0000ff
-!Alternative from linux colorsheme
-!URxvt*color4  : #0000aa
-!URxvt*color12 : #5555ff
-!! magenta
-URxvt*color5  : #b200b2
-URxvt*color13 : #e500e5
-!! cyan
-URxvt*color6  : #00a6b2
-!URxvt*color14 : #00e5e5
-URxvt*color14 : #00c6d2
-!! white
-URxvt*color7  : #bfbfbf
-URxvt*color15 : #ffffff
-!URxvt*color15 : #cfcfcf
+!lucius light theme
+URxvt*cursorColor: #626262
+URxvt*pointerColor: #626262
+URxvt.background: #eeeeee
+URxvt.border: #eeeeee
+URxvt.foreground: #626262
+URxvt.cursor: #87afdf
 
+URxvt.color0: #626262
+URxvt.color1: #d70000
+URxvt.color2: #00af00
+URxvt.color3: #d78700
+URxvt.color4: #0087d7
+URxvt.color5: #af00af
+URxvt.color6: #00afaf
+URxvt.color7: #eeeeee
+
+URxvt.color8: #626262
+URxvt.color9: #d70000
+URxvt.color10: #00af00
+URxvt.color11: #d78700
+URxvt.color12: #0087d7
+URxvt.color13: #af00af
+URxvt.color14: #00afaf
+URxvt.color15: #eeeeee
