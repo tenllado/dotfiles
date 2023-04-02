@@ -239,5 +239,7 @@ function dotfiles_init {
     config config --local status.showUntrackedFiles no
 	config config --local user.email=ctenllado@gmail.com
     config checkout -f
+    # we do not want the README.md file of the dotfiles repo
+    rm ~/README.md
 }
 
