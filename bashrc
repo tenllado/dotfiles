@@ -222,3 +222,22 @@ fi
 export CNG_PATH=/home/christian/docencia/RPI/contiki-ng
 alias contiker="docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb -ti contiker/contiki-ng"
 
+# for dotfiles management, following the strategy described in:
+#    - https://wiki.tinfoil-hat.net/books/workstation-backup-via-git/page/workstation-backup-via-git
+#    - https://www.atlassian.com/git/tutorials/dotfiles
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+function dotfiles_autoupdate {
+    config add -u && \
+	config commit -m "Update $(date +"%Y-%m-%d %H:%M") $(uname -s)/$(uname -m)"\
+	&& config push
+}
+
+ # please give me my dotfiles...
+function dotfiles_init {
+    git --no-replace-objects clone --bare git@github.com:tenllado/dotfiles.git $HOME/.cfg
+    config config --local status.showUntrackedFiles no
+	config config --local user.email=ctenllado@gmail.com
+    config checkout -f
+}
+
