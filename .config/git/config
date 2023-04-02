@@ -1,0 +1,10 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Christian Tenllado
+[pull]
+	rebase = false
+[alias]
+	co = checkout
+	ci = commit
+	br = branch
+	st = status
