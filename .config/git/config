@@ -8,3 +8,5 @@
 	ci = commit
 	br = branch
 	st = status
+[init]
+	defaultBranch = master
