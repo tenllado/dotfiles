@@ -233,3 +233,8 @@ function dotfiles_autoupdate {
 	&& cfg push
 }
 
+## node tools
+if [ -d $HOME/node_modules/.bin ]; then
+	PATH=$PATH:$HOME/node_modules/.bin
+fi
+
