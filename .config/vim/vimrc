@@ -1,8 +1,6 @@
-" Basic initial config ----------------------------------------------------- {{{
-let mapleader = ","
-let maplocalleader = ";"
-nnoremap - ,
-nnoremap _ ;
+ " Basic initial config ----------------------------------------------------- {{{
+let mapleader = " "
+let maplocalleader = " "
 
 set nocompatible
 filetype indent plugin on
@@ -135,6 +133,7 @@ let wiki_1.folding = 'syntax'
 let wiki_1.syntax = 'markdown'
 let wiki_1.autoexport = 1
 let wiki_1.maxhi = 1
+let wiki_1.auto_diary_index = 1
 
 let wiki_1.template_path = '~/vimwiki/templates/'
 let wiki_1.template_default = 'GitHub'
@@ -146,7 +145,12 @@ let wiki_1.custom_wiki2html = 'wiki2html.sh'
 " let wiki_1.custom_wiki2html = '$GOPATH/bin/vimwiki-godown'
 " let wiki_1.custom_wiki2html_args = 'xyz/'
 
-let g:vimwiki_list = [wiki_1]
+let g:vimwiki_list = [wiki_1] " alternative: [{'path': '~/vimwiki', 'syntax': 'markdown', ..}]
+"let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+"
+" Makes vimwiki markdown links as [test](text.md) instead of [text](text)
+" let g:vimwiki_makrdown_link_ext = 1
+" let g:makrdown_folding = 1
 
 " only set the filetype of vimwiki for files in the wiki
 let g:vimwiki_global_ext = 0
@@ -175,6 +179,10 @@ augroup END
 "	call VimwikiSet('syntax', 'markdown')
 "	call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
 "endfunction
+
+" for taskwiki
+" let g:takswiki_markup_syntax = 'markdown'
+
 
 " }}}
 
@@ -277,8 +285,7 @@ nnoremap <silent> <leader>G :set operatorfunc=GrepOnDirOperator<cr>g@
 vnoremap <silent> <leader>g :<c-u>call GrepOnFileOperator(visualmode())<cr>
 vnoremap <silent> <leader>G :<c-u>call GrepOnDirOperator(visualmode())<cr>
 
-nnoremap <leader>ev :e $MYVIMRC<cr>
-nnoremap <leader>tv :tabnew $MYVIMRC<cr>
+nnoremap <leader>v :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>cd :lcd %:p:h<cr>
 nnoremap <leader>h :nohlsearch<cr>
@@ -299,6 +306,9 @@ nnoremap <leader>L L
 vnoremap <leader>H H
 vnoremap <leader>L L
 
+" open netrw on the left
+nnoremap <silent> <leader>e :Ex<cr>
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -312,8 +322,7 @@ nnoremap <leader>a :execute "split " . bufname("#")<cr>
 
 " quickly move through buffers with simple mapping
 "nnoremap <Leader>b :ls<CR>:b<Space>
-nnoremap <Leader>b :set nomore <Bar> :ls <Bar> :set more <CR>:b
-"<Space>
+nnoremap <Leader>b :set nomore <Bar> :ls <Bar> :set more <CR>:b <Space>
 
 " }}}
 
@@ -326,12 +335,22 @@ nnoremap K :<C-U>exe "Man" v:count "<C-R><C-W>"<CR>
 " open file under cursor in a split, using gf command
 nnoremap gsf :execute "split\nnormal! gf"<cr>
 
-
 " window movement
 nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+" Buffer movement
+nnoremap <silent> <M-l> :bnext<cr>
+nnoremap <silent> <M-h> :bprevious<cr>
+
+" use H and L to move to begin-end line
+nnoremap H 0
+vnoremap H 0
+nnoremap L $
+
+vnoremap L $
 
 " very magic reg expression mode (see :help magic)
 "nnoremap / /\v
@@ -346,11 +365,6 @@ inoremap <c-f> <right>
 inoremap <c-u> <esc>viwUea
 inoremap <c-l> <esc>viwuea
 
-" use H and L to move to begin-end line
-nnoremap H 0
-vnoremap H 0
-nnoremap L $
-vnoremap L $
 
 " Note: try to change it by configuring CapsLock as Esc
 " use jk to leave insert mode, back to normal mode
