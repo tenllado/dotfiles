@@ -38,8 +38,11 @@ Options:
 done
 
 read upgraded new removed held < <(
-aptitude full-upgrade --simulate --assume-yes |\
-    grep -m1 '^[0-9]\+ packages upgraded,' |\
+#aptitude full-upgrade --simulate --assume-yes |\
+#    grep -m1 '^[0-9]\+ packages upgraded,' |\
+apt full-upgrade --simulate --assume-yes 2>&1 |\
+	grep -v 'WARNING' |\
+    grep -m1 '^[0-9]\+ upgraded,' |\
     tr -cd '0-9 ' |\
     tr ' ' '\n' |\
     grep '[0-9]\+' |\
