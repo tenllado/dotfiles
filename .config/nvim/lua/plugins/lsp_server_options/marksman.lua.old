@@ -1,0 +1,24 @@
+return {
+	 handlers = {
+		["textDocument/completion"] = function(_, result, _, _)
+		  if not result or not result.items then return end
+		  
+		  -- Función para limpiar todos los campos relevantes
+		  local function clean_path(text)
+			return text and text:gsub("^[/\\]+", "") or text
+		  end
+		  
+		  -- Modificar todos los items
+		  for _, item in ipairs(result.items) do
+			item.insertText = clean_path(item.insertText or item.label)
+			item.label = clean_path(item.label)
+			item.filterText = clean_path(item.filterText)
+			if item.textEdit then
+			  item.textEdit.newText = clean_path(item.textEdit.newText)
+			end
+		  end
+		  
+		  return result
+		end
+	  }
+}
