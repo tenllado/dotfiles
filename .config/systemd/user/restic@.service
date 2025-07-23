@@ -1,0 +1,14 @@
+[Unit]
+# %I is "your-repo"
+Description=Restic backup on %I
+After=syslog.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=restic backup --tag systemd.timer --files-from %h/.config/restic/%I.files --exclude-file %h/.config/restic/%I.excludes
+ExecStartPost=restic forget --verbose --tag systemd.timer --group-by "paths,tags" --keep-daily $RETENTION_DAYS --keep-weekly $RETENTION_WEEKS --keep-monthly $RETENTION_MONTHS --keep-yearly $RETENTION_YEARS
+EnvironmentFile=%h/.config/restic/%I.env
+
+[Install]
+WantedBy=default.target

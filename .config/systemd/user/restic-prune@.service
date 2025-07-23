@@ -1,0 +1,8 @@
+[Unit]
+# %I is "your-repo"
+Description=Restic backup service (data pruning) on %I
+
+[Service]
+Type=oneshot
+ExecStart=restic prune
+EnvironmentFile=%h/.config/restic/%I.env

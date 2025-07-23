@@ -1,0 +1,10 @@
+[Unit]
+# the timer, enabled as restic@your-repo.timer, will trigger
+# restic@your-repo.service
+Description=Run Restic at 13:00 and 22:00
+
+[Timer]
+OnCalendar=*-*-* 13,22:00:00
+
+[Install]
+WantedBy=timers.target

@@ -1,1 +1,2 @@
 .config/restic/*.pass
+.config/systemd/user/*.wants/*
