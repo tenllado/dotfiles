@@ -101,23 +101,6 @@ __prompt_command() {
 	PS1+="$ "
 }
 
-# osc7_cwd: communicate directory changes to foot
-osc7_cwd() {
-    local strlen=${#PWD}
-    local encoded=""
-    local pos c o
-    for (( pos=0; pos<strlen; pos++ )); do
-        c=${PWD:$pos:1}
-        case "$c" in
-            [-/:_.!\'\(\)~[:alnum:]] ) o="${c}" ;;
-            * ) printf -v o '%%%02X' "'${c}" ;;
-        esac
-        encoded+="${o}"
-    done
-    printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${encoded}"
-}
-PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }osc7_cwd
-
 # This changes the terminal title with the command being executed, 
 #trap 'echo -e "\e]0;$BASH_COMMAND\007"' DEBUG
 #PS0='$(set_window_title_command)'
@@ -138,7 +121,7 @@ fi
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-#alias ll='ls -l'
+alias ll='ls -l'
 alias la='ls -A'
 #alias l='ls -CF'
 
@@ -162,79 +145,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Using nvim as default editor
-export EDITOR=vim
-#export VISUAL=nvim
-#export EDITOR=nvim
-#alias vim=nvim
-#alias vi=nvim
-
-# Use less as default pager
-export PAGER=less
-
-PATH=$PATH:/usr/sbin
-
 # set vi mode in bash
 #set -o vi
 
-# set last color scheme using dynamic-colors
-#  - urxvt
-#  - st (must be patched to work)
-case "$TERM" in
-    rxvt-*|st*)
-		if [ -x "$HOME/.dynamic-colors/bin/dynamic-colors" ]; then
-			$HOME/.dynamic-colors/bin/dynamic-colors init
-		fi
-		PATH=$PATH:$HOME/.dynamic-colors/bin/
-esac
-
-#enable DEL for st
-case "$TERM" in
-	st*)
-		tput smkx
-esac
-
-# for termite terminal support for Shift+Ctrl+t open terminal here
-#if [[ $TERM == xterm-termite ]]; then
-#  source /etc/profile.d/vte-2.91.sh
-#  __vte_prompt_command
-#fi
-
-update_path_openocd(){
-	for ver in $(find /opt/openocd -maxdepth 1 -mindepth 1)
-	do
-		PATH="$PATH:$ver/bin"
-	done
-}
-
-# Openocd versions
-if [ -d /opt/openocd ]; then
-	update_path_openocd
-fi
-
-## Go support
-if command -v go > /dev/null 2>&1; then
-	export GOPATH=$(go env GOPATH)
-	PATH=$PATH:$GOPATH/bin
-fi
-
-# for contiki-ng
-export CNG_PATH=/home/christian/docencia/RPI/contiki-ng
-alias contiker="docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb -ti contiker/contiki-ng"
-
-# for dotfiles management, following the strategy described in:
-#    - https://wiki.tinfoil-hat.net/books/workstation-backup-via-git/page/workstation-backup-via-git
-#    - https://www.atlassian.com/git/tutorials/dotfiles
-alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
-function dotfiles_autoupdate {
-    cfg add -u && \
-	cfg commit -m "Update $(date +"%Y-%m-%d %H:%M") $(uname -s)/$(uname -m)"\
-	&& cfg push
-}
-
-## node tools
-if [ -d $HOME/node_modules/.bin ]; then
-	PATH=$PATH:$HOME/node_modules/.bin
-fi
-
+export EDITOR=nvim
+export PAGER=less
+export _JAVA_AWT_WM_NONREPARENTING=1
