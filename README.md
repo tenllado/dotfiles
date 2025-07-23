@@ -8,4 +8,4 @@ simple symlinks, to keep it simple.
 1. Clone the repository in your home directory
 2. Create symbolic links for the files in the repository on your home directory.
 
-I added a install script that creates all the links requered.
+I added an install script that creates all the links required.
