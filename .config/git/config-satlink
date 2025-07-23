@@ -1,0 +1,8 @@
+[credential]
+    helper = !glab auth git-credential
+#	helper = store
+
+
+[user]
+    name = Christian Tenllado # See https://services.satlink.es/gitlab/-/profile/account
+    email = tenllado@ucm.es # See https://services.satlink.es/gitlab/-/profile

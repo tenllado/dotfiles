@@ -1,12 +1,21 @@
-# This is Git's per-user configuration file.
 [user]
 	name = Christian Tenllado
+
+[includeIf "hasconfig:remote.*.url:https://services.satlink.es/gitlab*/**"]
+    path = config-satlink
+
 [pull]
 	rebase = false
+
 [alias]
 	co = checkout
 	ci = commit
 	br = branch
 	st = status
+	lg = log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+
 [init]
 	defaultBranch = master
+
+[safe]
+	directory = /home/christian/Documents/proyectos/IMEC/scratch/gem5-rtl
