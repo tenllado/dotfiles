@@ -1,0 +1,2 @@
+# fuzzel
+My fuzzel config
