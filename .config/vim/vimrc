@@ -1,30 +1,33 @@
- " Basic initial config ----------------------------------------------------- {{{
 let mapleader = " "
 let maplocalleader = " "
 
-set nocompatible
 filetype indent plugin on
 syntax enable
 
-packadd minpac
-call minpac#init()
+" Minpac stuff: plugins  --------------------------------------------------- {{{
+function! PackInit() abort
+	packadd minpac
+	call minpac#init()
+	call minpac#add('k-takata/minpac', {'type': 'opt'})
 
-call minpac#add('k-takata/minpac', {'type': 'opt'})
-call minpac#add('tpope/vim-surround')
-call minpac#add('tpope/vim-fugitive')
-call minpac#add('jvirtanen/vim-octave')
-call minpac#add('vimwiki/vimwiki')
-call minpac#add('simeji/winresizer')
-call minpac#add('jonathanfilip/vim-lucius')
-"call minpac#add('neoclide/coc.nvim', {'branch': 'release'})
-"call minpac#add('neoclide/jsonc.vim')
-"call minpac#add('dense-analysis/ale')
-call minpac#add('neomake/neomake')
-call minpac#add('dhruvasagar/vim-table-mode')
+	" Additional plugins here.
+	call minpac#add('tpope/vim-surround')
+	call minpac#add('tpope/vim-fugitive')
+	call minpac#add('jvirtanen/vim-octave')
+	call minpac#add('vimwiki/vimwiki')
+	call minpac#add('simeji/winresizer')
+	call minpac#add('jonathanfilip/vim-lucius')
+	"call minpac#add('neoclide/coc.nvim', {'branch': 'release'})
+	"call minpac#add('neoclide/jsonc.vim')
+	"call minpac#add('dense-analysis/ale')
+	call minpac#add('neomake/neomake')
+	call minpac#add('dhruvasagar/vim-table-mode')
+	call minpac#add('osyo-manga/vim-over')
+endfunction
 
-command! PackUpdate call minpac#update()
-command! PackClean  call minpac#clean()
-command! PackUpdateAndQuit call minpac#update('', {'do': 'quitall'})
+command! PackUpdate call PackInit() | call minpac#update()
+command! PackClean  call PackInit() | call minpac#clean()
+command! PackSatus packadd minpac | call minpac#status()
 " }}}
 
 " Colorscheme -------------------------------------------------------------- {{{
@@ -44,9 +47,6 @@ colorscheme lucius
 "highlight clear SpellBad
 "highlight SpellBad cterm=underline
 
-" highlight the 81 column
-set colorcolumn=81
-highlight ColorColumn ctermbg=Grey ctermfg=Black
 " }}}
 
 " Basic settings ----------------------------------------------------------- {{{
@@ -63,41 +63,49 @@ if has('gui_running')
 endif
 
 " Search down into subfolders, with tab-completion for all file operations
-set path+=**
-set wildignore=*.o,*.obj,*.pdf,*.ps,*.eps,*.jpg,*.png
-" Display all matching files when tab complete
-set wildmenu
 set autoindent
-set smarttab
-set hlsearch
-set cursorline
-set incsearch
-set number
-"set relativenumber
-set showcmd
-set encoding=utf-8
 set backspace=indent,eol,start
-set whichwrap+=<,>,h,l
-set wrap linebreak nolist
-set showmode
-" minimum context lines to keep when moving up down
-"set so=5
-" a buffer becomes hidden when it is abandoned
-set hidden
-set ignorecase
-set smartcase
 set nobackup
-set nowritebackup
-set noswapfile
 set cmdheight=2
-set updatetime=300
-set shortmess+=c
+set cinoptions=:0
+set colorcolumn=+1
+set completeopt=menu,menuone,noselect
+set conceallevel=0
+set cursorline
+set encoding=utf-8
+set fo=tcroqn2bj
+set hlsearch
+set hidden
+set incsearch
+set ignorecase
+set linebreak
+set nolist
+set listchars=tab:>\ ,trail:-,nbsp:+
+set number
+set numberwidth=4
+set pumheight=10
+set path+=**
+set smarttab
+set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+set textwidth=80
 set title
 if has('nvim')
 	set titlestring=nvim:\ %f
 else
 	set titlestring=vim:\ %f
 endif
+set updatetime=300
+set whichwrap+=<,>,h,l
+set wildmenu
+set wrap linebreak nolist
+set wildignore=*.o,*.obj,*.pdf,*.ps,*.eps,*.jpg,*.png
+set nowritebackup
+set relativenumber
+set shortmess+=c
+set showcmd
+set showmode
+set smartcase
+set noswapfile
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -108,16 +116,7 @@ else
   set signcolumn=yes
 endif
 
-" For indentation:
-"    tabstop, shiftwidth and expandtab
-set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
-" Paragraph formating: see :help fo-table
-"    not sure for:
-"     - a (automatic formating)
-"     - w (trailing white paragraph continues)
-set fo=tcroqn2bj
-set textwidth=80
 " }}}
 
 " vimwiki stuff ------------------------------------------------------------ {{{
@@ -169,7 +168,7 @@ nnoremap <Leader>pc :RunSilent pandoc -o /tmp/vim-pandoc-out.pdf %<CR>
 nnoremap <Leader>pp :RunSilent zathura /tmp/vim-pandoc-out.pdf<CR>
 
 " This is useful for attachments stored in local directories, as done in zim
-augroup vimwiki
+augroup myvimwiki
 	autocmd!
 	autocmd Filetype vimwiki silent! :lcd %:p:h<cr>
 "	autocmd FileType vimwiki call SetMarkdownOptions()
@@ -307,7 +306,7 @@ vnoremap <leader>H H
 vnoremap <leader>L L
 
 " open netrw on the left
-nnoremap <silent> <leader>e :Ex<cr>
+nnoremap <silent> <leader>e :Lex 30<cr>
 
 function! s:check_back_space() abort
   let col = col('.') - 1
