@@ -1,0 +1,455 @@
+# sway config file
+
+################################################################################
+# Some variables
+################################################################################
+
+set {
+	## Modifier
+	$mod Mod4
+	## Workspaces
+	$ws1 "1"
+	$ws2 "2"
+	$ws3 "3"
+	$ws4 "4"
+	$ws5 "5"
+	$ws6 "6"
+	$ws7 "7"
+	$ws8 "8"
+	$ws9 "9"
+	$ws10 "10"
+
+	# Colors for window decorations and bar
+	# w -> border of window
+	# t -> text in title bar
+	# suffixes are:
+	# fc: focused window
+	# in: inactive window (that last time had the focus in the container)
+	# uf: unfocused window
+	# ur: urgent window
+	$wfc #7a7a7a
+	$tfc #ffffff
+
+	$win #ababab
+	$tin #E6E5CA
+
+	$wuf #e8e8e7
+	$tuf #657b83
+
+	$wur #f44336
+	$tur #E6E5CA
+
+	#indicator
+	$ind $win
+
+	# For scratchpad
+	## A file manager
+	$spfm foot -a spfm bash -ic ranger
+}
+
+################################################################################
+# Aesthetics (font, colors and bar) and other global options
+################################################################################
+floating_modifier $mod
+workspace_auto_back_and_forth no
+focus_follows_mouse yes
+
+# Background image
+## same on all displays "*"
+output "*" bg ~/.config/sway/wallpaper.png fill
+
+font pango:DejaVu Sans Mono 11
+gaps inner 4
+gaps outer 0
+smart_gaps on
+hide_edge_borders --i3 smart_no_gaps
+
+default_border pixel 2
+default_floating_border pixel 2
+
+# To see marks we need the title bar, not sure if it is very useful
+show_marks yes
+
+# window decorations
+# border: border of the title bar
+# background: is used for title bar and actual window borders
+# text: for text in the title bar
+# indicator: color of the indicator bar (wher next window will appear)
+# tab tile: title bar of upper level stacked/tabbed splits
+# Class                  border  	background  text   indicator  child_border
+client.focused		     $wfc 		$wfc 		$tfc    $ind   	   $wfc
+client.focused_inactive  $win 		$win 		$tin    $ind   	   $win
+client.focused_tab_title $win 		$win 		$tin    $ind   	   $win
+client.unfocused         $wuf 	    $wuf		$tuf    $ind   	   $wuf
+client.urgent   	     $wur 		$wur 		$tur    $ind   	   $wur
+
+bar {
+	swaybar_command papersway --i3status
+	position top
+	hidden_state hide
+	mode dock
+	modifier none
+}
+
+################################################################################
+#  Rules for specific windows selected by criteria
+################################################################################
+
+# Settings for specific window classes
+# Use swaymsg -t get_tree to select criteria
+# To list all applications running via Xwayland, run xlsclients -l
+
+for_window {
+	[class="^HTMaiL-View$"] floating enable
+	[app_id="nm-connection-editor"] floating enable
+	[title="G Alternatives"] floating enable
+	[class="KiCad"] layout tabbed
+	[title="^zoom$" class="[zoom]*"] floating enable
+	[class="com.inkwellideas.ographer.ui.Worldographer" title="^(?!Worldographer / Hexographer 2).*$"] floating enable
+	[app_id="pavucontrol"] floating enable, move position center
+	[class="es-gob-afirma-standalone-SimpleAfirma"] floating enable
+
+	# Not sure if this achieves the desired goal in wayland
+	[class=".*"] border pixel 2
+	[shell="xwayland"] title_format "[XWayland] %title"
+		#, border normal
+
+	## Scratchpad/dropdown windows
+	[app_id="spfm"] floating enable, resize set 80 ppt 70 ppt,\
+		move position center, move scratchpad
+	[app_id="org.gnome.Calculator"] floating enable, \
+		move position center, move scratchpad
+	[app_id="org.keepassxc.KeePassXC"] floating enable,\
+		move position center, move scratchpad
+}
+
+## Windows to specific workspaces
+#assign [class="Firefox-esr"] $ws9
+#assign [class="Google-chrome"] $ws9
+
+
+################################################################################
+# General key/mouse bindings (mostly default values)
+################################################################################
+
+bindsym {
+	$mod+Shift+r exec swaymsg "reload"
+
+	# the terminal
+	$mod+Return exec foot
+
+	# Scratchpad
+	$mod+y  [app_id="org.gnome.Calculator"] scratchpad show, \
+		move position center
+
+	#$mod+u [app_id="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
+	#	move position center
+	#$mod+i  [app_id="org.keepassxc.KeePassXC"] scratchpad show, \
+	#move position center
+
+	$mod+Shift+y exec gnome-calculator
+	#$mod+Shift+u exec  $spfm
+	#$mod+Shift+i exec keepassxc
+
+	$mod+Shift+minus move scratchpad
+	$mod+Alt+minus scratchpad show, move position center
+
+	# enter fullscreen mode for the focused container
+	$mod+Shift+f fullscreen toggle
+
+	# papersway specific
+	$mod+f exec papersway-msg width toggle
+	$mod+o exec papersway-msg other-column
+    $mod+a exec papersway-msg fresh-workspace
+	$mod+n exec papersway-msg fresh-workspace send
+	$mod+t exec papersway-msg fresh-workspace take
+	$mod+b exec papersway-msg bury-workspace
+	$mod+w exec papersway-msg absorb-expel left
+    $mod+e exec papersway-msg absorb-expel right
+	$mod+minus exec papersway-msg cols decr
+	$mod+equal exec papersway-msg cols incr
+
+	$mod+u exec papersway-msg workspace prev
+    $mod+i exec papersway-msg workspace next
+	$mod+Shift+u exec papersway-msg move-to-workspace prev
+	$mod+Shift+i exec papersway-msg move-to-workspace next
+
+	#$mod+c [con_mark=caffeinated] inhibit_idle none; \
+	#	inhibit_idle open, mark caffeinated
+	#$mod+Shift+c [con_mark=caffeinated] inhibit_idle none, \
+	#    mark --toggle caffeinated
+	#for_window [con_mark=caffeinated] inhibit_idle open
+
+	# Floating windows
+	$mod+Shift+space floating toggle
+	$mod+space focus mode_toggle
+
+	$mod+q kill
+	#$mod+d  exec  wofi --show drun -I
+	$mod+d  exec  fuzzel
+	# window mode not available in wofi
+	# 	$mod+Tab exec  wofi -w 60 -show window
+	# i3-msg mode not available in wofi
+	# 	$mod+Control+e exec  \
+	#	"rofi -show i3-msg -modi i3-msg:~/.config/rofi/scripts/rofi_i3_msg.sh"
+
+	$mod+h ecec papersway-msg focus left;
+	$mod+j focus down;
+	$mod+k focus up;
+	$mod+l ecec papersway-msg focus right;
+
+	$mod+Left ecec papersway-msg focus left;
+	$mod+Down focus down;
+	$mod+Up focus up;
+	$mod+Right ecec papersway-msg focus right;
+
+	# move focused window
+	$mod+Shift+h ecec papersway-msg move left
+	$mod+Shift+j move down
+	$mod+Shift+k move up
+	$mod+Shift+l ecec papersway-msg move right
+
+	$mod+Shift+Left ecec papersway-msg move left
+	$mod+Shift+Down move down
+	$mod+Shift+Up move up
+	$mod+Shift+Right ecec papersway-msg move right
+
+	# change container layout (stacked, tabbed, toggle split)
+	#$mod+s layout stacking
+	#$mod+w layout tabbed
+	#$mod+e layout toggle split
+	#$mod+v split v
+	#$mod+Shift+v split h
+
+	# focus the parent/child container
+	#$mod+a focus parent
+	$mod+c focus child
+
+	# show hide the bar
+	$mod+Shift+b bar mode toggle
+
+	# switch to workspace
+	$mod+1 workspace $ws1
+	$mod+2 workspace $ws2
+	$mod+3 workspace $ws3
+	$mod+4 workspace $ws4
+	$mod+5 workspace $ws5
+	$mod+6 workspace $ws6
+	$mod+7 workspace $ws7
+	$mod+8 workspace $ws8
+	$mod+9 workspace $ws9
+	$mod+0 workspace $ws10
+
+	$mod+masculine workspace back_and_forth
+
+	# move focused container to workspace
+	$mod+Shift+1 move container to workspace $ws1
+	$mod+Shift+2 move container to workspace $ws2
+	$mod+Shift+3 move container to workspace $ws3
+	$mod+Shift+4 move container to workspace $ws4
+	$mod+Shift+5 move container to workspace $ws5
+	$mod+Shift+6 move container to workspace $ws6
+	$mod+Shift+7 move container to workspace $ws7
+	$mod+Shift+8 move container to workspace $ws8
+	$mod+Shift+9 move container to workspace $ws9
+	$mod+Shift+0 move container to workspace $ws10
+
+	# move focused container to workspace and follow
+	$mod+Control+1 move container to workspace $ws1; workspace $ws1
+	$mod+Control+2 move container to workspace $ws2; workspace $ws2
+	$mod+Control+3 move container to workspace $ws3; workspace $ws3
+	$mod+Control+4 move container to workspace $ws4; workspace $ws4
+	$mod+Control+5 move container to workspace $ws5; workspace $ws5
+	$mod+Control+6 move container to workspace $ws6; workspace $ws6
+	$mod+Control+7 move container to workspace $ws7; workspace $ws7
+	$mod+Control+8 move container to workspace $ws8; workspace $ws8
+	$mod+Control+9 move container to workspace $ws9; workspace $ws9
+	$mod+Control+0 move container to workspace $ws10; workspace $ws10
+
+	# rename current workspace
+	$mod+Control+r exec echo | fuzzel -d -p "Rename workspace to: " | \
+		xargs -r swaymsg rename workspace to
+
+	#for dual monitor
+	$mod+Control+l move workspace to output right
+	$mod+Control+h move workspace to output left
+	$mod+Control+k move workspace to output up
+	$mod+Control+j move workspace to output down
+
+	# Media player controls: no tengo playerctl
+	XF86AudioPlay exec playerctl play
+	XF86AudioPause exec playerctl pause
+	XF86AudioNext exec playerctl next
+	XF86AudioPrev exec playerctl previous
+
+	# change volume or toggle mute
+	XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+	XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+	#brightness
+	XF86MonBrightnessDown exec brightnessctl set 5%-
+	XF86MonBrightnessUp exec brightnessctl set 5%+
+
+	$mod+m exec echo | fuzzel -d -p "Set mark:" | xargs -r swaymsg mark --togle 
+	## Focus window with mark
+	#	$mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '
+
+	$mod+Shift+s sticky toggle
+
+    # Capture the currently active output
+    Shift+Print exec grimshot save output
+    # Capture the currently active window
+    Alt+Print   exec grimshot save active
+    # Select and capture a custom rectangular area
+    Ctrl+Print  exec grimshot save area
+}
+
+# not supported until version 1.8
+# bindgesture {
+#  swipe:3:left  workspace next
+#  swipe:3:right  workspace prev
+#}
+
+
+################################################################################
+# Modes
+################################################################################
+
+mode "resize" {
+	bindsym {
+        h resize shrink width 10 px or 2 ppt
+        j resize grow height 10 px or 2 ppt
+        k resize shrink height 10 px or 2 ppt
+        l resize grow width 10 px or 2 ppt
+
+        Left resize shrink width 10 px or 2 ppt
+        Down resize grow height 10 px or 2 ppt
+        Up resize shrink height 10 px or 2 ppt
+        Right resize grow width 10 px or 2 ppt
+
+        Return mode "default"
+        Escape mode "default"
+	}
+}
+bindsym $mod+r mode "resize"
+
+# Shutdown Menu
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (p) shutdown
+mode "$mode_system" {
+	bindsym {
+		l exec  swaylock -e -F -s fill -c 363739, mode "default"
+		e exec swaymsg exit, mode "default"
+		s exec systemctl suspend, mode "default"
+		h exec systemctl hibernate, mode "default"
+		r exec systemctl reboot, mode "default"
+		p exec systemctl poweroff, mode "default"
+
+		# back to normal: Enter or Escape
+		Return mode "default"
+		Escape mode "default"
+		KP_Enter mode "default"
+	}
+}
+bindsym $mod+Escape mode "$mode_system"
+
+set $mode_present present: mirror (m), output (o), region (r), scaling (s), toggle-freeze (f), custom (c)
+mode "$mode_present" {
+	bindsym {
+		# command starts mirroring
+		m mode "default"; exec wl-present mirror
+		# alternative: exec wl-present mirror eDP-1 --fullscreen-output HDMI-A-1 --fullscreen
+		# these commands modify an already running mirroring window
+		o mode "default"; exec wl-present set-output
+		r mode "default"; exec wl-present set-region
+		Shift+r mode "default"; exec wl-present unset-region
+		s mode "default"; exec wl-present set-scaling
+		f mode "default"; exec wl-present toggle-freeze
+		c mode "default"; exec wl-present custom
+
+		# return to default mode
+		Return mode "default"
+		Escape mode "default"
+	}
+}
+bindsym $mod+p mode "$mode_present"
+
+set $mode_screenshot screenshot: active window (w), active ouput (o), area (a), +Shift for copy to clipboard
+mode "$mode_screenshot" {
+	bindsym {
+		o mode "default"; exec grimshot save output
+		w mode "default"; exec grimshot save active
+		a mode "default"; exec grimshot save area
+		Shift+o mode "default"; exec grimshot copy output
+		Shift+w mode "default"; exec grimshot copy active
+		Shift+a mode "default"; exec grimshot copy area
+		# return to default mode
+		Return mode "default"
+		Escape mode "default"
+	}
+}
+bindsym Print mode "$mode_screenshot"
+
+################################################################################
+# Devices configuration
+################################################################################
+
+# To set settings for specific devices replace type:touchpad by the id obtained
+# from the command: swaymsg -t get_inputs
+input type:touchpad {
+	tap enabled
+	natural_scroll enabled
+}
+
+input * {
+	xkb_layout "es"
+}
+
+# Set your displays scale factor with the output command. 
+# It can be fractional, but it is usually 2 for HiDPI screens.
+# You can find your display name with the following command: 
+# swaymsg -t get_outputs
+#
+# output <name> scale <factor>
+
+################################################################################
+# Services/Applications launched on startup
+################################################################################
+
+exec {
+	# Scratchpad apps from start
+	$spfm
+	gnome-calculator
+	keepassxc
+	# Other applications for desktop services
+	xfce4-power-manager
+	nm-applet --indicator
+	blueman-applet
+	pasystray
+	udiskie -ans
+	dunst
+	gammastep-indicator
+	system-config-printer-applet
+	wl-paste -t text --watch clipman store
+	wl-paste -p -t text --watch clipman store --histpath="~/.local/share/clipman-primary.json"
+	kanshi
+	# Is this needed?
+	## Remove noise from headphones (reduces volume)
+	#	_always  amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
+	swayidle -w timeout 600 'swaylock -f -c 363739'\
+		timeout 605 'swaymsg "output * dpms off"'\
+		resume 'swaymsg "output * dpms on"'\
+		before-sleep 'swaylock -f -c 363739'
+	# TODO: does this work on sway? Look for alternative if not.
+	# 	_always  "~/.config/i3/scripts/i3-sticky"
+	# disable ibus
+	# TODO check if this is necessary with foot
+	#	  ibus exit
+	/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+	/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
+	xrdb -load ~/.Xresources
+}
+
+################################################################################
+
+include /etc/sway/config.d/*
