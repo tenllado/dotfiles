@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXCLUDE_FILES=(README.md install .gitignore .git)
+EXCLUDE_FILES=(README.md install .gitignore .git .config .local)
 DOTFILES=$(realpath `dirname -- "${BASH_SOURCE[0]}"`)
 
 OPTSTRING=":bh"
@@ -22,9 +22,7 @@ install_root_dot_files() {
 	for f in $(ls -a $DOTFILES)
 	do
 		if [[ ! $(echo ${EXCLUDE_FILES[@]} |  grep -w $f) ]]; then
-			if [ ! -d $f ]; then
-				_install "$f"	
-			fi
+			_install "$f"	
 		fi
 	done
 }
@@ -54,6 +52,14 @@ usage() {
 	echo "       -h shows this help message"
 }
 
+setup_vim() {
+	mkdir -p ~/.config/vim/pack/minpack/opt
+    pushd ~/.config/vim/pack/minpack/opt
+    git clone git@github.com:k-takata/minpac.git
+    popd
+    vim +PackUpdateAndQuit +q
+}
+
 while getopts ${OPTSTRING} opt; do
 	case ${opt} in
 		b)
@@ -74,4 +80,4 @@ echo "installing config files from $DOTFILES"
 install_root_dot_files
 install_config_files
 install_local_bin_files
-
+setup_vim
