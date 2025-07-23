@@ -28,6 +28,7 @@ endfunction
 command! PackUpdate call PackInit() | call minpac#update()
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackSatus packadd minpac | call minpac#status()
+command! PackUpdateAndQuit call PackInit() | call minpac#update('', {'do': 'quit'})
 " }}}
 
 " Colorscheme -------------------------------------------------------------- {{{
