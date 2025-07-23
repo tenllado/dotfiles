@@ -15,6 +15,7 @@
 use strict;
 use warnings;
 use utf8;
+use open qw( :std :encoding(UTF-8) );
 
 my $acpi;
 my $status;
@@ -32,7 +33,7 @@ $acpi = <ACPI>;
 close(ACPI);
 
 # fail on unexpected output
-if ($acpi !~ /: (\w+), (\d+)%/) {
+if ($acpi !~ /: (\w+[\s\w]*), (\d+)%/) {
 	die "$acpi\n";
 }
 
@@ -69,10 +70,6 @@ if ($color cmp "") {
 }
 
 $short_text = $full_text;
-
-#if ($acpi =~ /(\d\d):(\d\d):/) {
-#	$full_text .= " $1h";
-#}
 
 print "$full_text\n";
 print "$short_text\n";

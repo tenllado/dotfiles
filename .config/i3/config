@@ -1,11 +1,11 @@
 # i3 config file
 
-set $mod Mod4
-floating_modifier $mod
 
 ################################################################################
-# Workspaces
+# Some variables
 ################################################################################
+
+set $mod Mod4
 
 set $ws1 "1"
 set $ws2 "2"
@@ -18,85 +18,98 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-workspace_auto_back_and_forth no
-workspace $ws10 output eDP-1
-
-################################################################################
-# Aesthetics: font, colors and bar
-################################################################################
-font pango:DejaVu Sans Mono 10
-#font pango:DejaVu Sans Mono 6
-
 # Colors for window decorations and bar
-set $wfoc 	#4A90D9
-set $tfoc	#E6E5CA
-set $winac 	#ababab
-set $tinac  #E6E5CA
-set $wunfoc #e8e8e7
-set $tunfoc #657b83
-set $bunfoc #d8d8d7
-#set $indic  #4A90D9
-set $indic  #4AB10A
-set $urg	#f44336
-set $turg	#E6E5CA
+# w -> border of window
+# t -> text in title bar
+# suffixes are:
+# fc: focused window
+# in: inactive window (that last time had the focus in the container)
+# uf: unfocused window
+# 
+#set $wfc #4A90D9
+set $wfc #7a7a7a
+#set $tfc #E6E5CA
+set $tfc #ffffff
+
+set $win #ababab
+set $tin #E6E5CA
+
+set $wuf #e8e8e7
+set $tuf #657b83
+
+# urgent window (ur)
+set $wur #f44336
+set $tur #E6E5CA
+
+#indicator
+set $ind $win
+
+
+set $spfm xfce4-terminal --role spfm -x bash -ic ranger
+set $spmath xfce4-terminal --role spmath \
+	--font "DejaVu Sans mono 20" -x octave --no-gui -q --traditional
+
+################################################################################
+# Aesthetics (font, colors and bar) and other global options
+################################################################################
+
+floating_modifier $mod
+workspace_auto_back_and_forth no
+focus_follows_mouse yes
+
+font pango:DejaVu Sans Mono 10
+gaps inner 4
+gaps outer 0
+smart_gaps on
+hide_edge_borders smart_no_gaps
+
+default_border pixel 2
+default_floating_border pixel 2
+for_window [class=".*"] border pixel 2
+
+# To see marks we need the title bar, not sure if it is very useful
+show_marks yes
 
 # window decorations
 # border: border of the title bar
 # background: is used for title bar and actual window borders
 # text: for text in the title bar
 # indicator: color of the indicator bar (wher next window will appear)
-# Class                 border  	background  text  	 indicator  child_border
-client.focused		    $wfoc 		$wfoc 		$tfoc    $indic   	$wfoc
-client.focused_inactive $winac 		$winac 		$tinac   $indic   	$winac
-client.unfocused        $winac 	    $bunfoc		$tunfoc  $indic   	$wunfoc
-client.urgent   	    $urg 		$urg 		$turg  $indic   	$urg
+# Class                  border  	background  text   indicator  child_border
+client.focused		     $wfc 		$wfc 		$tfc    $ind   	   $wfc
+client.focused_inactive  $win 		$win 		$tin    $ind   	   $win
+client.focused_tab_title $win 		$win 		$tin    $ind   	   $win
+client.unfocused         $wuf 	    $wuf		$tuf    $ind   	   $wuf
+client.urgent   	     $wur 		$wur 		$tur    $ind   	   $wur
 
 bar {
 	mode dock
 	position top
 	modifier none
-	#font pango:DejaVu Sans Mono 11
 	font pango:FontAwesome 10
-	#font pango:FontAwesome 6
 	workspace_buttons yes
 	status_command i3blocks
 	tray_output primary
-	#tray_output *
 	colors {
 			# bars on all monitors the same
-			background #e8e8e7
+			#background #e8e8e8
+			background #dee1e6
 			statusline #4e5456
 			separator  #2e3436
 			# colors for bar buttons
 			#                    border  	background   	text
-			#
-			focused_workspace   $wfoc 		$wfoc 			$tfoc
-			active_workspace    $winac	 	$winac 			$tinac
-			inactive_workspace  $wunfoc	 	$wunfoc 		$tunfoc
-			urgent_workspace    $urg 		$urg 			$turg
+			focused_workspace   $wfc 		$wfc 			$tfc
+			active_workspace    $win	 	$win 			$tin
+			inactive_workspace  $wuf	 	$wuf 		    $tuf
+			urgent_workspace    $wur 		$wur 			$tur
+			binding_mode        $wur 		$wur 			$tur
 	}
 }
-
-default_border pixel 2
-default_floating_border pixel 2
-# remove borders when only one window is open
-hide_edge_borders smart
-for_window [class=".*"] border pixel 2
-#for_window [class=".*" tiling] border normal
-#for_window [class=".*"] border normal
-
-# To see marks we need the title bar, not sure if it is very useful
-show_marks yes
 
 ################################################################################
 #  Rules for windows apparence, placement/focus
 ################################################################################
 
-# focus_follows_mosuse no seems better for touchpad on the laptop (it gets
-# always in the way)
-#focus_follows_mouse no
-focus_follows_mouse yes
-#mouse_warping output
 
 # Settings for specific window classes
 # (use xprop, class is second part of WM_CLASS)
@@ -106,88 +119,41 @@ for_window [title="G Alternatives"] floating enable
 for_window [class="Gtkwave" title="^.*Search.*$"] floating enable
 #for_window [class="Firefox-esr"] layout tabbed
 for_window [class="Kicad"] layout tabbed
-for_window [class="i3-overview"] floating enable
-for_window [class="i3-overview"] sticky enable
-no_focus [class="i3-overview"]
-#for_window [class="zoom" title="^(?!Zoom Meeting)(?!Zoom - Free Account)"] floating enable
 for_window [title="^zoom$" class="[zoom]*"] floating enable
+for_window [class="com.inkwellideas.ographer.ui.Worldographer" \
+	title="^(?!Worldographer / Hexographer 2).*$"] floating enable
 
-# Windows to specific workspaces
-assign [class="Firefox-esr"] $ws9
-assign [class="Google-chrome"] $ws9
 
-#focus_on_window_activation smart
-
-################################################################################
 #  Scratchpad/Dropdown windows
-################################################################################
-
-# RANGER
-#set $spfm st -n spfm -e ranger
-#set $spfm urxvt -name spfm -e ranger
-set $spfm xfce4-terminal --role spfm -e ranger
-#for_window [instance="spfm"] floating enable, resize set 80 ppt 70 ppt,\
 for_window [window_role="spfm"] floating enable, resize set 80 ppt 70 ppt,\
     move position center, move scratchpad
-exec --no-startup-id $spfm
-#bindsym $mod+u [instance="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
-bindsym $mod+u [window_role="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
-    move position center
-bindsym $mod+Shift+u exec --no-startup-id $spfm
-
-# OCTAVE
-#set $spmath st -n spmath \
-#	-f "Monospace:pixelsize=24" -e octave --no-gui -q --traditional
-#set $spmath urxvt -name spmath \
-#	-fn "xft:DejaVu Sans mono:pixelsize=24" -e octave --no-gui -q --traditional
-set $spmath xfce4-terminal --role spmath \
-	--font "DejaVu Sans mono 20" -x octave --no-gui -q --traditional
-#for_window [instance="spmath"] floating enable, resize set 40 ppt 30 ppt,\
-for_window [window_role="spmath"] floating enable, resize set 40 ppt 30 ppt,\
+for_window [class="gnome-calculator"] floating enable, \
+		move position center, move scratchpad
+for_window [instance="keepassxc" window_type=normal] floating enable, \
 	move scratchpad
-exec --no-startup-id $spmath
-#bindsym $mod+y  [instance="spmath"] scratchpad show, resize set 40 ppt 30 ppt,\
-bindsym $mod+y  [window_role="spmath"] scratchpad show, resize set 40 ppt 30 ppt,\
-	move position center
-bindsym $mod+Shift+y exec --no-startup-id $spmath
-
-# KEEPASSXC (does not work well with resizing)
-exec keepassxc
-for_window [instance="keepassxc" window_type=normal] floating enable, move scratchpad
-bindsym $mod+i  [instance="keepassxc" window_type=normal] scratchpad show, move position center
-bindsym $mod+Shift+i exec keepassxc
-
-# PAVUCONTROL
-exec pavucontrol
-for_window [class="Pavucontrol"] floating enable, move scratchpad
-bindsym $mod+p [class="Pavucontrol"] scratchpad show, move position center
-bindsym $mod+Shift+p exec pavucontrol
+for_window [class="Pavucontrol"] floating enable, \
+	move scratchpad
 
 ################################################################################
 # General key/mouse bindings (mostly default values)
 ################################################################################
 
 # the terminal
-#bindsym $mod+Return exec st
 bindsym $mod+Return exec xfce4-terminal
 
 bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-#; move position center
+bindsym $mod+minus scratchpad show, move position center
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
-# toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
-bindsym --whole-window --border $mod+button3 floating toggle
 
 bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id "rofi -show drun -modi drun,run -show-icons"
 
-#set $warp exec #--no-startup-id ~/.config/i3/scripts/warpmouse
 bindsym $mod+h focus left;
 bindsym $mod+j focus down;
 bindsym $mod+k focus up;
@@ -208,9 +174,6 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# Change to workspaces
-bindsym $mod+masculine workspace back_and_forth
-
 # A list of opened windows with rofi, to change between them
 bindsym $mod+Tab exec --no-startup-id rofi -show-icons -width 60 -show window
 
@@ -223,7 +186,6 @@ bindsym $mod+Shift+Return exec --no-startup-id ~/.config/i3/scripts/focuscolumn.
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
-# splits in horizontal/vertical orientation
 bindsym $mod+v split v
 bindsym $mod+Shift+v split h
 
@@ -245,6 +207,8 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+
+bindsym $mod+masculine workspace back_and_forth
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -283,11 +247,8 @@ bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+j move workspace to output down
 
-#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m \
 bindsym $mod+Control+e exec --no-startup-id \
 	"rofi -show i3-msg -modi i3-msg:~/.config/rofi/scripts/rofi_i3_msg.sh"
-
-## Special keys
 
 # Media player controls: no tengo playerctl
 bindsym XF86AudioPlay exec playerctl play
@@ -309,19 +270,29 @@ bindsym XF86MonBrightnessUp exec --no-startup-id \
 bindsym XF86MonBrightnessDown exec  --no-startup-id \
      ~/.config/i3/scripts/brightness -d 5 && pkill -RTMIN+11 i3blocks
 
-################################################################################
-# Marks, jumps, swaps and sticky
-################################################################################
+# for scratchpad aplications
+bindsym $mod+u [window_role="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
+    move position center
+bindsym $mod+y  [class="gnome-calculator"] scratchpad show, move position center
+bindsym $mod+p [class="Pavucontrol"] scratchpad show, move position center
+bindsym $mod+i  [instance="keepassxc" window_type=normal] scratchpad show, \
+	move position center
 
-# swap windows with mouse
-bindsym --whole-window $mod+Mod1+button1 mark --add _quickswap
+bindsym $mod+Shift+u exec --no-startup-id $spfm
+bindsym $mod+Shift+y exec gnome-calculator 
+bindsym $mod+Shift+p exec pavucontrol
+bindsym $mod+Shift+i exec keepassxc
+
+# Marks, jumps, swaps and sticky
+## swap windows with mouse
+bindsym --whole-window $mod+Control+button1 mark --add _quickswap
 bindsym --whole-window $mod+Shift+button1 swap container with mark _quickswap; [con_mark="_quickswap"] focus
 
-# Set a mark to the current window
+## Set a mark to the current window
 bindsym $mod+m exec i3-input -F 'mark --toggle %s' -l 1 -P 'Mark: '
-# Focus window with mark
+## Focus window with mark
 bindsym $mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '
-# Swap window with marked window
+## Swap window with marked window
 bindsym $mod+Shift+apostrophe exec i3-input -F \
 	'swap with mark %s' -l 1 -P 'Swap with: '
 bindsym Mod1+Mod4+h mark --add quickswap; focus left; \
@@ -329,9 +300,12 @@ bindsym Mod1+Mod4+h mark --add quickswap; focus left; \
 bindsym Mod1+Mod4+l mark --add quickswap; focus right; \
 	swap container with mark quickswap; unmark quickswap; focus right
 
-bindsym $mod+x "workspace _presel;append_layout ~/.config/i3/preselection.json;focus child;move window to workspace back_and_forth;workspace back_and_forth"
 bindsym $mod+Shift+s sticky toggle
 # Sticky groups for tiled sticky windows (using i3-sticy-open script)
+# Mark the window you want to be sticky with $mod+Shift+t
+# Then create place-holders for them with $mod+t
+# When finished, just close the sticky window or remove the sticky mark
+# usese the scripts/i3-sticky deamon
 bindsym $mod+t exec i3-input -F 'exec $HOME/.config/i3/scripts/i3-sticky-open %s' -l 1 -P 'Ph Sticky Group: '
 bindsym $mod+Shift+t exec i3-input -F 'mark --toggle _sticky_%s' -l 1 -P 'Sticky Group: '
 
@@ -437,7 +411,7 @@ bindsym $mod+o exec --no-startup-id loginctl lock-session
 exec_always --no-startup-id "~/.config/i3/scripts/i3-sticky"
 
 # my autolayout script
-exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
+#exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
 
 # Redshift: regulate the color temperature of the screen
 exec --no-startup-id redshift-gtk -l 40.360879:-3.598175
@@ -455,7 +429,10 @@ exec --no-startup-id ~/.config/i3/scripts/services
 
 exec_always --no-startup-id xrdb -load ~/.Xdefaults
 
-## udev daemon to trigger automatic config of some usb devices
+# disable ibus
+exec --no-startup-id ibus exit
+
+# udev daemon to trigger automatic config of some usb devices
 exec --no-startup-id $HOME/.config/i3/scripts/udev_daemon
 
 # polkit
@@ -463,5 +440,14 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 # keyring
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
 exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY
+
+#  Scratchpad/Dropdown windows
+exec --no-startup-id $spfm
+exec gnome-calculator
+exec keepassxc
+exec pavucontrol
+
+# compositor
+exec --no-startup-id picom
 
 ################################################################################
