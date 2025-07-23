@@ -28,6 +28,7 @@ install_root_dot_files() {
 }
 
 install_config_files() {
+	mkdir -p ~/.config
 	for f in $(ls $DOTFILES/.config)
 	do
 		if [[ ! $(echo ${EXCLUDE_FILES[@]} |  grep -w .config/$f) ]]; then
@@ -37,6 +38,7 @@ install_config_files() {
 }
 
 install_local_bin_files() {
+	mkdir -p ~/.local/bin/
 	for f in $(ls $DOTFILES/.local/bin)
 	do
 		if [[ ! $(echo ${EXCLUDE_FILES[@]} |  grep -w .local/bin/$f) ]]; then
@@ -53,11 +55,13 @@ usage() {
 }
 
 setup_vim() {
-	mkdir -p ~/.config/vim/pack/minpack/opt
-    pushd ~/.config/vim/pack/minpack/opt
+	echo "Cloning minpac package for vim"
+	mkdir -p ~/.config/vim/pack/minpac/opt
+    pushd ~/.config/vim/pack/minpac/opt
     git clone git@github.com:k-takata/minpac.git
     popd
-    vim +PackUpdateAndQuit +q
+	echo "minpac installed."
+	echo "you should complete vim install by running vim +PackUpdateAndQuit +q"
 }
 
 while getopts ${OPTSTRING} opt; do
@@ -81,3 +85,5 @@ install_root_dot_files
 install_config_files
 install_local_bin_files
 setup_vim
+echo "installation finished. You may need to complete the set up for progrmas"
+echo "like vim (:PackUpdate) and neovim (:Lazy and :Mason)"
