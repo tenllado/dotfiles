@@ -8,20 +8,6 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-# rust support
-if [ -d "$HOME/.cargo/bin" ] ; then
-	export PATH="$HOME/.cargo/bin:$PATH"
-fi
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -30,3 +16,34 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+## Go support
+. "$HOME/.cargo/env"
+if command -v go > /dev/null 2>&1; then
+	export GOPATH=$(go env GOPATH)
+	PATH=$PATH:$GOPATH/bin
+fi
+## node tools
+if [ -d $HOME/node_modules/.bin ]; then
+	PATH=$PATH:$HOME/node_modules/.bin
+fi
+
+update_path_openocd(){
+	for ver in $(find /opt/openocd -maxdepth 1 -mindepth 1)
+	do
+		PATH="$PATH:$ver/bin"
+	done
+}
+
+# Openocd versions
+if [ -d /opt/openocd ]; then
+	update_path_openocd
+fi
