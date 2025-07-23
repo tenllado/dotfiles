@@ -1,0 +1,2 @@
+# foot
+My foot config
