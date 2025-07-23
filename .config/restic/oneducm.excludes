@@ -1,0 +1,8 @@
+# exclude appimages
+*.appimage 
+*.AppImage
+
+/home/christian/Documents/**/scratch
+/home/christian/Documents/**/Entregas*
+/home/christian/Documents/**/Entregas
+/home/christian/Documents/**/entregas
