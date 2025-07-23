@@ -1,0 +1,78 @@
+#!/bin/bash
+
+EXCLUDE_FILES=(README.md install .gitignore .git)
+DOTFILES=$(realpath `dirname -- "${BASH_SOURCE[0]}"`)
+
+OPTSTRING=":bh"
+NOBKP=""
+
+_install() {
+	echo "installing $1"
+	if [ -e "$HOME/$1" ]; then
+		if [ -z "${NOBKP}" ]; then
+			rm -r "$HOME/$1"
+		else
+			mv "$HOME/$1" "$HOME/$1".bck
+		fi
+	fi
+	ln -s "$DOTFILES/$1" "$HOME/$1"
+}
+
+install_root_dot_files() {
+	for f in $(ls -a $DOTFILES)
+	do
+		if [[ ! $(echo ${EXCLUDE_FILES[@]} |  grep -w $f) ]]; then
+			if [ ! -d $f ]; then
+				_install "$f"	
+			fi
+		fi
+	done
+}
+
+install_config_files() {
+	for f in $(ls $DOTFILES/.config)
+	do
+		if [[ ! $(echo ${EXCLUDE_FILES[@]} |  grep -w .config/$f) ]]; then
+			_install ".config/$f"	
+		fi
+	done
+}
+
+install_local_bin_files() {
+	for f in $(ls $DOTFILES/.local/bin)
+	do
+		if [[ ! $(echo ${EXCLUDE_FILES[@]} |  grep -w .local/bin/$f) ]]; then
+			_install ".local/bin/$f"	
+		fi
+	done
+}
+
+usage() {
+	script_name=$(basename -- "${BASH_SOURCE[0]}")
+	echo "usage: $script_name [-b|h]"
+	echo "       -b create bkp files instead of removing old configs"
+	echo "       -h shows this help message"
+}
+
+while getopts ${OPTSTRING} opt; do
+	case ${opt} in
+		b)
+			NOBKP=1
+			;;
+		h)
+			usage
+			exit 0
+			;;
+		?)
+			echo "Invalid option: -${OPTARG}."
+			exit 1
+			;;
+	esac
+done
+
+echo "installing config files from $DOTFILES"
+install_root_dot_files
+install_config_files
+install_local_bin_files
+
+
