@@ -1,0 +1,14 @@
+
+
+
+#include /etc/kanshi/config.d/*
+
+profile laptop {
+	output eDP-1 enable mode 1920x1200 position 0,0
+}
+
+profile desk {
+	#output DP-3 "Samsung Electric Company S34C65xU HNTX803010" mode 3440x1440 position 0,0
+	output DP-3 mode 3440x1440 position 0,0
+	output eDP-1 enable mode 1920x1200 position 250,1440
+}
