@@ -57,7 +57,7 @@ focus_follows_mouse yes
 
 # Background image
 ## same on all displays "*"
-output "*" bg ~/.config/sway/wallpaper.svg fill
+output "*" bg ~/.config/sway/debian-wallpaper.jpeg fill
 
 font pango:DejaVu Sans Mono 11
 gaps inner 4
@@ -138,10 +138,6 @@ for_window {
 #assign [class="Google-chrome"] $ws9
 
 
-# Gestures: Only works from version 1.8 up
-#bindgesture swipe:right workspace prev
-#bindgesture swipe:left workspace next
-
 ################################################################################
 # General key/mouse bindings (mostly default values)
 ################################################################################
@@ -177,8 +173,8 @@ bindsym {
 	$mod+space focus mode_toggle
 
 	$mod+q kill
-	#$mod+d  exec  wofi --show drun -I
-	$mod+d  exec  rofi -show drun -show-icons
+	$mod+d  exec  wofi --show drun -I
+	#$mod+d  exec  rofi -show drun -show-icons
 	#$mod+d  exec  fuzzel
 	# window mode not available in wofi
 	# 	$mod+Tab exec  wofi -w 60 -show window
@@ -268,7 +264,10 @@ bindsym {
 	#$mod+Control+r exec echo | fuzzel -d -p "Rename workspace to: " | \
 	#	xargs -r swaymsg rename workspace to
 
-	$mod+Control+r exec echo | rofi -dmenu -p "Rename workspace to: " | \
+	#$mod+Control+r exec echo | rofi -dmenu -p "Rename workspace to: " | \
+	#	xargs -r swaymsg rename workspace to
+
+	$mod+Control+r exec echo | wofi -d -p "Rename workspace to: " | \
 		xargs -r swaymsg rename workspace to
 
 	#for dual monitor
@@ -293,7 +292,9 @@ bindsym {
 	XF86MonBrightnessUp exec brightnessctl set 5%+
 
 	#$mod+m exec echo | fuzzel -d -p "Set mark:" | xargs -r swaymsg mark --togle 
-	$mod+m exec echo | rofi -dmenu -p "Set mark:" | xargs -r swaymsg mark --togle 
+	#$mod+m exec echo | rofi -dmenu -p "Set mark:" | xargs -r swaymsg mark --togle 
+	$mod+m exec echo | wofi -d -p "Set mark:" | xargs -r swaymsg mark --togle 
+
 	## Focus window with mark
 	#	$mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '
 
@@ -317,13 +318,16 @@ bindsym {
     Alt+Print   exec grimshot save active
     # Select and capture a custom rectangular area
     Ctrl+Print  exec grimshot save area
+
+	#clipboard history pick
+	$mod+Shift+c exec clipman pick
 }
 
 # not supported until version 1.8
-# bindgesture {
-#  swipe:3:left  workspace next
-#  swipe:3:right  workspace prev
-#}
+bindgesture {
+  swipe:3:left  workspace next
+  swipe:3:right  workspace prev
+}
 
 
 ################################################################################
@@ -444,8 +448,9 @@ exec {
 	swaync
 	gammastep-indicator
 	system-config-printer-applet
-	wl-paste -t text --watch clipman store
-	wl-paste -p -t text --watch clipman store --histpath="~/.local/share/clipman-primary.json"
+	wl-paste -p -t text --watch clipman store
+	#wl-paste --type text --watch cliphist store
+	#wl-paste --type image --watch cliphist store
 	kanshi
 	# Is this needed?
 	## Remove noise from headphones (reduces volume)
@@ -459,9 +464,8 @@ exec {
 	# disable ibus
 	# TODO check if this is necessary with foot
 	#	  ibus exit
-	/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+	/usr/bin/lxpolkit
 	/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
-	xrdb -load ~/.Xresources
 }
 
 ################################################################################

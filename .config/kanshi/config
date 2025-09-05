@@ -12,3 +12,13 @@ profile desk {
 	output DP-3 mode 3440x1440 position 0,0
 	output eDP-1 enable mode 1920x1200 position 250,1440
 }
+
+#profile casa {
+#	output HDMI-A-1 mode 1920x1080@60Hz position 0,0
+#	output eDP-1 enable mode --custom 1920x1080@60.026Hz position 1920,0
+#}
+
+profile casa {
+	output HDMI-A-1 mode 1920x1080@60Hz position 0,0
+	output eDP-1 enable mode 1920x1200@60.026Hz position 1920,0
+}

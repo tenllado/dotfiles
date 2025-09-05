@@ -27,7 +27,7 @@ return {
 				"gnuplot",
 				"json",
 				"kconfig",
-				"latex",
+				-- "latex",
 				"make",
 				"printf",
 				"verilog",
