@@ -3,7 +3,7 @@
     border-radius: 4px;
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Roboto, Helvetica;
-    font-size: 12px;
+    font-size: 14px;
 	margin: 0;
 }
 
@@ -90,6 +90,7 @@ button:hover {
 
 #clock,
 #battery,
+#power-profiles-daemon,
 #cpu,
 #memory,
 #disk,
@@ -136,6 +137,10 @@ button:hover {
 #battery {
     /*background-color: #bbccdd;
     color: #000000;*/
+}
+
+#power-profiles-daemon {
+
 }
 
 #battery.charging, #battery.plugged {

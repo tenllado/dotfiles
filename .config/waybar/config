@@ -11,7 +11,9 @@
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
     "modules-right": ["idle_inhibitor", "custom/updates", "pulseaudio",
-		"network", "cpu", "memory", "temperature", "backlight", "battery",
+		"network", "cpu", "memory", "temperature", "backlight",
+		//"power-profiles-daemon", 
+		"battery",
 		"custom/notification", "tray"],
     // Modules configuration
     // "sway/workspaces": {
@@ -79,7 +81,9 @@
         "format-icons": {
             "activated": "",
             "deactivated": ""
-        }
+        },
+		"tooltip-format-activated": "caffeinated",
+		"tooltip-format-deactivated": "decaffeinated",
     },
     "tray": {
         // "icon-size": 21,
@@ -127,6 +131,17 @@
     "battery#bat2": {
         "bat": "BAT2"
     },
+	"power-profiles-daemon": {
+		"format": "{icon}",
+		"tooltip-format": "Power profile: {profile}nDriver: {driver}",
+		"tooltip": true,
+		"format-icons": {
+			"default": "",
+			"performance": "",
+			"balanced": "",
+			"power-saver": ""
+		}
+	},
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
