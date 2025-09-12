@@ -19,29 +19,16 @@ set {
 	$ws9 "9"
 	$ws10 "10"
 
-	# Colors for window decorations and bar
-	# w -> border of window
-	# t -> text in title bar
-	# suffixes are:
-	# fc: focused window
-	# in: inactive window (that last time had the focus in the container)
-	# uf: unfocused window
-	# ur: urgent window
-	#$wfc #7a7a7a
-	$wfc #4A90D9
-	$tfc #ffffff
+	$color0 #4A90D9
+	$color1 #ffffff
+	$color2 #ababab
+	$color3 #e6e5ca
+	$color4 #b8b8b8
+	$color5 #657b83
+	$color6 #f44336
+	$color7 #dbdbdb
 
-	$win #ababab
-	$tin #E6E5CA
-
-	$wuf #e8e8e7
-	$tuf #657b83
-
-	$wur #f44336
-	$tur #E6E5CA
-
-	#indicator
-	$ind $win
+	$color8 #abb8cf
 
 	# For scratchpad
 	## A file manager
@@ -79,12 +66,12 @@ show_marks yes
 # text: for text in the title bar
 # indicator: color of the indicator bar (wher next window will appear)
 # tab tile: title bar of upper level stacked/tabbed splits
-# Class                  border  	background  text   indicator  child_border
-client.focused		     $wfc 		$wfc 		$tfc    $ind   	   $wfc
-client.focused_inactive  $win 		$win 		$tin    $ind   	   $win
-client.focused_tab_title $win 		$win 		$tin    $ind   	   $win
-client.unfocused         $wuf 	    $wuf		$tuf    $ind   	   $wuf
-client.urgent   	     $wur 		$wur 		$tur    $ind   	   $wur
+#
+# Class                  border  	background  text      indicator child_border
+client.focused		     $color0 	$color0 	$color1    $color2   $color0
+client.focused_inactive  $color4 	$color8 	$color1    $color2   $color2
+client.unfocused         $color4 	$color7		$color5    $color2   $color4
+client.urgent   	     $color6 	$color6 	$color3    $color2   $color6
 
 bar {
 	swaybar_command waybar
@@ -123,8 +110,8 @@ for_window {
 	[app_id="org.gnome.Calculator"] floating enable, \
 		move position center, move scratchpad
 
-	#[app_id="org.keepassxc.KeePassXC"] floating enable,\
-	#	move position center, move scratchpad
+	[app_id="org.keepassxc.KeePassXC"] floating enable,\
+		move position center, move scratchpad
 	#[app_id="org.telegram.desktop"] move workspace $ws9
 	#[class="discord"] move workspace $ws9
 	#[app_id="org.telegram.desktop"] floating enable, move position center, \
@@ -174,8 +161,6 @@ bindsym {
 
 	$mod+q kill
 	$mod+d  exec  wofi --show drun -I
-	#$mod+d  exec  rofi -show drun -show-icons
-	#$mod+d  exec  fuzzel
 	# window mode not available in wofi
 	# 	$mod+Tab exec  wofi -w 60 -show window
 	# i3-msg mode not available in wofi
@@ -261,12 +246,6 @@ bindsym {
 	$mod+Control+0 move container to workspace $ws10; workspace $ws10
 
 	# rename current workspace
-	#$mod+Control+r exec echo | fuzzel -d -p "Rename workspace to: " | \
-	#	xargs -r swaymsg rename workspace to
-
-	#$mod+Control+r exec echo | rofi -dmenu -p "Rename workspace to: " | \
-	#	xargs -r swaymsg rename workspace to
-
 	$mod+Control+r exec echo | wofi -d -p "Rename workspace to: " | \
 		xargs -r swaymsg rename workspace to
 
@@ -282,17 +261,18 @@ bindsym {
 	XF86AudioNext exec playerctl next
 	XF86AudioPrev exec playerctl previous
 
-	# change volume or toggle mute
-	XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-	XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+	XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
+	XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle
+	# tip: you might consider adding `--limit 1.0` to avoid going over 100% volume
+	XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
+	XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+	XF86AudioRaiseVolume+Shift exec wpctl set-volume @DEFAULT_SOURCE@ 5%+ --limit 1.0
+	XF86AudioLowerVolume+Shift exec wpctl set-volume @DEFAULT_SOURCE@ 5%-
 
 	#brightness
 	XF86MonBrightnessDown exec brightnessctl set 5%-
 	XF86MonBrightnessUp exec brightnessctl set 5%+
 
-	#$mod+m exec echo | fuzzel -d -p "Set mark:" | xargs -r swaymsg mark --togle 
-	#$mod+m exec echo | rofi -dmenu -p "Set mark:" | xargs -r swaymsg mark --togle 
 	$mod+m exec echo | wofi -d -p "Set mark:" | xargs -r swaymsg mark --togle 
 
 	## Focus window with mark
@@ -440,9 +420,9 @@ exec {
 	gnome-calculator
 	keepassxc
 	# Other applications for desktop services
-	xfce4-power-manager
+	#xfce4-power-manager
 	nm-applet --indicator
-	blueman-applet 
+	blueman-applet
 	pasystray
 	udiskie -ans
 	swaync
