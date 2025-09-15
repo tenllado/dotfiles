@@ -14,7 +14,7 @@
 		"network", "cpu", "memory", "temperature", "backlight",
 		//"power-profiles-daemon", 
 		"battery",
-		"custom/notification", "tray"],
+		"custom/notification", "tray", "custom/power"],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -210,5 +210,19 @@
  		"on-click-right": "swaync-client -d -sw",
  		"escape": true
     },
+   "custom/power": {
+        "format" : " ⏻ ",
+		"tooltip": true,
+		"menu": "on-click",
+		"menu-file": "$HOME/.config/waybar/power_menu.xml", 
+		"menu-actions": {
+			"lock": "swaylock -e -F -s fill -c 363739, mode \"default\"",
+			"logout": "swaymsg exit",
+			"shutdown": "systemctl poweroff",
+			"reboot": "systemctl reboot",
+			"suspend": "systemctl suspend",
+			"hibernate": "systemctl hibernate"
+		}
+   },
 }
 
