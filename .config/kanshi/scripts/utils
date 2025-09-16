@@ -1,0 +1,18 @@
+#!/bin/bash
+
+active_workspaces()
+{
+	return $(swaymsg -t get_workspaces -p | grep -e "^Workspace [0-9]\+" | sed -rn 's/Workspace ([0-9]+).*/\1/p' | sort -n)
+}
+
+active_worspaces_including()
+{
+	local list = $(echo $1 | sed 's/ /\\|/g')
+	return $(active_workspaces | tr '[:space:]' '\n' | grep $list)
+}
+
+active_worspaces_excluding()
+{
+	local list = $(echo $1 | sed 's/ /\\|/g')
+	return $(active_workspaces | tr '[:space:]' '\n' | grep -v $list)
+}

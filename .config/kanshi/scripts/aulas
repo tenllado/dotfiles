@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source $HOME/.config/kanshi/scripts/utils
+
+for w in $(active_workspaces_excluding  9 10)
+do 
+	swaymsg workspace $w, move workspace to HDMI-A-1 ; 
+done 
+
+for w in $(active_workspaces_including 9 10)
+do 
+	swaymsg workspace $w, move workspace to eDP-1 ;
+done
+
+swaymsg workspace 10
+
