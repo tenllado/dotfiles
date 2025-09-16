@@ -130,7 +130,7 @@ for_window {
 ################################################################################
 
 bindsym {
-	$mod+Shift+r exec swaymsg "reload"
+	$mod+Shift+r exec swaymsg "reload", exec pkill -HUP kanshi
 
 	# the terminal
 	$mod+Return exec foot
@@ -301,6 +301,9 @@ bindsym {
 
 	#clipboard history pick
 	$mod+Shift+c exec clipman pick
+
+	# for presentations
+	$mod+p exec wl-present mirror $(swaymsg -t get_outputs | grep name | cut -d: -f2 | sed -rn 's/"(.*)",/\1/p' | grep -v eDP-1)
 }
 
 # not supported until version 1.8
@@ -351,26 +354,26 @@ mode "$mode_system" {
 }
 bindsym $mod+Escape mode "$mode_system"
 
-set $mode_present present: mirror (m), output (o), region (r), scaling (s), toggle-freeze (f), custom (c)
-mode "$mode_present" {
-	bindsym {
-		# command starts mirroring
-		m mode "default"; exec wl-present mirror
-		# alternative: exec wl-present mirror eDP-1 --fullscreen-output HDMI-A-1 --fullscreen
-		# these commands modify an already running mirroring window
-		o mode "default"; exec wl-present set-output
-		r mode "default"; exec wl-present set-region
-		Shift+r mode "default"; exec wl-present unset-region
-		s mode "default"; exec wl-present set-scaling
-		f mode "default"; exec wl-present toggle-freeze
-		c mode "default"; exec wl-present custom
-
-		# return to default mode
-		Return mode "default"
-		Escape mode "default"
-	}
-}
-bindsym $mod+p mode "$mode_present"
+#set $mode_present present: mirror (m), output (o), region (r), scaling (s), toggle-freeze (f), custom (c)
+#mode "$mode_present" {
+#	bindsym {
+#		# command starts mirroring
+#		m mode "default"; exec wl-present mirror
+#		# alternative: exec wl-present mirror eDP-1 --fullscreen-output HDMI-A-1 --fullscreen
+#		# these commands modify an already running mirroring window
+#		o mode "default"; exec wl-present set-output
+#		r mode "default"; exec wl-present set-region
+#		Shift+r mode "default"; exec wl-present unset-region
+#		s mode "default"; exec wl-present set-scaling
+#		f mode "default"; exec wl-present toggle-freeze
+#		c mode "default"; exec wl-present custom
+#
+#		# return to default mode
+#		Return mode "default"
+#		Escape mode "default"
+#	}
+#}
+#bindsym $mod+p mode "$mode_present"
 
 set $mode_screenshot screenshot: active window (w), active ouput (o), area (a), +Shift for copy to clipboard
 mode "$mode_screenshot" {
