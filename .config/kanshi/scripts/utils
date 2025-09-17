@@ -2,17 +2,17 @@
 
 active_workspaces()
 {
-	return $(swaymsg -t get_workspaces -p | grep -e "^Workspace [0-9]\+" | sed -rn 's/Workspace ([0-9]+).*/\1/p' | sort -n)
+	echo $(swaymsg -t get_workspaces -p | grep -e "^Workspace [0-9]\+" | sed -rn 's/Workspace ([0-9]+).*/\1/p' | sort -n)
 }
 
-active_worspaces_including()
+active_workspaces_including()
 {
-	local list = $(echo $1 | sed 's/ /\\|/g')
-	return $(active_workspaces | tr '[:space:]' '\n' | grep $list)
+	local list=$(echo $@ | sed 's/ /\\|/g')
+	echo $(active_workspaces | tr '[:space:]' '\n' | grep $list)
 }
 
-active_worspaces_excluding()
+active_workspaces_excluding()
 {
-	local list = $(echo $1 | sed 's/ /\\|/g')
-	return $(active_workspaces | tr '[:space:]' '\n' | grep -v $list)
+	local list=$(echo $@ | sed 's/ /\\|/g')
+	echo $(active_workspaces | tr '[:space:]' '\n' | grep -v $list)
 }

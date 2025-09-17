@@ -2,7 +2,7 @@
 
 source $HOME/.config/kanshi/scripts/utils
 
-for w in $(active_workspaces_excluding  9 10)
+for w in $(active_workspaces_excluding 1 9 10)
 do 
 	swaymsg workspace $w, move workspace to DP-3 ;
 done
