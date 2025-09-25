@@ -68,32 +68,23 @@ local M = {
 					gs.blame_line({ full = true })
 				end
 
-				local mappings = {
-					["n"] = {
-						["<leader>hS"] = gs.stage_buffer,
-						["<leader>hu"] = gs.undo_stage_hunk,
-						["<leader>hR"] = gs.reset_buffer,
-						["<leader>hp"] = gs.preview_hunk,
-						["<leader>tb"] = gs.toggle_current_line_blame,
-						["<leader>hd"] = gs.diffthis,
-						["<leader>hq"] = gs.setqflist,
-						["<leader>hl"] = gs.setloclist,
-						["<leader>hb"] = blame_line,
-						["<leader>hD"] = function () gs.diffthis("~") end,
-						["<leader>td"] = gs.toggle_deleted,
-						["[h"] = { prev_hunk, { expr = true } },
-						["]h"] = { next_hunk, { expr = true } },
-					},
-					[{ "n", "v" }] = {
-						["<leader>hs"] = ":Gitsigns stage_hunk<CR>",
-						["<leader>hr"] = ":Gitsigns reset_hunk<CR>",
-					},
-					[{ "o", "x" }] = {
-						["ih"] = ":<C-U>Gitsigns select_hunk<CR>",
-					}
-				}
+				vim.keymap.set("n", "<leader>hS", gs.stage_buffer)
+				vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk)
+				vim.keymap.set("n", "<leader>hR", gs.reset_buffer)
+				vim.keymap.set("n", "<leader>hp", gs.preview_hunk)
+				vim.keymap.set("n", "<leader>tb", gs.toggle_current_line_blame)
+				vim.keymap.set("n", "<leader>hd", gs.diffthis)
+				vim.keymap.set("n", "<leader>hq", gs.setqflist)
+				vim.keymap.set("n", "<leader>hl", gs.setloclist)
+				vim.keymap.set("n", "<leader>hb", blame_line)
+				vim.keymap.set("n", "<leader>hD", function () gs.diffthis("~") end)
+				vim.keymap.set("n", "<leader>td", gs.toggle_deleted)
+				vim.keymap.set("n", "[h", prev_hunk, { expr = true })
+				vim.keymap.set("n", "]h", next_hunk, { expr = true })
 
-				require("keymaps").set_mappings(mappings)
+				vim.keymap.set({"n", "v"}, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+				vim.keymap.set({"n", "v"}, "<leader>hr", ":Gitsigns reset_hunk<CR>")
+				vim.keymap.set({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 			end,
 		},
 	},

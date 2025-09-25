@@ -23,23 +23,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 		end
 
-		local mappings = {
-			n = {
-				["<leader>lr"] = vim.lsp.buf.rename,
-				["<leader>la"] = vim.lsp.buf.code_action,
-				["<leader>ld"] = vim.diagnostic.open_float,
-				["<leader>ll"] = vim.diagnostic.setloclist,
-				["<A-k>"] = vim.lsp.buf.hover,
-				["<A-j>"] = vim.lsp.buf.signature_help,
-				["gD"] = vim.lsp.buf.declaration,
-				["gd"] = vim.lsp.buf.definition,
-				["gi"] = vim.lsp.buf.implementation,
-				["gr"] = vim.lsp.buf.references,
-				["[d"] = vim.diagnostic.goto_prev,
-				["]d"] = vim.diagnostic.goto_next,
-				["gl"] = vim.diagnostic.open_float,
-			},
-		}
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename)
+		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action)
+		vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float)
+		vim.keymap.set("n", "<leader>ll", vim.diagnostic.setloclist)
+		vim.keymap.set("n", "<A-k>", vim.lsp.buf.hover)
+		vim.keymap.set("n", "<A-j>", vim.lsp.buf.signature_help)
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references)
+		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+		vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+		vim.keymap.set("n", "gl", vim.diagnostic.open_float)
 
 		local augrp = vim.api.nvim_create_augroup
 		local augrp_clear = vim.api.nvim_clear_autocmds
@@ -79,12 +75,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 			-- 	callback = format,
 			-- })
 
-			mappings[{ "n", "v" }] = {
-				["<leader>lf"] = format,
-			}
+			vim.keymap.set({"n", "v"}, "<leader>lf", format)
 			vim.api.nvim_buf_create_user_command(ev.buf, "Format", format, {})
 		end
-		require("keymaps").set_mappings(mappings, { silent = true, buffer = bufnr })
 
 --        local map = function(keys, func, desc)
 --            vim.keymap.set('n', keys, func, { buffer = ev.buf, desc = 'Lsp: ' .. desc })

@@ -4,6 +4,17 @@ return {
 	{ "moll/vim-bbye",          lazy = true, cmd = { "Bdelete", "Bwipeout" } }, -- provides :Bdelete and :Bwipeout
 	-- Colorschemes
 	{ "lunarvim/darkplus.nvim", lazy = true },
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			style = "night",
+			light_style = "day",
+			day_brightness = 0.2,
+		},
+	},
+	-- lsp config
 	{ "neovim/nvim-lspconfig" },
 	{ -- Package manager for lsp servers, dap servers, linters and formatters
 		"williamboman/mason.nvim",
@@ -37,20 +48,6 @@ return {
 				-- "marksman",
 			},
 		},
-	},
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {
-			style = "night",
-			light_style = "day",
-			day_brightness = 0.2,
-		},
-		config = function (_, opts)
-			require("tokyonight").setup(opts)
-			vim.cmd([[colorscheme tokyonight]])
-		end,
 	},
 	{
 		"RaafatTurki/hex.nvim",
@@ -105,21 +102,4 @@ return {
 		init = function()
 		end
 	},
-	-- {
-	-- 	"nmac427/guess-indent.nvim",
-	-- 	opts = {
-	-- 		auto_cmd = true,      -- Set to false to disable automatic execution
-	-- 		override_editorconfig = false, -- Set to true to override settings set by .editorconfig
-	-- 		filetype_exclude = {  -- A list of filetypes for which the auto command gets disabled
-	-- 			"netrw",
-	-- 			"tutor",
-	-- 		},
-	-- 		buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
-	-- 			"help",
-	-- 			"nofile",
-	-- 			"terminal",
-	-- 			"prompt",
-	-- 		},
-	-- 	},
-	-- },
 }

@@ -199,7 +199,7 @@ return {
 			-- 		-- ["T"] = ts_repeat_move.builtin_T,
 			-- 	},
 			-- }
-			-- require("keymaps").set_mappings(mappings)
+			-- require("config.keymaps").set_mappings(mappings)
 		end,
 		lazy = true,
 	},

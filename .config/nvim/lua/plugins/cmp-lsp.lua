@@ -30,7 +30,7 @@ local kind_icons = {
 
 local function cmp_config()
 	local cmp = require("cmp")
-	local mapping = cmp.mapping
+	local cmpmap = cmp.mapping
 	require("luasnip.loaders.from_vscode").lazy_load()
 
 	cmp.setup({
@@ -40,21 +40,21 @@ local function cmp_config()
 			end,
 		},
 		mapping = { -- key mappings
-			["<C-k>"] = mapping.select_prev_item(),
-			["<C-j>"] = mapping.select_next_item(),
-			["<C-b>"] = mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-			["<C-f>"] = mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-			["<C-Space>"] = mapping(cmp.mapping.complete(), { "i", "c" }),
+			["<C-k>"] = cmpmap.select_prev_item(),
+			["<C-j>"] = cmpmap.select_next_item(),
+			["<C-b>"] = cmpmap(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+			["<C-f>"] = cmpmap(cmp.mapping.scroll_docs(1), { "i", "c" }),
+			["<C-Space>"] = cmpmap(cmp.mapping.complete(), { "i", "c" }),
 			["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-			["<C-e>"] = mapping({
-				i = mapping.abort(),
-				c = mapping.close(),
+			["<C-e>"] = cmpmap({
+				i = cmpmap.abort(),
+				c = cmpmap.close(),
 			}),
 			-- Accept currently selected item. If none selected, `select` first item.
 			-- Set `select` to `false` to only confirm explicitly selected items.
 			-- Set behavior=cmp.ConfirmBehavior.Replace if you want to replace surounding text
-			["<CR>"] = mapping.confirm({ select = true }),
-			["<Tab>"] = mapping(function(fallback)
+			["<CR>"] = cmpmap.confirm({ select = true }),
+			["<Tab>"] = cmpmap(function(fallback)
 				local luasnip = require('luasnip')
 				if cmp.visible() then
 					cmp.select_next_item()

@@ -156,17 +156,12 @@ return {
 			vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 			require("neo-tree").setup(opts)
 
-			local mappings = {
-				n = {
-					["<leader>nc"] = ":Neotree focus current<cr>",
-					["<leader>nr"] = ":Neotree focus right<cr>",
-					["<leader>nl"] = ":Neotree focus left<cr>",
-					["<leader>nf"] = ":Neotree focus float<cr>",
-					["<leader>ns"] = ":Neotree focus right document_symbols<cr>",
-					["<leader>nn"] = ":Neotree reveal<cr>",
-				},
-			}
-			require('keymaps').set_mappings(mappings)
+			vim.keymap.set("n", "<leader>nc", ":Neotree focus current<cr>")
+			vim.keymap.set("n", "<leader>nr", ":Neotree focus right<cr>")
+			vim.keymap.set("n", "<leader>nl", ":Neotree focus left<cr>")
+			vim.keymap.set("n", "<leader>nf", ":Neotree focus float<cr>")
+			vim.keymap.set("n", "<leader>ns", ":Neotree focus right document_symbols<cr>")
+			vim.keymap.set("n", "<leader>nn", ":Neotree reveal<cr>")
 		end,
 	},
 }

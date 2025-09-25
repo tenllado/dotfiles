@@ -87,25 +87,17 @@ return {
 				},
 			}
 
-			local mappings = {
-				n = {
-					--["<Leader>b" ] = ":ls<Cr>:b<Space>"),
-					["<Leader>fb"] = "<cmd>Telescope buffers<cr>",
-					["<leader>ff"] = "<cmd>Telescope find_files<cr>",
-					["<leader>fg"] = "<cmd>Telescope live_grep<cr>",
-					["<leader>fm"] = "<cmd>Telescope man_pages<cr>",
-					["<leader>fh"] = "<cmd>Telescope help_tags<cr>",
-					["<leader>fq"] =
-					"<cmd>lua require'telescope.builtin'.quickfix{}<cr>",
-					["<leader>fd"] = "<cmd>Telescope diagnostics<cr>",
-					["<leader>fj"] = "<cmd>Telescope jumplist<cr>",
-					["<leader>fr"] = "<cmd>Telescope registers<cr>",
-					["<leader>fk"] = "<cmd>Telescope keymaps<cr>",
-					["<leader>/"] =
-					"<cmd>Telescope current_buffer_fuzzy_find<cr>",
-				}
-			}
-			require("keymaps").set_mappings(mappings)
+			vim.keymap.set("n", "<Leader>fb", "<cmd>Telescope buffers<cr>")
+			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
+			vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
+			vim.keymap.set("n", "<leader>fm", "<cmd>Telescope man_pages<cr>")
+			vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
+			vim.keymap.set("n", "<leader>fq", "<cmd>lua require'telescope.builtin'.quickfix{}<cr>")
+			vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>")
+			vim.keymap.set("n", "<leader>fj", "<cmd>Telescope jumplist<cr>")
+			vim.keymap.set("n", "<leader>fr", "<cmd>Telescope registers<cr>")
+			vim.keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>")
+			vim.keymap.set("n", "<leader>/" , "<cmd>Telescope current_buffer_fuzzy_find<cr>")
 		end,
 		cmd = "Telescope",
 		keys = {
