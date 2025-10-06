@@ -167,7 +167,8 @@ bindsym {
 	$mod+space focus mode_toggle
 
 	$mod+q kill
-	$mod+d exec  rofi -show drun -show-icons
+	$mod+d exec  fuzzel --show drun
+	#$mod+d exec  rofi -show drun -show-icons
 	#$mod+d  exec  wofi --show drun -I
 	# window mode not available in wofi, rofi shows only xwayland windows
 	# 	$mod+Tab exec  wofi -w 60 -show window
@@ -255,7 +256,8 @@ bindsym {
 
 	# rename current workspace
 	#$mod+Control+r exec echo | wofi -d -p "Rename workspace to: " | 
-	$mod+Control+r exec rofi -dmenu -p "Rename workspace to" | \
+	#$mod+Control+r exec rofi -dmenu -p "Rename workspace to" | 
+	$mod+Control+r exec fuzzel --dmenu --prompt-only "Rename workspace to: " | \
 		xargs -r swaymsg rename workspace to
 
 	#for dual monitor
@@ -282,8 +284,9 @@ bindsym {
 	XF86MonBrightnessDown exec brightnessctl set 5%-
 	XF86MonBrightnessUp exec brightnessctl set 5%+
 
+	#$mod+m exec rofi -dmenu -p "Set mark" | xargs -r swaymsg mark --togle 
 	#$mod+m exec echo | wofi -d -p "Set mark:" | xargs -r swaymsg mark --togle 
-	$mod+m exec rofi -dmenu -p "Set mark" | xargs -r swaymsg mark --togle 
+	$mod+m exec fuzzel --dmenu --prompt-only "Set mark: " | xargs -r swaymsg mark --togle 
 
 	## Focus window with mark
 	#	$mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '

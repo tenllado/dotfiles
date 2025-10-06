@@ -10,12 +10,10 @@ row=$(swaymsg -t get_tree | jq  -r '
     | select(has("app_id"))
     | (if .focused == true then "*" else " " end) as $asterisk
 	| (if .shell == "xwayland" then .window_properties.class else .app_id end) as $app
-	| "[\($ws)] \($asterisk) <span weight=\"bold\">\($app)</span>  - \(.name) <!-- \(.id) -->\u0000icon\u001f\(.app_id)"' \
-| sed 's/&/&amp;/g' \
-| rofi -dmenu -i -show-icons -markup-rows)
-#| wofi -d -I -m)
-
-
+	| "[\($ws)] \($asterisk) \($app)  - \(.name)\u0000icon\u001f\($app)"' \
+	| sed 's/&/&amp;/g' \
+	| fuzzel --dmenu)
+	
 if [ ! -z "$row" ]
 then
     winid=$(echo "$row" | sed 's/.*<!-- \([0-9]*\) -->.*/\1/')

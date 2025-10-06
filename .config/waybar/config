@@ -8,7 +8,7 @@
     // "width": 1280, // Waybar width
     "spacing": 2, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["sway/workspaces", "niri/workspaces", "sway/mode"],
     "modules-center": ["clock"],
     "modules-right": ["idle_inhibitor", "custom/updates", "pulseaudio",
 		"network", "cpu", "memory", "temperature", "backlight",
