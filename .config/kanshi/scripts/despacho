@@ -1,15 +1,15 @@
 #!/bin/bash
 
-source $HOME/.config/kanshi/scripts/utils
+active_workspaces=$(swaymsg -pt get_workspaces | grep -e "^Workspace [0-9]\+" | sed -rn 's/Workspace ([0-9]+).*/\1/p' | sort -n)
+focused_workspace=$(swaymsg -pt get_workspaces | grep Workspace | grep focused | sed -rn 's/Workspace ([0-9]+).*/\1/p')
 
-for w in $(active_workspaces_excluding 1 9 10)
+for w in $(active_workspaces)
 do 
-	swaymsg workspace $w, move workspace to DP-3 ;
-done
+	if [ $w == "8" || $w == "9" || $w == "10" ]; then
+		swaymsg workspace $w, move workspace to eDP-1 ;
+	else
+		swaymsg workspace $w, move workspace to HDMI-A-1 ; 
+	fi
+done 
 
-for w in $(active_workspaces_including 1 9 10)
-do 
-	swaymsg workspace $w, move workspace to eDP-1 ;
-done
-
-swaymsg workspace 1
+swaymsg workspace $focused_workspace

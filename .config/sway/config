@@ -33,6 +33,8 @@ set {
 	# For scratchpad
 	## A file manager
 	$spfm foot -a spfm bash -ic ranger
+	## A calculator,
+	$spcalc foot -a spcalc -f 'DejaVuSansM Nerd Font Mono:size=24' bash -ic qalc
 }
 
 ################################################################################
@@ -52,7 +54,7 @@ gaps outer 0
 smart_gaps on
 hide_edge_borders --i3 smart_no_gaps
 
-default_border pixel 4
+default_border pixel 3
 default_floating_border pixel 2
 #for_window [app_id=".*"] border pixel 4
 #for_window [class=".*"] border pixel 4
@@ -99,15 +101,16 @@ for_window {
 	[app_id="pavucontrol"] floating enable, move position center
 	[class="es-gob-afirma-standalone-SimpleAfirma"] floating enable
 
-	# Not sure if this achieves the desired goal in wayland
-	[class=".*"] border pixel 2
+	#[all] border pixel 2
 	[shell="xwayland"] title_format "[XWayland] %title"
 		#, border normal
 
 	## Scratchpad/dropdown windows
 	[app_id="spfm"] floating enable, resize set 80 ppt 70 ppt,\
 		move position center, move scratchpad
-	[app_id="org.gnome.Calculator"] floating enable, \
+	#[app_id="org.gnome.Calculator"] floating enable, \
+	#	move position center, move scratchpad
+	[app_id="spcalc"] floating enable, resize set 60 ppt 50 ppt, \
 		move position center, move scratchpad
 
 	[app_id="org.keepassxc.KeePassXC"] floating enable,\
@@ -140,9 +143,13 @@ bindsym {
 		move position center
 	$mod+Shift+u exec  $spfm
 
-	$mod+y  [app_id="org.gnome.Calculator"] scratchpad show, \
+	#$mod+y  [app_id="org.gnome.Calculator"] scratchpad show, \
+	#	move position center
+	#$mod+Shift+y exec gnome-calculator
+
+	$mod+y  [app_id="spcalc"] scratchpad show, resize set 60 ppt 60 ppt,\
 		move position center
-	$mod+Shift+y exec gnome-calculator
+	$mod+Shift+y exec $spcalc
 
 	#$mod+i  [app_id="org.keepassxc.KeePassXC"] scratchpad show, \
 	#move position center
@@ -160,8 +167,9 @@ bindsym {
 	$mod+space focus mode_toggle
 
 	$mod+q kill
-	$mod+d  exec  wofi --show drun -I
-	# window mode not available in wofi
+	$mod+d exec  rofi -show drun -show-icons
+	#$mod+d  exec  wofi --show drun -I
+	# window mode not available in wofi, rofi shows only xwayland windows
 	# 	$mod+Tab exec  wofi -w 60 -show window
 	# i3-msg mode not available in wofi
 	# 	$mod+Control+e exec  \
@@ -246,7 +254,8 @@ bindsym {
 	$mod+Control+0 move container to workspace $ws10; workspace $ws10
 
 	# rename current workspace
-	$mod+Control+r exec echo | wofi -d -p "Rename workspace to: " | \
+	#$mod+Control+r exec echo | wofi -d -p "Rename workspace to: " | 
+	$mod+Control+r exec rofi -dmenu -p "Rename workspace to" | \
 		xargs -r swaymsg rename workspace to
 
 	#for dual monitor
@@ -273,13 +282,14 @@ bindsym {
 	XF86MonBrightnessDown exec brightnessctl set 5%-
 	XF86MonBrightnessUp exec brightnessctl set 5%+
 
-	$mod+m exec echo | wofi -d -p "Set mark:" | xargs -r swaymsg mark --togle 
+	#$mod+m exec echo | wofi -d -p "Set mark:" | xargs -r swaymsg mark --togle 
+	$mod+m exec rofi -dmenu -p "Set mark" | xargs -r swaymsg mark --togle 
 
 	## Focus window with mark
 	#	$mod+apostrophe exec i3-input -F '[con_mark=%s] focus' -l 1 -P 'Go to: '
 
 	$mod+Shift+s sticky toggle
-	# Not sure if this will work for sway
+	# TODO: Not sure if this will work for sway
 	## Sticky groups for tiled sticky windows (using i3-sticy-open script)
 	## Mark the window you want to be sticky with $mod+Shift+t
 	## Then create place-holders for them with $mod+t
@@ -325,9 +335,9 @@ mode "resize" {
         l resize grow width 10 px or 2 ppt
 
         Left resize shrink width 10 px or 2 ppt
-        Down resize grow height 10 px or 2 ppt
-        Up resize shrink height 10 px or 2 ppt
         Right resize grow width 10 px or 2 ppt
+        Up resize shrink height 10 px or 2 ppt
+        Down resize grow height 10 px or 2 ppt
 
         Return mode "default"
         Escape mode "default"

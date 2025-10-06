@@ -26,7 +26,9 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 ## Go support
-. "$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ] ; then
+	. "$HOME/.cargo/env"
+fi
 if command -v go > /dev/null 2>&1; then
 	export GOPATH=$(go env GOPATH)
 	PATH=$PATH:$GOPATH/bin

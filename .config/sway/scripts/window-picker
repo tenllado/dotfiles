@@ -12,8 +12,8 @@ row=$(swaymsg -t get_tree | jq  -r '
 	| (if .shell == "xwayland" then .window_properties.class else .app_id end) as $app
 	| "[\($ws)] \($asterisk) <span weight=\"bold\">\($app)</span>  - \(.name) <!-- \(.id) -->\u0000icon\u001f\(.app_id)"' \
 | sed 's/&/&amp;/g' \
-| wofi -d -I -m)
-#| rofi -dmenu -show-icons -markup-rows)
+| rofi -dmenu -i -show-icons -markup-rows)
+#| wofi -d -I -m)
 
 
 if [ ! -z "$row" ]

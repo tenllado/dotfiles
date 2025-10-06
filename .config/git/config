@@ -1,7 +1,8 @@
 [user]
 	name = Christian Tenllado
 
-[includeIf "hasconfig:remote.*.url:https://services.satlink.es/gitlab*/**"]
+#[includeIf "hasconfig:remote.*.url:https://services.satlink.es/gitlab*/**"]
+[includeIf "hasconfig:remote.*.url:**//*gitlab.satlink.es*/**"]
     path = config-satlink
 
 [pull]
