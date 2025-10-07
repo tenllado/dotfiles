@@ -3,12 +3,12 @@
 active_workspaces=$(swaymsg -pt get_workspaces | grep -e "^Workspace [0-9]\+" | sed -rn 's/Workspace ([0-9]+).*/\1/p' | sort -n)
 focused_workspace=$(swaymsg -pt get_workspaces | grep Workspace | grep focused | sed -rn 's/Workspace ([0-9]+).*/\1/p')
 
-for w in $(active_workspaces)
+for w in $active_workspaces
 do 
-	if [ $w == "8" || $w == "9" || $w == "10" ]; then
+	if [ $w == "1" -o $w == "9" -o $w == "10" ]; then
 		swaymsg workspace $w, move workspace to eDP-1 ;
 	else
-		swaymsg workspace $w, move workspace to HDMI-A-1 ; 
+		swaymsg workspace $w, move workspace to DP-3 ; 
 	fi
 done 
 
