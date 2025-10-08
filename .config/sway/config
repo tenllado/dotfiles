@@ -433,7 +433,7 @@ input * {
 exec {
 	# Scratchpad apps from start
 	$spfm
-	gnome-calculator
+	$spcalc
 	keepassxc
 	# Other applications for desktop services
 	#xfce4-power-manager
