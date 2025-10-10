@@ -1,34 +1,26 @@
-"""
-TokyoNight Day High Contrast colorscheme for Ranger (256-color).
-
-Designed for use with the "tokyonight-day" terminal and Neovim theme.
-Optimized for readability and visual consistency on light gray backgrounds.
-
-Author: Christian
-"""
-
 from ranger.gui.colorscheme import ColorScheme
 from ranger.gui.color import *
 
-class TokyoNightDayHighContrast(ColorScheme):
+class TokyoNightNightHighContrast(ColorScheme):
     """
-    A high-contrast adaptation of the tokyonight-day theme for Ranger.
+    High-contrast Tokyonight Night colorscheme for Ranger (256-color)
+    Optimized for dark backgrounds, maintaining good readability.
     """
-    progress_bar_color = 24  # darker blue
+    progress_bar_color = 33  # bright blue for progress bars
 
     def use(self, context):
         fg, bg, attr = default_colors
 
-        # 256-color palette approximations
-        black   = 235
-        red     = 160
-        green   = 64
-        yellow  = 180
-        blue    = 24
-        magenta = 90
-        cyan    = 37
-        white   = 250
-        grey    = 244
+        # Tokyonight Night 256-color approximation
+        black   = 234   # almost black background
+        red     = 167   # red tones
+        green   = 142   # green tones
+        yellow  = 214   # mustard yellow
+        blue    = 33    # deep blue
+        magenta = 139   # muted magenta
+        cyan    = 37    # bright cyan
+        white   = 252   # off-white
+        grey    = 240   # mid gray
 
         if context.reset:
             return default_colors
@@ -56,13 +48,13 @@ class TokyoNightDayHighContrast(ColorScheme):
                 attr |= bold
 
         elif context.in_titlebar:
-            fg = black
+            fg = white
             if context.directory:
                 fg = blue
             if context.hostname:
                 fg = green if context.good else red
             if context.tab:
-                if context.good:
+                if context.good:  # active tab
                     fg = blue
                     attr |= reverse
             if context.directory and not context.tab:
@@ -85,4 +77,3 @@ class TokyoNightDayHighContrast(ColorScheme):
             fg = grey
 
         return fg, bg, attr
-
