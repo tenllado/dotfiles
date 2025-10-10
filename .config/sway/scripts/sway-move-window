@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source "$(dirname "$0")/sway-common.sh"
+
+wspid=$(
+  list_sway_windows \
+  | fuzzel --dmenu --accept-nth=2 --tabs=2 \
+  | sed -rn 's/\[([0-9]+)\]/\1/p'
+)
+
+# Move the current container to that workspace and switch to it
+if [[ -n "$wspid" && "$wspid" =~ ^[0-9]+[[:space:]]*$ ]]; then
+  swaymsg move container to workspace "$wspid"
+  swaymsg workspace "$wspid"
+fi

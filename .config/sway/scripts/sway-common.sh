@@ -1,6 +1,9 @@
-#!/bin/bash 
+#!/bin/bash
 
-winid=$(
+# sway-common.sh
+# Common helper for sway window management scripts.
+
+list_sway_windows() {
   swaymsg -t get_tree | jq -r '
     def pad(n):
       tostring as $s
@@ -20,12 +23,6 @@ winid=$(
         then (.window_properties.class // .app_id)
         else .app_id end) as $app
     | "[\($ws)]" as $ws_label
-	| "\(.id | pad(2))\t\($ws_label | pad(11))\t\($asterisk | pad(1))\($app | pad(25))\t\(.name // "untitled")\u0000icon\u001f\($app)"
-  ' \
-  | sed 's/&/&amp;/g' \
-  | fuzzel --dmenu --accept-nth=1 --tabs=2
-)
-
-if [[ -n "$winid" && "$winid" =~ ^[0-9]+[[:space:]]*$ ]]; then
-  swaymsg "[con_id=$winid]" focus
-fi
+    | "\(.id | pad(2))\t\($ws_label | pad(11))\t\($asterisk | pad(1))\($app | pad(25))\t\(.name // "untitled")\u0000icon\u001f\($app)"
+  ' | sed 's/&/&amp;/g'
+}

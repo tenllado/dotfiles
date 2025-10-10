@@ -1,0 +1,11 @@
+#!/bin/bash 
+
+source "$(dirname "$0")/sway-common.sh"
+
+winid=$(
+	list_sway_windows | fuzzel --dmenu --accept-nth=1 --tabs=2
+)
+
+if [[ -n "$winid" && "$winid" =~ ^[0-9]+[[:space:]]*$ ]]; then
+  swaymsg "[con_id=$winid]" focus
+fi

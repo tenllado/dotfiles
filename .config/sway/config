@@ -154,7 +154,8 @@ bindsym {
 	#$mod+i  [app_id="org.keepassxc.KeePassXC"] scratchpad show, \
 	#move position center
 	#$mod+Shift+i exec keepassxc
-	$mod+i exec $HOME/.config/sway/scripts/window-picker
+	$mod+Tab exec $HOME/.config/sway/scripts/sway-focus-window
+	$mod+Shift+Tab exec $HOME/.config/sway/scripts/sway-move-window
 
 	$mod+Shift+minus move scratchpad
 	$mod+minus scratchpad show, move position center
