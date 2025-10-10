@@ -1,22 +1,31 @@
 #!/bin/bash 
 
-row=$(swaymsg -t get_tree | jq  -r '
+winid=$(
+  swaymsg -t get_tree | jq -r '
+    def pad(n):
+      tostring as $s
+      | if ($s | length) >= n then $s
+        else $s + (" " * (n - ($s | length)))
+        end;
+
     ..
     | objects
     | select(.type == "workspace")
-	| (if .name == "__i3_scratch" then "scratch" else .name end) as $ws
+    | (if .name == "__i3_scratch" then "scratch" else .name end) as $ws
     | ..
     | objects
-    | select(has("app_id"))
-    | (if .focused == true then "*" else " " end) as $asterisk
-	| (if .shell == "xwayland" then .window_properties.class else .app_id end) as $app
-	| "[\($ws)] \($asterisk) \($app)  - \(.name)\u0000icon\u001f\($app)"' \
-	| sed 's/&/&amp;/g' \
-	| fuzzel --dmenu)
-	
-if [ ! -z "$row" ]
-then
-    winid=$(echo "$row" | sed 's/.*<!-- \([0-9]*\) -->.*/\1/')
-	swaymsg "[con_id=$winid] focus"
-fi
+    | select(has("app_id") or has("window_properties"))
+    | (if .focused then "*" else " " end) as $asterisk
+    | (if .shell == "xwayland"
+        then (.window_properties.class // .app_id)
+        else .app_id end) as $app
+    | "[\($ws)]" as $ws_label
+	| "\(.id | pad(2))\t\($ws_label | pad(11))\t\($asterisk | pad(1))\($app | pad(25))\t\(.name // "untitled")\u0000icon\u001f\($app)"
+  ' \
+  | sed 's/&/&amp;/g' \
+  | fuzzel --dmenu --accept-nth=1 --tabs=2
+)
 
+if [[ -n "$winid" && "$winid" =~ ^[0-9]+[[:space:]]*$ ]]; then
+  swaymsg "[con_id=$winid]" focus
+fi
