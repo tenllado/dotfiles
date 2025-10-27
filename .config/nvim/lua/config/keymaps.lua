@@ -6,6 +6,9 @@
 --    nowait, silent, script, expr, unique
 --    noremap, desc, callback, replace_keycodes
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = "ç"
+
 vim.keymap.set("", "<Space>", "<Nop>", {desc = "ignore space"})
 vim.keymap.set("n", "<C-h>", "<C-w>h", {desc = "Focus window on the left"})
 vim.keymap.set("n", "<C-j>", "<C-w>j", {desc = "Focus window below"})
@@ -20,16 +23,10 @@ vim.keymap.set("n", "H", ":bprev<CR>", {desc = "Go to previous buffer in the buf
 vim.keymap.set("n", "#", ":b#<CR>", {desc = "Go to alternate buffer"})
 vim.keymap.set("n", "<leader>q", "<cmd>Bdelete<cr>", {desc = "Delete/Close buffer"})
 vim.keymap.set("n", "K", ':<C-U>exe "Man" v:count "<C-R><C-W>"<CR>', {desc = "Open man page of word under cursor in split"})
--- Not working, why?
 vim.keymap.set("n", "<c-u>", "<c-u>zz", {desc = "Scroll up in the buffer and center the cursor"})
 vim.keymap.set("n", "<c-d>", "<c-d>zz", {desc = "Scroll down in the buffer and center the cursor"})
--- Why zv suffix??
 --vim.keymap.set("n", "n", "nzzzv", {desc = "Go to next search and center the cursor"})
 --vim.keymap.set("n", "N", "Nzzzv", {desc = "Go to previous search and center the cursor"})
-
-
-vim.keymap.set("i", "jk", "<ESC>", {desc = "Go back to normal mode (Esc)"})
-
 vim.keymap.set("t", "<Esc>", "<C-\\><C-N>", {desc = "Change from terminal mode to normal mode"})
 
 vim.keymap.set( "v", "<", "<gv", {desc = "Reduce indent and stay in visual mode" })
@@ -44,15 +41,3 @@ vim.keymap.set({"i", "t"}, "<C-l>", "<C-\\><C-N><C-w>l", {desc = "Focus window o
 vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv=gv", {desc = "Move selected text down"})
 vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv=gv", {desc = "Move selected text up"})
 
--- This is better on a mkdnflow plugin
-vim.keymap.set("n", "<leader>k",
-	function()
-		if vim.o.filetype == 'markdown' then
-			local root_dir = require('mkdnflow').root_dir
-			if root_dir then  -- if the dir is not nil
-				return ':Telescope find_files search_dirs={"'..root_dir..'"}<CR>'
-			end
-		end
-	end,
-	{expr = true, replace_keycodes = true}
-)

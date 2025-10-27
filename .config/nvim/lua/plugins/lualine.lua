@@ -3,41 +3,26 @@
 -- | A | B | C                             X | Y | Z |
 -- +-------------------------------------------------+
 
+local function fmt_branch(branch)
+	return branch:len() < 15 and branch or branch:sub(1,15)
+end
+
 return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			options = {
-				component_separators = { left = "", right = "" },
+				component_separators = { left = "|", right = "|" },
 				section_separators = { left = "", right = "" },
-				disabled_filetypes = { "dashboard", "NvimTree", "Outline", "netrw" },
+				disabled_filetypes = { "oil", "netrw" },
+				theme = "tokyonight-day",
 			},
 			sections = {
 				lualine_a = {
-					{
-						"branch",
-						icon = "",
-					},
-					{
-						"diagnostics",
-						sources = { "nvim_diagnostic" },
-						sections = { "error", "warn" },
-						symbols = { error = " ", warn = " " },
-						colored = false,
-						update_in_insert = false,
-						always_visible = true,
-					},
+					"mode",
 				},
 				lualine_b = {
-					{
-						"mode",
-						fmt = function (str)
-							return "-- " .. str .. " --"
-						end,
-					},
-				},
-				lualine_c = {
 					{
 						"filename",
 						file_status = true,
@@ -52,19 +37,22 @@ return {
 						},
 					},
 				},
-				lualine_x = {
+				lualine_c = {
 					{
-						"diff",
-						colored = false,
-						symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
-						cond = function ()
-							return vim.fn.winwidth(0) > 80
-						end,
+						"branch",
+						icon = "",
+						fmt = fmt_branch,
 					},
-					function ()
-						return "sw: " ..
-							vim.api.nvim_buf_get_option(0, "shiftwidth")
-					end,
+					{
+						"diagnostics",
+						sources = { "nvim_diagnostic" },
+						sections = { "error", "warn" },
+						symbols = { error = " ", warn = " " },
+						colored = false,
+						update_in_insert = false,
+					},
+				},
+				lualine_x = {
 					"encoding",
 					{
 						"fileformat",
@@ -88,17 +76,7 @@ return {
 				},
 				lualine_z = { "%L", "progress", },
 			},
-			inactive_sections = {
-				lualine_a = {},
-				lualine_b = {},
-				lualine_c = { "filename" },
-				lualine_x = { "location" },
-				lualine_y = {},
-				lualine_z = {},
-			},
 			tabline = {},
-			-- winbar = {},
-			-- inactive_winbar = {},
 			extensions = {},
 		},
 	},
