@@ -8,9 +8,10 @@
     // "width": 1280, // Waybar width
     "spacing": 2, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "niri/workspaces", "sway/mode"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-    "modules-right": ["idle_inhibitor", "custom/updates", "pulseaudio",
+    "modules-right": ["idle_inhibitor", "custom/updates",
+	    "pulseaudio#output", "pulseaudio#input",
 		"network", "cpu", "memory", "temperature", "backlight",
 		//"power-profiles-daemon", 
 		"battery",
@@ -90,9 +91,27 @@
         "spacing": 10
     },
     "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+        "timezone": "Europe/Madrid",
+		"locale": "es_ES.utf8",
+		"format": "{:L%H:%M}  ",
+        //"tooltip-format": "<big>{:L%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<big>{:L%B %Y}</big>\n<tt>{calendar}</tt>",
+        "format-alt": "{:L%d-%m-%Y} ",
+		//"format-alt": "{:L%a %d/%b/%Y}"
+		"calendar": {
+                     "mode"          : "year",
+                     "mode-mon-col"  : 3,
+                     "weeks-pos"     : "right",
+                     "on-scroll"     : 1,
+                     "on-click-right": "mode",
+                     "format": {
+                          "months":     "<span color='#ffead3'><b>{}</b></span>",
+                          //"days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                          "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                          "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                          "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                     }
+                },
     },
     "cpu": {
         "format": "{usage}% ",
@@ -107,7 +126,7 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": ["", "", ""]
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -151,25 +170,32 @@
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
-    },
+	"pulseaudio#input": {
+		"format-source": " {volume}%",
+		"format-source-muted": " off",
+//        "format-bluetooth": "{volume}% {icon}",
+//        "format-bluetooth-muted": " {icon}",
+		"format": "{format_source}",
+		"scroll-step": 1,
+		"smooth-scrolling-threshold": 1,
+		"max-volume": 100,
+		"on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+		"on-click-middle": "pavucontrol",
+		"on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +1%",
+		"on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -1%",
+	},
+	"pulseaudio#output": {
+		"format": "{icon} {volume}%",
+		"format-muted": " off",
+		"format-icons": {
+			"default": ["", "", ""]
+		},
+		"max-volume": 100,
+		"scroll-step": 2,
+		"smooth-scrolling-threshold": 1,
+		"on-click": "pavucontrol",
+		"on-click-middle": "pavucontrol",
+	},
     "custom/media": {
         "format": "{icon} {}",
         "return-type": "json",
