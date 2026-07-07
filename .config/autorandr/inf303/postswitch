@@ -1,0 +1,23 @@
+#!/bin/bash
+
+feh --bg-fill ~/.config/i3/wallpaper.png
+
+if pgrep compton; then
+	pkill -USR1 compton
+fi
+
+active_workspaces=$(i3-msg -t get_workspaces | jq -r '.[].name' | sort -n)
+focused_workspace=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true) | .name')
+
+for w in $active_workspaces
+do 
+	if [ ${w} == "1" -o ${w} == "8" -o ${w} == "9" -o ${w} == "10" ]; then
+		i3-msg "workspace ${w}, move workspace to output eDP-1" ;
+	else
+		i3-msg "workspace ${w}, move workspace to output DVI-I-1-1" ; 
+	fi
+done 
+
+i3-msg "workspace $focused_workspace"
+
+exit 0
