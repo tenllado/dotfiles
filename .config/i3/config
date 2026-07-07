@@ -46,8 +46,10 @@ set $ind $win
 
 
 set $spfm xfce4-terminal --role spfm -x bash -ic ranger
+#set $spmath xfce4-terminal --role spmath \
+#	--font "DejaVu Sans mono 20" -x octave --no-gui -q --traditional
 set $spmath xfce4-terminal --role spmath \
-	--font "DejaVu Sans mono 20" -x octave --no-gui -q --traditional
+	--font "DejaVu Sans mono 20" -x bash -ic qalc
 
 ################################################################################
 # Aesthetics (font, colors and bar) and other global options
@@ -82,29 +84,30 @@ client.focused_tab_title $win 		$win 		$tin    $ind   	   $win
 client.unfocused         $wuf 	    $wuf		$tuf    $ind   	   $wuf
 client.urgent   	     $wur 		$wur 		$tur    $ind   	   $wur
 
-bar {
-	mode dock
-	position top
-	modifier none
-	font pango:FontAwesome 10
-	workspace_buttons yes
-	status_command i3blocks
-	tray_output primary
-	colors {
-			# bars on all monitors the same
-			#background #e8e8e8
-			background #dee1e6
-			statusline #4e5456
-			separator  #2e3436
-			# colors for bar buttons
-			#                    border  	background   	text
-			focused_workspace   $wfc 		$wfc 			$tfc
-			active_workspace    $win	 	$win 			$tin
-			inactive_workspace  $wuf	 	$wuf 		    $tuf
-			urgent_workspace    $wur 		$wur 			$tur
-			binding_mode        $wur 		$wur 			$tur
-	}
-}
+# Changed to use polybar, keeping this as backup the moment
+#bar {
+#	mode dock
+#	position top
+#	modifier none
+#	font pango:FontAwesome 10
+#	workspace_buttons yes
+#	status_command i3blocks
+#	tray_output primary
+#	colors {
+#			# bars on all monitors the same
+#			#background #e8e8e8
+#			background #dee1e6
+#			statusline #4e5456
+#			separator  #2e3436
+#			# colors for bar buttons
+#			#                    border  	background   	text
+#			focused_workspace   $wfc 		$wfc 			$tfc
+#			active_workspace    $win	 	$win 			$tin
+#			inactive_workspace  $wuf	 	$wuf 		    $tuf
+#			urgent_workspace    $wur 		$wur 			$tur
+#			binding_mode        $wur 		$wur 			$tur
+#	}
+#}
 
 ################################################################################
 #  Rules for windows apparence, placement/focus
@@ -127,7 +130,7 @@ for_window [class="com.inkwellideas.ographer.ui.Worldographer" \
 #  Scratchpad/Dropdown windows
 for_window [window_role="spfm"] floating enable, resize set 80 ppt 70 ppt,\
     move position center, move scratchpad
-for_window [class="gnome-calculator"] floating enable, \
+for_window [window_role="spmath"] floating enable, \
 		move position center, move scratchpad
 for_window [instance="keepassxc" window_type=normal] floating enable, \
 	move scratchpad
@@ -194,7 +197,8 @@ bindsym $mod+a focus parent
 bindsym $mod+c focus child
 
 # show hide the bar
-bindsym $mod+b bar mode toggle
+#bindsym $mod+b bar mode toggle
+bindsym $mod+b exec --no-startup-id polybar-msg cmd toggle
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -273,13 +277,13 @@ bindsym XF86MonBrightnessDown exec  --no-startup-id \
 # for scratchpad aplications
 bindsym $mod+u [window_role="spfm"] scratchpad show, resize set 80 ppt 70 ppt, \
     move position center
-bindsym $mod+y  [class="gnome-calculator"] scratchpad show, move position center
+bindsym $mod+y  [window_role="spmath"] scratchpad show, move position center
 bindsym $mod+p [class="Pavucontrol"] scratchpad show, move position center
 bindsym $mod+i  [instance="keepassxc" window_type=normal] scratchpad show, \
 	move position center
 
 bindsym $mod+Shift+u exec --no-startup-id $spfm
-bindsym $mod+Shift+y exec gnome-calculator 
+bindsym $mod+Shift+y exec --no-startup-id $spmath
 bindsym $mod+Shift+p exec pavucontrol
 bindsym $mod+Shift+i exec keepassxc
 
@@ -349,6 +353,9 @@ bindsym $mod+Escape mode "$mode_system"
 # Services/Applications launched on startup
 ################################################################################
 
+# This is all you need to launch Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
 ### Touchpad confing, not really a service, but configs the touchpad
 exec_always --no-startup-id ~/.config/i3/scripts/touchpad_config
 
@@ -370,12 +377,13 @@ exec --no-startup-id blueman-applet &
 
 # pulseaudio systray applet
 exec --no-startup-id pasystray
-# Remove noise from headphones (reduces volume)
-exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
+
+# Is this needed?
+## Remove noise from headphones (reduces volume)
+#exec_always --no-startup-id amixer -c PCH cset 'name=Headphone Mic Boost Volume' 1
 
 # usb automatic mount with udiskie
 exec --no-startup-id udiskie -ans &
-# alternative?: devmon
 
 # dunst for simple notification daemon
 # Alternatives: xfce4-notifyd (nicer looking), dzen2 (also includes a bar?)
@@ -389,19 +397,17 @@ exec --no-startup-id dunst &
 
 ################################################################################
 # Display Power Management Settings (DPMS)
-set $ss_seg 300
-set $ss_sig 11
-exec --no-startup-id "xset s $ss_seg"
-
+exec --no-startup-id xset s 600
+exec --no-startup-id xset dpms 605 605 605
 # Disable display screen saver and dpms when a window goes fullscreen
 # Needs the i3ipc-python library
-exec_always --no-startup-id \
-	~/.config/i3/scripts/disable-standby-fs.py $ss_seg $ss_sig
-bindsym $mod+Shift+o exec --no-startup-id \
-	"pkill -USR1 -f /usr/bin/python3\ $HOME/.config/i3/scripts/disable-standby-fs.py"
+exec_always --no-startup-id ~/.config/i3/scripts/disable-standby-fs.py 600 11 
 
-# xss-lock to lock on screen saver event and on suspend
-exec --no-startup-id xss-lock -l -- $HOME/.config/i3/scripts/screenlock
+# Toggle dpms on/off
+bindsym $mod+Shift+o exec --no-startup-id ~/.config/polybar/toggle-inhibitor.sh
+
+# xss-lock to handle idle locking and before-sleep locking
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -n -c 363739
 
 # To manually lock the screen
 bindsym $mod+o exec --no-startup-id loginctl lock-session
@@ -410,24 +416,11 @@ bindsym $mod+o exec --no-startup-id loginctl lock-session
 # i3-sticky, for sticky tiling groups (git@github.com:Airblader/i3-sticky.git)
 exec_always --no-startup-id "~/.config/i3/scripts/i3-sticky"
 
-# my autolayout script
-#exec_always --no-startup-id "~/.config/i3/scripts/autolayout.py"
-
 # Redshift: regulate the color temperature of the screen
 exec --no-startup-id redshift-gtk -l 40.360879:-3.598175
-# Alternative.
-#exec --no-startup-id redshift -t 5500:2500
-# Toggle on/off redshift effect (http://jonls.dk/redshift/)
-#bindsym $mod+Shift+g exec pkill -USR1 redshift
 
 # printer applet
 exec --no-startup-id system-config-printer-applet
-
-# Some services that do not run as expected if they
-# are launched directly from i3 config file
-exec --no-startup-id ~/.config/i3/scripts/services
-
-exec_always --no-startup-id xrdb -load ~/.Xdefaults
 
 # disable ibus
 exec --no-startup-id ibus exit
@@ -436,18 +429,19 @@ exec --no-startup-id ibus exit
 exec --no-startup-id $HOME/.config/i3/scripts/udev_daemon
 
 # polkit
-exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+#exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/bin/lxpolkit
 # keyring
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
 exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY
 
 #  Scratchpad/Dropdown windows
 exec --no-startup-id $spfm
-exec gnome-calculator
+exec --no-startup-id $spmath
 exec keepassxc
 exec pavucontrol
 
 # compositor
-exec --no-startup-id picom
+exec --no-startup-id compton
 
 ################################################################################
