@@ -1,9 +1,14 @@
 #!/bin/bash
 
-feh --bg-fill ~/.config/i3/wallpaper.png
+FW_FILE=~/.config/autorandr/laptop/focused_workspace
 
-if pgrep compton; then
-	pkill -USR1 compton
+if [ -f ${FW_FILE} ]; then
+	focused_workspace=$(cat ${FW_FILE})
+else
+	focused_workspace=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true) | .name')
 fi
+
+i3-msg "restart"
+i3-msg "workspace $focused_workspace"
 
 exit 0

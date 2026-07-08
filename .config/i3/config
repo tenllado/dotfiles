@@ -242,8 +242,8 @@ bindsym $mod+Control+0 move container to workspace $ws10; workspace $ws10
 bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Workspace rename: '
 
 ####  Reload and exit
-bindsym $mod+Shift+d exec --no-startup-id i3-msg "reload"
-bindsym $mod+Shift+r exec --no-startup-id i3-msg "restart"
+bindsym $mod+Shift+d reload
+bindsym $mod+Shift+r restart
 
 #for dual monitor
 bindsym $mod+Control+l move workspace to output right
