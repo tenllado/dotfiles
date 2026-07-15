@@ -10,7 +10,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-    "modules-right": ["idle_inhibitor", "custom/updates",
+    "modules-right": ["idle_inhibitor", "custom/updates", "custom/updates-fw",
 	    "pulseaudio#output", "pulseaudio#input",
 		"network", "cpu", "memory", "temperature", "backlight",
 		//"power-profiles-daemon", 
@@ -216,10 +216,22 @@
 		"return-type": "json",
 		"format": "{} {icon}",
 		"format-icons": {
-			"has-updates": "", // icon when updates needed
+			"has-updates": "<span foreground='red'></span>", // icon when updates needed
 			"updated": "" // icon when all packages updated
 		}
 	},
+	"custom/updates-fw": {
+        "exec": "~/.config/waybar/updates-fw.sh",
+        "interval": 1800, // Refresh once every 30 minutes
+		"on-click": "checkupdates", // refresh on click
+		"hide-empty-text": true,
+        "return-type": "json",
+        "format": "{} {icon}",
+        "format-icons": {
+            "has-updates": "<span foreground='#f53c3c'></span>", // Red microchip icon when firmware updates exist
+            "updated": "" // Blank so the icon vanishes when everything is current
+        }
+    },
     "custom/notification": {
  		"tooltip": false,
  		"format": "{icon}",

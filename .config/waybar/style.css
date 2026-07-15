@@ -2,7 +2,8 @@
 	border: none;
     border-radius: 4px;
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, DejaVuSansM, Roboto, Helvetica;
+    /*font-family: DejaVuSansM, FontAwesome, Roboto, Helvetica;*/
+    font-family: DejaVuSansM, DejaVuSansM Nerd Font Mono, FontAwesome;
     font-size: 14px;
 	margin: 0;
 }
@@ -107,6 +108,7 @@ button:hover {
 #idle_inhibitor,
 #scratchpad,
 #custom-updates,
+#custom-updates-fw,
 #custom-notification,
 #custom-power,
 #mpd {
@@ -232,8 +234,8 @@ label:focus {
     background-color: #ffa000;
 }
 
-#temperature {
-    /*background-color: #f0932b;*/
+#temperature.critical {
+    background-color: #f0932b;
 }
 
 #temperature.critical {
@@ -313,6 +315,15 @@ label:focus {
 }
 
 #custom-updates {
+}
+
+#custom-updates-fw {
+}
+
+#custom-updates-fw.empty {
+    background: none;
+    padding: 0;
+    margin: 0;
 }
 
 #custom-notification {
