@@ -21,7 +21,13 @@ profile aulas8_9 {
 }
 
 profile casaMonitor {
-	output "Microstep MSI G271 0x000014E7" mode 1920x1080@60.000 position 0,0
-	output eDP-1 enable mode 1920x1200@60.026Hz position 1920,0
+	output "Microstep MSI G271 0x000014E7" mode 1920x1080@60.000 position 1920,0
+	output eDP-1 enable mode 1920x1200@60.026Hz position 0,0
 	exec $HOME/.config/kanshi/scripts/casaMonitor
+}
+
+profile inf303 {
+	output "Ancor Communications Inc MX27AQ F4LMRS031840" mode 2560x1440@59.951 position 1920,0
+	output eDP-1 enable mode 1920x1200@60.026Hz position 0,0
+	exec $HOME/.config/kanshi/scripts/inf303
 }

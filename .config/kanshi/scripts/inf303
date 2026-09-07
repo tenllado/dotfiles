@@ -5,12 +5,11 @@ focused_workspace=$(swaymsg -pt get_workspaces | grep Workspace | grep focused |
 
 for w in $active_workspaces
 do 
-	if [ $w == "9" -o $w == "10" ]; then
-		swaymsg workspace $w, move workspace to HDMI-A-1 ; 
+	if [ ${w} == "1" -o ${w} == "8" -o ${w} == "9" -o ${w} == "10" ]; then
+		swaymsg workspace ${w}, move workspace to eDP-1 ;
 	else
-		swaymsg workspace $w, move workspace to eDP-1 ;
+		swaymsg workspace ${w}, move workspace to DP-9 ; 
 	fi
 done 
 
 swaymsg workspace $focused_workspace
-
