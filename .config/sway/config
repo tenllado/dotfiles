@@ -34,7 +34,7 @@ set {
 	## A file manager
 	$spfm foot -a spfm bash -ic ranger
 	## A calculator,
-	$spcalc foot -a spcalc -f 'DejaVuSansM Nerd Font Mono:size=24' bash -ic qalc
+	$spcalc foot -a spcalc -f 'DejaVu Sans Mono:size=24' bash -ic qalc
 }
 
 ################################################################################
@@ -94,6 +94,7 @@ bar {
 for_window {
 	[class="^HTMaiL-View$"] floating enable
 	[app_id="nm-connection-editor"] floating enable
+	[app_id="^google-chrome" title="Meet.*"] floating enable
 	[title="G Alternatives"] floating enable
 	[class="KiCad"] layout tabbed
 	[title="^zoom$" class="[zoom]*"] floating enable
@@ -106,14 +107,14 @@ for_window {
 		#, border normal
 
 	## Scratchpad/dropdown windows
-	[app_id="spfm"] floating enable, resize set 80 ppt 70 ppt,\
+	[app_id="spfm"] floating enable, resize set 80 ppt 80 ppt,\
 		move position center, move scratchpad
 	#[app_id="org.gnome.Calculator"] floating enable, \
 	#	move position center, move scratchpad
-	[app_id="spcalc"] floating enable, resize set 60 ppt 50 ppt, \
+	[app_id="spcalc"] floating enable, resize set 60 ppt 60 ppt, \
 		move position center, move scratchpad
 
-	[app_id="org.keepassxc.KeePassXC"] floating enable,\
+	[app_id="org.keepassxc.KeePassXC" title="^kpdb.kdbx"] floating enable,\
 		move position center, move scratchpad
 	#[app_id="org.telegram.desktop"] move workspace $ws9
 	#[class="discord"] move workspace $ws9
@@ -151,9 +152,10 @@ bindsym {
 		move position center
 	$mod+Shift+y exec $spcalc
 
-	#$mod+i  [app_id="org.keepassxc.KeePassXC"] scratchpad show, \
-	#move position center
-	#$mod+Shift+i exec keepassxc
+	$mod+i  [app_id="org.keepassxc.KeePassXC"] scratchpad show, \
+		move position center
+	$mod+Shift+i exec keepassxc
+
 	$mod+Tab exec $HOME/.config/sway/scripts/sway-focus-window
 	$mod+Shift+Tab exec $HOME/.config/sway/scripts/sway-move-window
 
@@ -413,6 +415,7 @@ bindsym Print mode "$mode_screenshot"
 # from the command: swaymsg -t get_inputs
 input type:touchpad {
 	tap enabled
+	dwt enabled
 	natural_scroll enabled
 }
 
@@ -463,6 +466,7 @@ exec {
 	#	  ibus exit
 	/usr/bin/lxpolkit
 	/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh 
+	dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 }
 
 ################################################################################
