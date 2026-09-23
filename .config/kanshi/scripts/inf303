@@ -3,12 +3,14 @@
 active_workspaces=$(swaymsg -pt get_workspaces | grep -e "^Workspace [0-9]\+" | sed -rn 's/Workspace ([0-9]+).*/\1/p' | sort -n)
 focused_workspace=$(swaymsg -pt get_workspaces | grep Workspace | grep focused | sed -rn 's/Workspace ([0-9]+).*/\1/p')
 
+EXT_MON=$(swaymsg -pt get_outputs | grep "Ancor Communications Inc MX27AQ F4LMRS031840" | cut -d ' ' -f 2)
+
 for w in $active_workspaces
 do 
 	if [ ${w} == "1" -o ${w} == "8" -o ${w} == "9" -o ${w} == "10" ]; then
 		swaymsg workspace ${w}, move workspace to eDP-1 ;
 	else
-		swaymsg workspace ${w}, move workspace to DP-9 ; 
+		swaymsg workspace ${w}, move workspace to $EXT_MON ; 
 	fi
 done 
 
